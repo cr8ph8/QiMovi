@@ -16,7 +16,7 @@ The loopback service is not designed to be exposed publicly. Do not replace its 
 
 The companion saves planning and orientation rehearsals in its app sandbox. It has no built-in AI provider or live synchronization. Sharing is explicit through the system share sheet; the chosen destination may upload or retain the file under its own policy.
 
-Production JSON is validated as data. Conflicting project IDs do not overwrite local planning. Local library writes and camera saves are atomic and use iOS file protection until first user authentication after boot. This is not end-to-end encryption or a backup guarantee.
+Production JSON is validated as data. Importing a changed existing film requires a review and explicit confirmation; the previous phone slate is archived before replacement. Returning edits to desktop requires a verified source baseline and a separate Apply action for each direction record. Stale desktop versions block the change; exact request retries do not create duplicate revisions. Local library writes and camera saves are atomic and use iOS file protection until first user authentication after boot. This is not end-to-end encryption or a backup guarantee.
 
 Use a device passcode and appropriate backups. Review exports before sharing: they can contain project titles, scene descriptions, notes, and source identifiers. A failed camera save remains in memory only until it is saved or the process exits.
 

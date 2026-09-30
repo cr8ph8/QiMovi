@@ -5,7 +5,7 @@ import CreativeDevelopmentPanel from './CreativeDevelopmentPanel';
 import type { DraftContent } from './useWritingDraft';
 import ProductionBudgetPanel from './ProductionBudgetPanel';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Smartphone } from 'lucide-react';
 import HiggsfieldTools from './HiggsfieldTools';
 import HiggsfieldDesktopConnection from './HiggsfieldDesktopConnection';
 import UsageAccountingPanel from './UsageAccountingPanel';
@@ -58,10 +58,10 @@ const PROJECT_PHASES: { id: string; label: string; tools: Area[]; guidance: stri
   { id: 'post-production', label: 'Post-production', tools: ['finish', 'media', 'library', 'pipeline'], guidance: 'Render retained videos with reviewed subtitles using local tools, organize references and plan delivery. The movie timeline and editorial handoff need an attached production screenplay.' },
   { id: 'marketing', label: 'Marketing & release', tools: ['develop', 'tasks', 'library', 'pipeline'], guidance: 'Develop → Pitch holds project presentation drafts. Prepare holds image, video and sound briefs.' },
 ];
-export default function CreativeProjectWorkspace({ project, records, api, onSaved, onRefresh, loading = false, error = null, open = true, toolsApi, mediaApi, attachedProject, onAttached, onOpenProduction, areaRequest, onDirtyChange }: {
+export default function CreativeProjectWorkspace({ project, records, api, onSaved, onRefresh, onPhone, loading = false, error = null, open = true, toolsApi, mediaApi, attachedProject, onAttached, onOpenProduction, areaRequest, onDirtyChange }: {
   project: CreativeProject; records: WorkspaceRecord[]; api: WorkspaceApi; onSaved: (record:WorkspaceRecord) => void; onRefresh: () => void;
   attachedProject?: Project; onAttached?: () => void | Promise<void>; onOpenProduction?: (destination: ProductionDestination) => void; areaRequest?: CreativeAreaRequest; onDirtyChange?: (dirty: boolean) => void;
-  loading?: boolean; error?: string | null; open?: boolean; toolsApi?: HiggsfieldToolsApi; mediaApi?: StudioMediaApi;
+  loading?: boolean; error?: string | null; open?: boolean; toolsApi?: HiggsfieldToolsApi; mediaApi?: StudioMediaApi; onPhone?: () => void;
 }) {
   const effectiveProject = attachedProject ?? project;
   const [area,setArea] = useState<Area>('develop');
@@ -146,6 +146,7 @@ export default function CreativeProjectWorkspace({ project, records, api, onSave
         <QiMoviBrand/>
         <div className="creative-project-identity"><span>Hampton’s Slate <span aria-hidden="true">/</span> Creative project</span><h1>{project.title}</h1></div>
         <div className="creative-project-local-status"><i aria-hidden="true"/>{dirty ? 'Unsaved edits on this Mac' : 'Local workspace'}</div>
+        {onPhone && <button className="studio-phone-button" onClick={onPhone} aria-haspopup="dialog"><Smartphone size={14} aria-hidden="true"/>Phone</button>}
         <button className="creative-project-refresh" disabled={loading} onClick={onRefresh}>{loading ? 'Refreshing…' : 'Refresh project'}</button>
       </div>
       <div className="creative-project-utility-bar">

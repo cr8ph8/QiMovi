@@ -57,6 +57,7 @@ export function check(condition, code, status = 400) { if (!condition) throw new
 const ID = /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,159}$/;
 const SHA = /^[a-f0-9]{64}$/;
 const MEDIA_SERVICE = Symbol('media-service');
+const PHONE_HANDOFF_SERVICE = Symbol('phone-handoff-service');
 const MODEL_SERVICE = Symbol('model-assistance-service');
 const USAGE_SERVICE = Symbol('usage-accounting-service');
 const BUDGET_SERVICE = Symbol('production-budget-service');
@@ -528,10 +529,15 @@ export class WorkspaceStore {
     check(input?.kind === 'production-budget', 'BUDGET_TRUSTED_SAVE_REQUIRED', 409);
     return this.save(id, input, BUDGET_SERVICE);
   }
+  savePhoneHandoff(id, input, requestHash, verify) {
+    check(['shot-direction', 'project-direction'].includes(input?.kind) && input?.requestId?.startsWith('phone-apply:') && SHA.test(requestHash) && typeof verify === 'function', 'PHONE_HANDOFF_WRITE_INVALID', 422);
+    return this.save(id, input, PHONE_HANDOFF_SERVICE, { requestHash, verify });
+  }
   save(id, input, service, options) {
     check(input && Object.keys(input).sort().join(',') === 'data,expectedVersion,kind,requestId', 'INVALID_RECORD_REQUEST');
     check(input.kind !== PRODUCTION_ATTACHMENT_KIND && !id?.startsWith(`${PRODUCTION_ATTACHMENT_KIND}:`) && !input.requestId?.startsWith('production-attachment:'), 'PRODUCTION_ATTACHMENT_TRUSTED_SERVICE_REQUIRED', 409);
     const { kind, requestId, expectedVersion } = input;
+    check(!requestId?.startsWith('phone-apply:') || service === PHONE_HANDOFF_SERVICE, 'PHONE_HANDOFF_TRUSTED_SAVE_REQUIRED', 409);
     check((kind !== WRITING_PRODUCTION_KIND && !id?.startsWith(`${WRITING_PRODUCTION_KIND}:`) && !requestId?.startsWith('writing-production')) || service === WRITING_PRODUCTION_SERVICE, 'WRITING_PRODUCTION_TRUSTED_SERVICE_REQUIRED', 409);
     check((kind !== 'production-budget' && !id?.startsWith('production-budget:')) || service === BUDGET_SERVICE, 'BUDGET_TRUSTED_SAVE_REQUIRED', 409);
     validateBudgetIdentity(id, kind, input.data);
@@ -567,7 +573,7 @@ export class WorkspaceStore {
     const snapshot = JSON.parse(dataText);
     const identityField = { 'node-workflow':'sceneId', 'scene-plan': 'sceneId', 'production-handoff':'sceneId', 'storyboard-cell': 'cellId', 'casting-draft': 'characterId', 'coverage-draft': 'paragraphId', 'review-observation': 'commentId', 'review-resolution': 'commentId' }[kind];
     if (identityField) check(id === `${kind}:${snapshot[identityField]}`, 'RECORD_IDENTITY_MISMATCH');
-    const requestHash = service === MEDIA_SERVICE ? options.requestHash : sha256(canonical({ id, kind, requestId, expectedVersion, data: JSON.parse(dataText) }));
+    const requestHash = [MEDIA_SERVICE, PHONE_HANDOFF_SERVICE].includes(service) ? options.requestHash : sha256(canonical({ id, kind, requestId, expectedVersion, data: JSON.parse(dataText) }));
     const ownsTransaction = ![FRAME_EXTRACTION_SERVICE, WRITING_PRODUCTION_SERVICE, PRODUCTION_ATTACHMENT_SERVICE].includes(options?.transaction);
     if (ownsTransaction) this.db.exec('BEGIN IMMEDIATE');
     else check(this.db.isTransaction, 'FRAME_TRANSACTION_REQUIRED', 409);
@@ -578,6 +584,7 @@ export class WorkspaceStore {
         if (ownsTransaction) this.db.exec('COMMIT');
         return { ...JSON.parse(prior.result), replayed: true };
       }
+      if (service === PHONE_HANDOFF_SERVICE) options.verify();
       for (const blob of options?.blobs ?? []) {
         check(SHA.test(blob.sha256) && Number.isSafeInteger(blob.byteLength) && blob.byteLength > 0 && typeof blob.mimeType === 'string', 'INVALID_MEDIA_SERVICE_BLOB');
         const filename = path.join(this.directory, 'blobs', blob.sha256);

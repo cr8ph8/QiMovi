@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import manifest from "../../.lovable/mcp/manifest.json";
+import { useEffect, useRef, useState } from "react";
+import { agentIntegrationConfiguration } from "@/config/agentIntegrations";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,38 +26,24 @@ import { toast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { getRlsScope } from "@/lib/mcp/rlsScopes";
 
-type Status = "checking" | "online" | "offline";
-
-interface McpTool {
-  name: string;
-  title?: string;
-  description?: string;
-  annotations?: { readOnlyHint?: boolean; idempotentHint?: boolean; openWorldHint?: boolean };
-}
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+type Status = "unconfigured" | "checking" | "online" | "offline";
+const { endpoint, server, tools } = agentIntegrationConfiguration;
 
 export default function AgentIntegrations() {
   const { user, session, loading: authLoading } = useAuth();
-  const [status, setStatus] = useState<Status>("checking");
+  const [status, setStatus] = useState<Status>(endpoint ? "checking" : "unconfigured");
   const [lastSync, setLastSync] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const tools = useMemo<McpTool[]>(() => (manifest as any)?.mcp?.tools ?? [], []);
-  const endpoint = `${SUPABASE_URL}${manifest.path}`;
-  const serverName = (manifest as any)?.mcp?.server?.name ?? "mcp";
-  const serverTitle = (manifest as any)?.mcp?.server?.title ?? "MCP Server";
-  const serverVersion = (manifest as any)?.mcp?.server?.version ?? "0.0.0";
-
   async function ping() {
+    if (!endpoint) { setStatus("unconfigured"); return; }
     setStatus("checking");
     setError(null);
     try {
       const res = await fetch(`${endpoint}/.well-known/oauth-protected-resource`, {
         method: "GET",
       });
-      if (res.ok || res.status === 401 || res.status === 404) {
-        // 200 for resource metadata, 401/404 also mean the function is reachable
+      if (res.ok) {
         setStatus("online");
       } else {
         setStatus("offline");
@@ -86,8 +72,8 @@ export default function AgentIntegrations() {
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight">Agent Integrations</h1>
         <p className="text-muted-foreground">
-          Connect AI assistants (ChatGPT, Claude, Cursor, Codex) to your CanIScreenwrite account via the
-          Model Context Protocol (MCP). Signed-in agents can read your entries, scorecards, and active competitions.
+          Review this build’s Model Context Protocol (MCP) connection and advertised tools.
+          A deployment must configure its server before an assistant can connect.
         </p>
       </header>
 
@@ -96,20 +82,22 @@ export default function AgentIntegrations() {
           <div className="space-y-1">
             <CardTitle className="flex items-center gap-2">
               <ShieldCheck className="h-5 w-5" />
-              {serverTitle}
-              <Badge variant="outline">v{serverVersion}</Badge>
+              {server.title}
+              {server.version && <Badge variant="outline">v{server.version}</Badge>}
             </CardTitle>
-            <CardDescription>Server name: <code>{serverName}</code></CardDescription>
+            <CardDescription>{server.name ? <>Server name: <code>{server.name}</code></> : "No server configured in this build."}</CardDescription>
           </div>
           <div className="flex items-center gap-3">
-            {status === "checking" ? (
+            {status === "unconfigured" ? (
+              <Badge variant="outline">Not configured</Badge>
+            ) : status === "checking" ? (
               <Badge variant="secondary">Checking…</Badge>
             ) : status === "online" ? (
-              <Badge className="gap-1"><CheckCircle2 className="h-3 w-3" /> Online</Badge>
+              <Badge className="gap-1"><CheckCircle2 className="h-3 w-3" /> Metadata reachable</Badge>
             ) : (
               <Badge variant="destructive" className="gap-1"><XCircle className="h-3 w-3" /> Offline</Badge>
             )}
-            <Button size="sm" variant="outline" onClick={ping} disabled={status === "checking"}>
+            <Button size="sm" variant="outline" onClick={ping} disabled={!endpoint || status === "checking"}>
               <RefreshCw className={`h-4 w-4 mr-1 ${status === "checking" ? "animate-spin" : ""}`} />
               Recheck
             </Button>
@@ -124,13 +112,13 @@ export default function AgentIntegrations() {
                 <span className="text-sm">{user.email ?? user.id}</span>
               ) : (
                 <span className="text-sm text-muted-foreground">
-                  Not signed in — connect from your assistant to grant access.
+                  Not signed in.
                 </span>
               )}
             </StatusRow>
             <StatusRow label="Session token">
               <span className="text-sm text-muted-foreground">
-                {session ? "Active — OAuth clients will authenticate as you" : "None"}
+                {session ? "Signed in" : "None"}
               </span>
             </StatusRow>
             <StatusRow label="Last sync">
@@ -140,7 +128,7 @@ export default function AgentIntegrations() {
             </StatusRow>
             <StatusRow label="Auth">
               <span className="text-sm text-muted-foreground">
-                OAuth 2.1 (Supabase issuer)
+                {endpoint ? "See the deployed server’s authentication setup" : "Not configured"}
               </span>
             </StatusRow>
           </div>
@@ -154,14 +142,13 @@ export default function AgentIntegrations() {
               Connection URL
             </div>
             <div className="flex items-center gap-2">
-              <code className="flex-1 text-xs break-all">{endpoint}</code>
-              <Button size="sm" variant="ghost" onClick={() => copy(endpoint, "URL")}>
+              <code className="flex-1 text-xs break-all">{endpoint ?? "Not configured"}</code>
+              <Button size="sm" variant="ghost" aria-label="Copy connection URL" disabled={!endpoint} onClick={() => { if (endpoint) copy(endpoint, "URL"); }}>
                 <Copy className="h-4 w-4" />
               </Button>
             </div>
             <p className="text-xs text-muted-foreground">
-              Paste this into your assistant's MCP connector. It will trigger the OAuth flow and prompt you
-              to approve access at <code>/.lovable/oauth/consent</code>.
+              {endpoint ? "Use the deployed server’s authentication instructions when adding this URL to your assistant." : "This public build does not advertise a connection endpoint. Connection actions are unavailable until a deployment configures one."}
             </p>
           </div>
         </CardContent>
@@ -175,8 +162,7 @@ export default function AgentIntegrations() {
             <Badge variant="outline">{tools.length}</Badge>
           </CardTitle>
           <CardDescription>
-            These tools are exposed to any connected assistant. All calls run as the signed-in user and are
-            filtered by Row Level Security.
+            Tool definitions supplied by this build’s integration configuration. A listed tool does not confirm a live connection.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -205,13 +191,14 @@ export default function AgentIntegrations() {
               )}
             </div>
           ))}
-          <RlsScopeLegend />
+          {tools.length > 0 && <RlsScopeLegend />}
         </CardContent>
       </Card>
 
-      <TryToolsCard signedIn={!!user} />
-
-      <HelpCard />
+      {endpoint && tools.length > 0 ? <><TryToolsCard signedIn={!!user}/><HelpCard/></> : <Card>
+        <CardHeader><CardTitle>Try a tool</CardTitle><CardDescription>Tool actions are unavailable until this build has a configured server and tool definitions.</CardDescription></CardHeader>
+        <CardContent><Button disabled><PlayCircle className="h-4 w-4 mr-2"/>No tools configured</Button></CardContent>
+      </Card>}
     </div>
   );
 }

@@ -93,7 +93,7 @@ def main() -> None:
         }))
         target_configs.append(add("target-config:" + name, isa="XCBuildConfiguration", name=name, buildSettings={
             "PRODUCT_NAME": "QiMoviAlpha", "PRODUCT_BUNDLE_IDENTIFIER": args.bundle_id,
-            "MARKETING_VERSION": "0.4.0", "CURRENT_PROJECT_VERSION": "4",
+            "MARKETING_VERSION": "0.5.0", "CURRENT_PROJECT_VERSION": "5",
             "DEVELOPMENT_TEAM": args.team, "CODE_SIGN_STYLE": "Automatic",
             "INFOPLIST_FILE": str(source_root / "Info.plist"), "GENERATE_INFOPLIST_FILE": "NO",
             "TARGETED_DEVICE_FAMILY": "1,2", "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator",

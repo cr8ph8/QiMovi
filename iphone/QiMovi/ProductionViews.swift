@@ -239,11 +239,17 @@ struct ConnectionsView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Label("QiMovi desktop", systemImage: "desktopcomputer").font(.title3.bold())
                         Text("One film, across your devices").font(.headline)
-                        Text("This alpha carries a snapshot of your desktop slate. Import updated packages and share phone shot plans and task changes for review.").font(.subheadline).foregroundStyle(.secondary)
+                        Text("On Mac, open Phone and export this film. Import it here, plan your shots and tasks, then share your changes back to the Mac for review.").font(.subheadline).foregroundStyle(.secondary)
                         Button { importing = true } label: { Label("Import production package", systemImage: "square.and.arrow.down") }.buttonStyle(.borderedProminent).foregroundStyle(.black)
                         Button { if let id = store.selectedProjectID { exported = store.exportReview(projectID: id) } } label: { Label("Prepare phone review package", systemImage: "square.and.arrow.up") }.buttonStyle(.bordered).disabled(store.selectedProject == nil)
                         if let exported { ShareLink(item: exported) { Label("Share review package", systemImage: "airplayvideo") } }
-                        Text("File exchange · live sync is not connected").font(.caption).foregroundStyle(QiStyle.gold)
+                        if store.selectedProject?.desktopBaseline == nil {
+                            Text("For desktop apply, start with a fresh export from Phone in QiMovi on Mac. Your current phone plan can still be shared for reference.").font(.caption).foregroundStyle(.secondary)
+                        } else {
+                            Label("Desktop review references retained", systemImage: "link").font(.caption).foregroundStyle(QiStyle.gold)
+                        }
+                        if let archive = store.lastImportArchive { ShareLink(item: archive) { Label("Share previous phone plan", systemImage: "clock.arrow.circlepath") } }
+                        Text("File exchange · review each change on Mac").font(.caption).foregroundStyle(QiStyle.gold)
                     }
                 }
                 QiCard {
@@ -261,12 +267,49 @@ struct ConnectionsView: View {
                         Text("Record phone rotation against a selected shot. Share the take with its timing and source links. Live camera control and conversion to a 3D camera path still need the desktop adapter.").font(.subheadline).foregroundStyle(.secondary)
                     }
                 }
-                Text("QiMovi Alpha · 0.4.0\nFilmmaking and production tracking").font(.caption).foregroundStyle(.secondary)
+                Text("QiMovi Alpha · 0.5.0\nFilmmaking and production tracking").font(.caption).foregroundStyle(.secondary)
             }.padding(20)
         }.background(QiStyle.background).navigationTitle("Connected workflow")
         .fileImporter(isPresented: $importing, allowedContentTypes: [.json, UTType(filenameExtension: "qimovi") ?? .json]) { result in
-            do { try store.importPackage(from: result.get()) } catch { self.error = error.localizedDescription }
+            do { try store.prepareImport(from: result.get()) } catch { self.error = error.localizedDescription }
         }
         .alert("Import needs attention", isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) { Button("OK") { error = nil } } message: { Text(error ?? "") }
+    }
+}
+
+
+struct ProductionImportReview: View {
+    @Bindable var store: ProductionStore
+    let preview: ProductionImportPreview
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    Text("Review this desktop snapshot before changing the plan on your phone.")
+                    LabeledContent("New films", value: "\(preview.additions.count)")
+                    LabeledContent("Updated films", value: "\(preview.replacements.count)")
+                    if !preview.replacements.isEmpty {
+                        Text("Updated films replace this phone's shot plans and tasks. A copy of the previous phone slate will be saved first and can be shared from Connect. Camera recordings and writing-app drafts stay separate.")
+                            .font(.callout).foregroundStyle(.secondary)
+                    }
+                }
+                Section("Incoming films") {
+                    ForEach(preview.package.projects) { project in
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(project.title).font(.headline)
+                            Text("\(project.shots.count) shots · \(project.tasks.count) tasks · \(project.phase)").font(.caption).foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                Section {
+                    Button { if store.confirmImport() { dismiss() } } label: {
+                        Label(preview.replacements.isEmpty ? "Import plan" : "Archive old plan and import", systemImage: "square.and.arrow.down")
+                    }
+                    if let message = store.lastError { Text(message).foregroundStyle(.red).font(.caption) }
+                }
+            }.navigationTitle("Import film plan").navigationBarTitleDisplayMode(.inline)
+                .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { store.pendingImport = nil; dismiss() } } }
+        }.tint(QiStyle.gold).preferredColorScheme(.dark)
     }
 }

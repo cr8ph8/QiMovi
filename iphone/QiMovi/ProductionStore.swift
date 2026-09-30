@@ -7,6 +7,8 @@ import Observation
     private(set) var projects: [FilmProject] = []
     private(set) var selectedProjectID: String?
     private(set) var importedAt: String?
+    var pendingImport: ProductionImportPreview?
+    private(set) var lastImportArchive: URL?
     var lastError: String?
     private let directory: URL
     private var writesBlocked = false
@@ -118,6 +120,53 @@ import Observation
         } catch { lastError = error.localizedDescription; return nil }
     }
 
+    /// Read a file once, then hold an immutable review until the user confirms it.
+    func prepareImport(from url: URL) throws {
+        guard !writesBlocked else { throw ProductionFailure.invalid("Recover the existing library before importing; original files are preserved.") }
+        let access = url.startAccessingSecurityScopedResource()
+        defer { if access { url.stopAccessingSecurityScopedResource() } }
+        pendingImport = ProductionImportPreview(package: try Self.decodePackage(from: url), existing: projects)
+    }
+
+    /// Same-ID refresh is explicit and keeps a recoverable archive of the old slate.
+    @discardableResult func confirmImport() -> Bool {
+        guard let preview = pendingImport, !writesBlocked else { return false }
+        guard projects == preview.existing else {
+            lastError = "The phone plan changed while this import was open. Cancel and reopen the package to review it again."
+            return false
+        }
+        let previous = projects, previousDate = importedAt, previousSelection = selectedProjectID
+        do {
+            var next = projects
+            for incoming in preview.package.projects {
+                if let index = next.firstIndex(where: { $0.id == incoming.id }) { next[index] = incoming }
+                else { next.append(incoming) }
+            }
+            try Self.validate(next)
+            if !preview.replacements.isEmpty {
+                let folder = directory.appendingPathComponent("Import Archives", isDirectory: true)
+                try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+                let url = folder.appendingPathComponent("QiMovi-before-import-\(UUID().uuidString.lowercased()).qimovi")
+                let archive = ProductionSlatePackage(exportedAt: Self.timestamp(), origin: "QiMovi phone plan before reviewed replacement", projects: previous)
+                #if os(iOS)
+                try Self.encode(archive).write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+                #else
+                try Self.encode(archive).write(to: url, options: .atomic)
+                #endif
+                lastImportArchive = url
+            }
+            projects = next; importedAt = preview.package.exportedAt
+            if selectedProjectID == nil { selectedProjectID = next.first?.id }
+            try persist()
+            pendingImport = nil; lastError = nil
+            return true
+        } catch {
+            projects = previous; importedAt = previousDate; selectedProjectID = previousSelection
+            lastError = "Import wasn't applied. Your previous plan is preserved. \(error.localizedDescription)"
+            return false
+        }
+    }
+
     /// Duplicate IDs with different content are rejected atomically, including changed source hashes.
     func importPackage(from url: URL) throws {
         guard !writesBlocked else { throw ProductionFailure.invalid("Recover the existing library before importing; original files are preserved.") }
@@ -160,6 +209,12 @@ import Observation
         let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         return try encoder.encode(value)
     }
+    private static func validTimestamp(_ value: String) -> Bool {
+        let formatter = ISO8601DateFormatter()
+        if formatter.date(from: value) != nil { return true }
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter.date(from: value) != nil
+    }
     private static func timestamp() -> String { ISO8601DateFormatter().string(from: Date()) }
     private static func decodePackage(from url: URL) throws -> ProductionSlatePackage {
         guard url.isFileURL, (try url.resourceValues(forKeys: [.fileSizeKey])).fileSize ?? 0 <= 20_000_000 else {
@@ -168,7 +223,7 @@ import Observation
         let data = try Data(contentsOf: url, options: .mappedIfSafe)
         guard data.count <= 20_000_000 else { throw ProductionFailure.invalid("This package is too large.") }
         let package = try JSONDecoder().decode(ProductionSlatePackage.self, from: data)
-        guard package.schemaVersion == "qimovi-phone-production/v1", ISO8601DateFormatter().date(from: package.exportedAt) != nil,
+        guard package.schemaVersion == "qimovi-phone-production/v1", Self.validTimestamp(package.exportedAt),
               package.origin.count <= 500 else { throw ProductionFailure.invalid("This is not a supported QiMovi production package.") }
         try validate(package.projects)
         return package
@@ -186,9 +241,29 @@ import Observation
                   Set(project.shots.map(\.id)).count == project.shots.count, Set(project.tasks.map(\.id)).count == project.tasks.count else {
                 throw ProductionFailure.invalid("A project has invalid or duplicate production data.")
             }
+            if let baseline = project.desktopBaseline {
+                func reference(_ value: DesktopRecordReference?) -> Bool {
+                    guard let value else { return true }
+                    return validText(value.id, max: 160) && value.version > 0 && value.version < 2147483647 && hash(value.sha256)
+                }
+                guard baseline.schemaVersion == 1, baseline.projectId == project.id, baseline.sourceHash == project.sourceHash,
+                      hash(baseline.sourceRecordHash), FilmProject.phases.contains(baseline.project.phase),
+                      reference(baseline.projectDirectionRef), baseline.project.tasks.count <= 50,
+                      baseline.shotDirections.count <= 400,
+                      Set(baseline.shotDirections.map { $0.sceneId + "/" + $0.shotId }).count == baseline.shotDirections.count else {
+                    throw ProductionFailure.invalid("This package has invalid desktop review references.")
+                }
+                for shot in baseline.shotDirections {
+                    guard validText(shot.sceneId, max: 160), validText(shot.shotId, max: 160), reference(shot.ref),
+                          validText(shot.framing, max: 2000, empty: true), validText(shot.movement, max: 2000, empty: true),
+                          validText(shot.notes, max: 4000, empty: true) else {
+                        throw ProductionFailure.invalid("This package has invalid shot review references.")
+                    }
+                }
+            }
             for shot in project.shots {
                 guard validText(shot.id,max: 240), validText(shot.sceneId,max: 240,empty: true), validText(shot.sceneHeading,max: 500),
-                      validText(shot.title,max: 300), validText(shot.framing,max: 1000,empty: true), validText(shot.movement,max: 1000,empty: true),
+                      validText(shot.title,max: 300), validText(shot.framing,max: 2000,empty: true), validText(shot.movement,max: 2000,empty: true),
                       validText(shot.notes,max: 50_000,empty: true), shot.order >= 0, shot.order <= 100_000, FilmShot.statuses.contains(shot.status), hash(shot.sourceHash),
                       shot.durationSeconds.map({ $0.isFinite && $0 > 0 && $0 <= 86400 }) ?? true else { throw ProductionFailure.invalid("A shot has invalid planning fields.") }
                 if let thumbnail = shot.thumbnail {

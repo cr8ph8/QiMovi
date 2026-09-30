@@ -130,6 +130,26 @@ The recording requests 30 samples per second and stops after three minutes. Leav
 
 The Simulator cannot supply a real movement. Walking the phone across a room does not create a measured dolly path: this implementation records orientation only. The exported file is a rehearsal reference pending review, not footage or a ready-to-play Blender/Unity camera.
 
+### Use the Phone HUD round trip
+
+Version **0.5.0-alpha.1** adds a desktop **Phone** HUD for manual file exchange. Use the same desktop film for export and return review.
+
+1. Save the desktop planning edits you want to transfer. Open **Phone → Export .qimovi**. The snapshot contains saved project planning, source shots, direction, tasks, and desktop baseline references; open editor drafts are not included.
+2. Transfer the `.qimovi` file using Files, AirDrop, or another file transfer you choose. On iPhone, use **Connections → Import production package** and inspect the import review.
+3. Choose **Import plan** for a new film. If the same film already exists with changed planning, choose **Archive old plan and import** only after reviewing the replacement. The phone saves its previous slate first; **Share previous phone plan** makes that archive available from Connections. Cancel leaves the phone plan unchanged.
+4. Edit the imported shot framing, movement, and notes in **Shots**, or phase and tasks in **Tracker**. Keep the source identifiers and desktop baseline with the project.
+5. Use **Connections → Prepare phone review package → Share review package** and transfer the resulting review JSON back to the desktop.
+6. Open **Phone → Choose phone review**. Read the saved and proposed values. Loading a review writes nothing. Choose **Apply change** for each ready direction record you want to retain. Project phase and tasks share one project-direction record; each source shot has its own shot-direction record.
+7. Use **Refresh review** when requested. After applying the selected changes, export a fresh `.qimovi` snapshot for the next phone session and review its replacement on the phone.
+
+The return path supports **phase → production stage**, **tasks → next actions**, and existing source-shot **framing → shot size**, **movement → movement intention**, and **notes → purpose**. Omitted desktop tasks are preserved, and an unchanged phone “todo” does not erase a desktop “in progress” state. A first direction record can be created for an existing source shot or the selected project.
+
+A desktop change since the phone snapshot produces a conflict instead of an overwrite. Refreshing the preview alone does not merge that conflict: export the current desktop snapshot and reconcile the phone edits against it. Project/source mismatches and stale review digests are rejected. Repeating the same confirmed request returns its saved receipt without duplicating a version.
+
+New phone shots, shot labels/order, scene labels, duration, capture/review flags, project labels/synopsis, and task notes remain available for review. They do not modify the desktop source, create media, or accept a take. Camera rehearsal JSON is a separate reference with no apply route in this HUD. A package without a desktop baseline, including the synthetic example below and older exporter output, is read-only in desktop review.
+
+The desktop round trip is bounded to **one selected project, 400 shots, 50 tasks, and 2 MiB JSON requests**. The generic phone importer has broader limits, but those do not expand desktop apply support. This is a source alpha workflow; live sync, automatic merges, calibrated DCC playback, and complete production acceptance are still separate work.
+
 ### Try a production-package import
 
 Save the following synthetic example as `example-production.qimovi`, transfer it to Files on the phone, then use **Connections → Import production package**. A `.json` extension is also accepted.
@@ -171,15 +191,15 @@ Save the following synthetic example as `example-production.qimovi`, transfer it
 }
 ```
 
-Re-importing an identical project is safe. An import containing an existing project ID with different content is rejected as a conflict, leaving the existing planning unchanged. Export your current work before manually reconciling versions. The alpha has no automatic merge or replacement dialog.
+Re-importing an identical project is safe. A changed project with an existing ID appears in the import review as an updated film. **Archive old plan and import** first preserves the previous phone slate, then replaces the selected incoming film plans; it does not merge edits. The example has no desktop baseline and therefore demonstrates phone import only, not desktop apply.
 
 ### Share a planning review
 
 Select the project, then choose **Connections → Prepare phone review package → Share review package**. This exports the selected project's planning as JSON with its source identifiers and snapshot date, when available.
 
-The review format differs from the incoming slate format. It is intentionally not a self-import backup or a desktop update receipt. A receiving system must validate and review the proposed changes before applying them. Camera rehearsals are shared separately.
+The review format differs from the incoming slate format. It is intentionally not a self-import backup or a desktop update receipt. Return it through the desktop **Phone** HUD for a read-only preview and explicit per-record application. Camera rehearsals are shared separately.
 
-QiCanIScreenwrite remains the writing workspace. Link the screenplay to a production project in the desktop workflow, then prepare a compatible production snapshot for the phone. The phone target does not bundle the writer or accounts. For an explicit desktop snapshot, run `python3 iphone/scripts/export-phone-slate.py --help` and select your local workspace and output file. This reads your chosen project data locally. The review/apply interface still needs integration; the public source does not provide automatic phone reconciliation.
+QiCanIScreenwrite remains the writing workspace. Link the screenplay to a production project in the desktop workflow, then use **Phone → Export .qimovi** for a snapshot with desktop review baselines. A source-free creative project can also exchange phase and tasks before a screenplay is attached. The phone target does not bundle the writer or accounts. The older `iphone/scripts/export-phone-slate.py` remains an explicit local reference exporter; its output lacks the baselines required for desktop apply. Automatic phone reconciliation is not provided.
 
 ### iPhone troubleshooting
 
@@ -187,6 +207,8 @@ QiCanIScreenwrite remains the writing workspace. Link the screenplay to a produc
 |---|---|
 | Signing fails | Set your own team and unique bundle ID in Xcode; check the selected phone's trust and provisioning. |
 | No motion readings | Use a physical supported phone, return to the foreground, enable motion, and check Motion & Fitness access if the device reports a restriction. |
-| Import rejected | Check the schema, field types, allowed phase/status values, and the 20 MB limit. Same-ID changed content requires manual reconciliation. |
+| Import rejected | Check the schema, field types, phase/status values, and the phone importer’s 20 MB limit. Desktop round trips use the smaller 2 MiB/400-shot/50-task limits. Same-ID changes need reviewed archive-and-import confirmation. |
+| Desktop review conflict | Preserve the phone review file, export a current desktop snapshot, and reconcile the edits. A fresh preview cannot silently override a changed desktop record. |
+| Desktop review is read-only | Check for a retained desktop baseline and a supported field. New phone shots, legacy snapshots, capture flags, and media cannot be applied through this HUD. |
 | No storyboard image | Thumbnail paths refer to resources already bundled in the app. Importing JSON does not download or attach image files. |
 | Save fails | Keep the app open, free device storage if needed, and follow the displayed retry guidance. Do not uninstall to repair a save failure. |

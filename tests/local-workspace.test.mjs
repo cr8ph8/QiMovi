@@ -61,5 +61,22 @@ test('local owner session protects project data and rejects foreign origins', as
     assert.equal(project.status, 200);
     const blocked = await fetch(`${server.origin}/api/bootstrap`, { headers: { cookie, origin: 'https://example.invalid' } });
     assert.equal(blocked.status, 403);
+    assert.equal((await fetch(`${server.origin}/api/phone/export`)).status, 401);
+    const slate = await (await fetch(`${server.origin}/api/phone/export`, { headers: { cookie } })).json();
+    slate.projects[0].tasks.push({ id: 'phone-task:synthetic', title: 'Confirm camera blocking', phase: 'Pre-production', status: 'todo' });
+    const review = { schemaVersion: 'qimovi-production-review/v1', exportedAt: new Date().toISOString(), origin: 'Synthetic phone', scope: 'PHONE_PLANNING_REVIEW_ONLY', desktopApplied: false, productionApproval: false, project: slate.projects[0] };
+    const headers = { cookie, origin: server.origin, 'content-type': 'application/json' };
+    const previewResponse = await fetch(`${server.origin}/api/phone/preview`, { method: 'POST', headers, body: JSON.stringify(review) });
+    assert.equal(previewResponse.status, 200);
+    const preview = await previewResponse.json();
+    const change = preview.changes.find(row => row.status === 'READY');
+    assert.ok(change);
+    const applied = await fetch(`${server.origin}/api/phone/apply`, { method: 'POST', headers, body: JSON.stringify({ reviewPackage: review, changeId: change.id, previewSha256: preview.previewSha256, expectedVersion: change.expectedVersion, requestId: 'http-phone-test' }) });
+    assert.equal(applied.status, 200);
+    assert.equal((await applied.json()).record.data.nextActions[0].title, 'Confirm camera blocking');
+    const bridge = await fetch(`${server.origin}/api/caniscreenwrite/session`, { method: 'POST', headers, body: JSON.stringify({ token: ownerToken }) });
+    const bridgeCookie = bridge.headers.get('set-cookie').split(';')[0];
+    assert.equal((await fetch(`${server.origin}/api/phone/export`, { headers: { cookie: bridgeCookie } })).status, 403);
+
   } finally { await server.close(); }
 });

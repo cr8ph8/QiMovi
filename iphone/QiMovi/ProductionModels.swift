@@ -11,8 +11,9 @@ struct FilmProject: Identifiable, Codable, Equatable {
     var sourceStatus: String? = nil
     var phaseOrigin: String? = nil
     var sourceRecordHash: String? = nil
+    var desktopBaseline: DesktopPlanningBaseline? = nil
 
-    static let phases = ["Unassigned", "Pre-development", "Development", "Pre-production", "Production", "Wrap", "Post-production", "Marketing"]
+    static let phases = ["Unassigned", "Pre-development", "Development", "Pre-production", "Production", "Wrap", "Post-production", "Marketing", "Distribution"]
 }
 
 struct FilmShot: Identifiable, Codable, Equatable {
@@ -78,4 +79,57 @@ enum ProductionFailure: LocalizedError {
         case .conflict(let title): return "\(title) is already on this phone and differs from this package. Existing planning notes are unchanged. Export them for review before reconciling the two versions."
         }
     }
+}
+
+/// Original desktop values travel unchanged with phone edits for conflict review.
+struct DesktopRecordReference: Codable, Equatable {
+    var id: String
+    var version: Int
+    var sha256: String
+}
+struct DesktopProjectBaseline: Codable, Equatable {
+    var phase: String
+    var tasks: [ProductionTask]
+}
+struct DesktopShotBaseline: Codable, Equatable {
+    var sceneId: String
+    var shotId: String
+    var ref: DesktopRecordReference?
+    var framing: String
+    var movement: String
+    var notes: String
+    enum CodingKeys: String, CodingKey { case sceneId, shotId, ref, framing, movement, notes }
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(sceneId, forKey: .sceneId); try c.encode(shotId, forKey: .shotId)
+        try c.encode(ref, forKey: .ref)
+        try c.encode(framing, forKey: .framing); try c.encode(movement, forKey: .movement); try c.encode(notes, forKey: .notes)
+    }
+}
+struct DesktopPlanningBaseline: Codable, Equatable {
+    var schemaVersion: Int
+    var projectId: String
+    var sourceHash: String?
+    var sourceRecordHash: String
+    var project: DesktopProjectBaseline
+    var projectDirectionRef: DesktopRecordReference?
+    var shotDirections: [DesktopShotBaseline]
+    enum CodingKeys: String, CodingKey { case schemaVersion, projectId, sourceHash, sourceRecordHash, project, projectDirectionRef, shotDirections }
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(schemaVersion, forKey: .schemaVersion); try c.encode(projectId, forKey: .projectId)
+        try c.encode(sourceHash, forKey: .sourceHash); try c.encode(sourceRecordHash, forKey: .sourceRecordHash)
+        try c.encode(project, forKey: .project); try c.encode(projectDirectionRef, forKey: .projectDirectionRef)
+        try c.encode(shotDirections, forKey: .shotDirections)
+    }
+}
+
+struct ProductionImportPreview: Identifiable {
+    let id = UUID()
+    let package: ProductionSlatePackage
+    let existing: [FilmProject]
+    var replacements: [FilmProject] {
+        package.projects.filter { incoming in existing.contains { $0.id == incoming.id && $0 != incoming } }
+    }
+    var additions: [FilmProject] { package.projects.filter { incoming in !existing.contains { $0.id == incoming.id } } }
 }

@@ -25,7 +25,7 @@ Work with a new, empty workspace or synthetic fixtures. Never use a real product
 4. Add focused tests for validation, persistence, migrations, conflicts, or data-loss risks. Do not equate a Simulator build with physical motion recording or an adapter check with a completed production job.
 5. Document compatibility changes and remaining limitations.
 
-Useful checks include `bun run typecheck`, `bun run build:local`, focused Vitest files, and focused `node --test local/tests/<file>.test.mjs` runs. The repository also contains broader local and hosted suites; select those that exercise the modified path instead of claiming unrelated suites establish readiness.
+Useful checks include `bun run typecheck`, `bun run build:local`, `bun run test` (the synthetic Node service suite), `bun run test:phone-ui`, and `bash iphone/scripts/check-planning.sh`. Run individual files with `node --test tests/<file>.test.mjs` or the existing Vitest configuration. The repository also contains broader local and hosted suites; select those that exercise the modified path instead of claiming unrelated suites establish readiness.
 
 For native source, rerun the iPhone project generator after adding/removing files. For persistence changes, exercise reopening, invalid input, conflicting versions, and failure recovery. For external integrations, distinguish configuration, connection, execution, returned evidence, and user acceptance.
 

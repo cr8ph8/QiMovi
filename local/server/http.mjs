@@ -1,3 +1,4 @@
+import { createPhoneHandoffService } from './phone-handoff.mjs';
 import { createProjectLibraryUploadService } from './project-library-upload.mjs';
 import { createAssetTokenPreparationService } from './asset-token-preparation.mjs';
 import { createPreservationIntegrityService } from './preservation-integrity.mjs';
@@ -92,6 +93,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const studioMedia = createStudioMediaService(store);
     const storyboardFrames = createStoryboardFrameService(store);
     const writingRecovery = createWritingRecoveryService(store);
+    const phoneHandoff = createPhoneHandoffService(store);
     const nodeConnectors = createNodeConnectorService(nodeConnectorOptions);
     const resolveMcp = createResolveMcpBridge(resolveMcpOptions);
     const openCreator = createOpenCreatorService(store, openCreatorOptions);
@@ -189,6 +191,13 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
               || noQuery && req.method === 'POST' && url.pathname === '/api/project-library/upload'
               || noQuery && req.method === 'GET' && assetMatch && /^project-asset:[a-f0-9]{64}$/.test(assetId);
             check(allowed, 'CANISCREENWRITE_SCOPE_REJECTED', 403);
+          }
+          if (url.pathname.startsWith('/api/phone/')) {
+            check([...url.searchParams].length === 0, 'PHONE_HANDOFF_QUERY_REJECTED', 422);
+            if (url.pathname === '/api/phone/export' && req.method === 'GET') return json(res, 200, phoneHandoff.exportSnapshot());
+            if (url.pathname === '/api/phone/preview' && req.method === 'POST') return json(res, 200, phoneHandoff.preview(await body(req, 2 * 1024 * 1024)));
+            if (url.pathname === '/api/phone/apply' && req.method === 'POST') return json(res, 200, phoneHandoff.apply(await body(req, 2 * 1024 * 1024)));
+            throw new PilotError('PHONE_HANDOFF_ROUTE_NOT_FOUND', 404);
           }
           if (url.pathname === '/api/asset-token' || url.pathname.startsWith('/api/asset-token/')) {
             try {

@@ -14,7 +14,7 @@ QiCanIScreenwrite remains a separate writing product. QiMovi reuses writing comp
 | Production planning | Scene/shot plans, screenplay handoff, storyboard and node views, project Library, budgets, and production preparation. |
 | Media and finishing | Local media records, review/take handling, timeline/editorial preparation, document exports, and integration adapters. |
 | Native Mac application | Project slate, local service lifecycle, private owner authentication, file dialogs, and workspace backup. |
-| iPhone companion | Local film slate, shot planning, phase/task tracking, production snapshot import, review export, and phone rotation rehearsal. |
+| iPhone companion | Local film slate, shot planning, phase/task tracking, reviewed snapshot import with an archive of replaced plans, desktop Phone HUD review/apply, and phone rotation rehearsal. |
 | External connections | Source for Blender, Unity, DaVinci Resolve, generation/model, and local finishing adapters. Each needs its own compatible runtime, configuration, permissions, and acceptance checks. |
 
 A new workspace starts empty. Private screenplays, story worlds, budgets, accounts, credentials, and production artwork are not part of this release.
@@ -36,7 +36,9 @@ Next create your own empty workspace and start the loopback service using [QUICK
 
 Use the phase controls to see the relevant tools. Save the working screenplay and scene plan before attaching a production copy. Writing stays editable, while downstream work retains the exact source revision it uses. Budget, Library, and project planning remain connected to that project.
 
-On iPhone, **Slate → Shots → Camera / Tracker → Connections** carries a smaller production plan. Its current handoff is manual file exchange, not live synchronization.
+On iPhone, **Slate → Shots → Camera / Tracker → Connections** carries a smaller production plan. In **v0.5.0-alpha.1**, the desktop **Phone** HUD completes a manual planning round trip: export a `.qimovi` snapshot, review and import it on iPhone, then share the phone review JSON back to the desktop for individual **Apply change** actions. Replacing a same-ID phone plan requires confirmation and first archives the previous phone slate.
+
+Supported return edits are project phase/tasks and existing source-shot framing, movement, and notes. The desktop checks the saved source and record versions before each apply. New shots, labels, duration, capture flags, task notes, and media changes remain review-only; phone capture never accepts a desktop take. Older packages without a desktop baseline can be inspected but cannot be applied. See the [Phone HUD round trip](QUICKSTART.md#use-the-phone-hud-round-trip) for the complete file workflow. Live synchronization and automatic conflict merging remain outside this source alpha.
 
 ## Alpha boundaries
 

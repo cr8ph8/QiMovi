@@ -11,7 +11,8 @@ flowchart TB
   S --> A[Configured adapters<br/>models, generation, Blender, Unity, Resolve]
   C[Separate QiCanIScreenwrite app] -. Scoped exchange .-> S
   S -. Explicit production snapshot .-> P[iPhone slate, shots, tracker]
-  P -. Planning review JSON .-> R[Receiving review/apply workflow<br/>integration still required]
+  P -. Planning review JSON .-> R[Desktop Phone HUD<br/>read-only preview and per-record apply]
+  R --> S
   CM[Core Motion] --> T[Phone rotation rehearsal JSON]
   P --> T
   T -. Calibration and review required .-> A
@@ -54,15 +55,37 @@ This design is for a local owner. Exposing the service over a network or deployi
 
 | Schema | Direction | Meaning |
 |---|---|---|
-| `qimovi-phone-production/v1` | Into phone | A slate snapshot of projects, ordered shots, and tasks. |
+| `qimovi-phone-production/v1` | Into phone | A slate snapshot of projects, ordered shots, and tasks; desktop HUD exports include retained review baselines. |
 | `qimovi-production-review/v1` | Out of phone | One project's planning proposal; `desktopApplied: false`, `productionApproval: false`. |
 | `qimovi-phone-rotation/v1` | Out of phone | Timestamped orientation samples bound to a shot; `desktopPlaybackReady: false`. |
 
-The Swift `Codable` models define the current fields. Incoming production packages are limited to 20 MB, 100 projects, and 5,000 shots and 5,000 tasks per project. Changed content for an existing project ID is rejected atomically rather than merged. A provided hash retains a reference; it is not a digital signature, proof of ownership, or independent source verification.
+The Swift `Codable` models define the current fields. The generic phone importer accepts up to 20 MB, 100 projects, and 5,000 shots and 5,000 tasks per project. The UI holds an import preview until confirmation. Changed content for an existing project ID requires **Archive old plan and import**: the previous phone slate is written to `Import Archives/` before replacement. If the phone plan changes while review is open, confirmation fails and requires a fresh review. The phone does not merge the two plans.
 
-Phone state is stored under Application Support at `QiMoviAlpha/Production`: `production-library.json`, `Camera/`, and `Exports/`. Atomic library writes and camera saves use iOS file protection until first user authentication after boot. A failed camera save retains its pending take during the current process for retry. This is not a backup system.
+The desktop HUD round trip uses smaller bounds: one selected project, 400 shots, 50 tasks, and 2 MiB JSON requests. A provided hash is a source reference, not a digital signature, proof of ownership, or independent rights verification.
+
+Phone state is stored under Application Support at `QiMoviAlpha/Production`: `production-library.json`, `Camera/`, `Exports/`, and `Import Archives/`. Atomic library writes and camera saves use iOS file protection until first user authentication after boot. A failed camera save retains its pending take during the current process for retry. This is not a backup system.
 
 Snapshot JSON does not transport image files. Optional thumbnail paths refer to resources already bundled under `Thumbnails/`. Public examples must use synthetic, cleared content.
+
+## Desktop Phone HUD review and apply
+
+Version `0.5.0-alpha.1` adds `local/server/phone-handoff.mjs` and the desktop Phone HUD. The owner-authenticated loopback service provides `GET /api/phone/export`, `POST /api/phone/preview`, and `POST /api/phone/apply`. The narrower CanIScreenwrite session does not authorize these routes. Files move through the user's chosen transfer method; no network pairing or live synchronization is established.
+
+Export reads the current resolved project and saved direction records. Its optional `desktopBaseline` retains the project/source identity, a canonical source-project hash, normalized phase/tasks, and version/hash references for project and shot direction. The phone preserves that baseline while editing its planning fields. Export excludes credentials, screenplay text, and media bytes.
+
+Preview validates the package shape and limits, selected project, source identity, retained historical records, and normalized baseline. It produces per-record saved/proposed values with ready, conflict, review-only, or unchanged status. Packages without a baseline remain inspectable but cannot be applied.
+
+Apply recomputes the reviewed preview inside the existing SQLite write transaction and checks its digest and the target's expected version. One request saves one `project-direction` or `shot-direction` record, with an idempotent receipt. A missing direction uses a null expected version for its first save. Concurrent source or record changes reject the write; there is no batch partial-save operation or silent overwrite. Project direction retains its original source-free ownership after a creative project's production attachment.
+
+| Phone planning field | Existing desktop record field |
+|---|---|
+| Project phase | `project-direction.stage` |
+| Tasks | `project-direction.nextActions` |
+| Existing source-shot framing | `shot-direction.shotSize` |
+| Existing source-shot movement | `shot-direction.movement` |
+| Existing source-shot notes | `shot-direction.purpose` |
+
+Project phase and tasks are reviewed together as one record. Task omissions do not delete desktop actions, and an unchanged phone `todo` retains a desktop `IN_PROGRESS` status. Other direction fields are preserved. New phone shots, labels, duration/order, scene labels, capture/review flags, project title/synopsis, and task notes remain review-only. Source records and media acceptance are outside this mapping; `captured` never becomes an accepted take.
 
 ## Phone camera boundary
 
@@ -76,7 +99,7 @@ No position, lens calibration, scene geometry, or video is recorded. A DCC adapt
 |---|---|
 | Local development-to-production workflows | Acceptance of a complete real production and final delivery |
 | Desktop editor, DCC, model, and generation adapters | Compatible installations, account access, configuration, and successful job/readback evidence |
-| Phone snapshot import and review export | Automatic refresh, reconciliation/apply UI, and live sync |
+| Manual desktop Phone HUD export, reviewed iPhone import with archive, and per-record desktop preview/apply | Automatic refresh, conflict merging, live sync, new source-shot reconciliation, and media transfer/acceptance |
 | Phone rotation rehearsal | Positional tracking, live camera control, and calibrated DCC playback |
 | Source references, version history, and review boundaries | Independent rights verification and authorized business decisions |
 | Native local applications | Notarized desktop distribution, iPhone distribution, and hosted multi-user release |

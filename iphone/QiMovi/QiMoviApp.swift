@@ -17,7 +17,7 @@ enum QiStyle {
     static let gold = Color(red: 0.83, green: 0.66, blue: 0.32)
     static let background = Color(red: 0.055, green: 0.065, blue: 0.075)
     static let card = Color(red: 0.10, green: 0.115, blue: 0.13)
-    static let phases = ["Pre-development", "Development", "Pre-production", "Production", "Wrap", "Post-production", "Marketing & release"]
+    static let phases = ["Pre-development", "Development", "Pre-production", "Production", "Wrap", "Post-production", "Marketing", "Distribution"]
 }
 
 enum ProductionTab: Hashable { case slate, shots, camera, tracker, connect }
@@ -43,8 +43,9 @@ struct ProductionHome: View {
             NavigationStack { ConnectionsView(store: store) }
                 .tabItem { Label("Connect", systemImage: "arrow.triangle.branch") }.tag(ProductionTab.connect)
         }
+        .sheet(item: $store.pendingImport) { preview in ProductionImportReview(store: store, preview: preview) }
         .onOpenURL { url in
-            do { try store.importPackage(from: url); tab = .slate }
+            do { try store.prepareImport(from: url); tab = .connect }
             catch { importError = error.localizedDescription }
         }
         .alert("Couldn't import production package", isPresented: Binding(get: { importError != nil }, set: { if !$0 { importError = nil } })) {

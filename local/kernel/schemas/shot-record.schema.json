@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.4/shot-record.schema.json",
+  "title": "FilmStack Prospective Shot Planning Record v1",
+  "description": "A hash-sealed, provider-free workspace candidate. It carries no creative approval, production authorization, safety clearance, rights conclusion, or canonical title-state effect.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "shot_id",
+    "title_id",
+    "scene_id",
+    "source_revision_hash",
+    "taxonomy_ref",
+    "record_state",
+    "authority_state",
+    "narrative",
+    "taxonomy_codes",
+    "custom_values",
+    "capture_plan",
+    "continuity",
+    "constraints",
+    "shot_hash"
+  ],
+  "properties": {
+    "schema_version": { "const": "filmstack-shot-record/v1" },
+    "shot_id": { "$ref": "#/$defs/id" },
+    "title_id": { "$ref": "#/$defs/id" },
+    "scene_id": { "$ref": "#/$defs/id" },
+    "source_revision_hash": { "$ref": "#/$defs/sha256" },
+    "taxonomy_ref": { "$ref": "#/$defs/taxonomy_ref" },
+    "record_state": { "const": "PROSPECTIVE_DRAFT" },
+    "authority_state": { "const": "NO_EXTERNAL_AUTHORITY" },
+    "narrative": { "$ref": "#/$defs/narrative" },
+    "taxonomy_codes": { "$ref": "#/$defs/taxonomy_codes" },
+    "custom_values": { "$ref": "#/$defs/custom_values" },
+    "capture_plan": { "$ref": "#/$defs/capture_plan" },
+    "continuity": { "$ref": "#/$defs/continuity" },
+    "constraints": { "$ref": "#/$defs/constraints" },
+    "shot_hash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8192
+    },
+    "nullable_text": {
+      "anyOf": [
+        { "$ref": "#/$defs/text" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_code": {
+      "anyOf": [
+        { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{1,127}$" },
+        { "type": "null" }
+      ]
+    },
+    "taxonomy_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "taxonomy_version", "taxonomy_hash"],
+      "properties": {
+        "schema_version": { "const": "filmstack-shot-taxonomy/v1" },
+        "taxonomy_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "taxonomy_hash": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "narrative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["story_purpose", "action", "dialogue_audio"],
+      "properties": {
+        "story_purpose": { "$ref": "#/$defs/text" },
+        "action": { "$ref": "#/$defs/text" },
+        "dialogue_audio": { "$ref": "#/$defs/nullable_text" }
+      }
+    },
+    "taxonomy_codes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "SHOT_SIZE",
+        "CAMERA_ANGLE",
+        "COMPOSITION",
+        "CAMERA_MOVEMENT",
+        "SUPPORT_RIG",
+        "FOCUS_OPTICAL",
+        "COVERAGE_PURPOSE",
+        "CAPTURE_MODE"
+      ],
+      "properties": {
+        "SHOT_SIZE": { "$ref": "#/$defs/nullable_code" },
+        "CAMERA_ANGLE": { "$ref": "#/$defs/nullable_code" },
+        "COMPOSITION": { "$ref": "#/$defs/nullable_code" },
+        "CAMERA_MOVEMENT": { "$ref": "#/$defs/nullable_code" },
+        "SUPPORT_RIG": { "$ref": "#/$defs/nullable_code" },
+        "FOCUS_OPTICAL": { "$ref": "#/$defs/nullable_code" },
+        "COVERAGE_PURPOSE": { "$ref": "#/$defs/nullable_code" },
+        "CAPTURE_MODE": { "$ref": "#/$defs/nullable_code" }
+      }
+    },
+    "custom_values": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "SHOT_SIZE",
+        "CAMERA_ANGLE",
+        "COMPOSITION",
+        "CAMERA_MOVEMENT",
+        "SUPPORT_RIG",
+        "FOCUS_OPTICAL",
+        "COVERAGE_PURPOSE",
+        "CAPTURE_MODE"
+      ],
+      "properties": {
+        "SHOT_SIZE": { "$ref": "#/$defs/nullable_text" },
+        "CAMERA_ANGLE": { "$ref": "#/$defs/nullable_text" },
+        "COMPOSITION": { "$ref": "#/$defs/nullable_text" },
+        "CAMERA_MOVEMENT": { "$ref": "#/$defs/nullable_text" },
+        "SUPPORT_RIG": { "$ref": "#/$defs/nullable_text" },
+        "FOCUS_OPTICAL": { "$ref": "#/$defs/nullable_text" },
+        "COVERAGE_PURPOSE": { "$ref": "#/$defs/nullable_text" },
+        "CAPTURE_MODE": { "$ref": "#/$defs/nullable_text" }
+      }
+    },
+    "capture_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lens", "camera_pose", "frames_per_second", "planned_duration_ms"],
+      "properties": {
+        "lens": { "$ref": "#/$defs/nullable_text" },
+        "camera_pose": { "$ref": "#/$defs/nullable_text" },
+        "frames_per_second": {
+          "anyOf": [
+            { "type": "string", "pattern": "^(?:0\\.(?:0*[1-9][0-9]*)|[1-9][0-9]*(?:\\.[0-9]+)?)$" },
+            { "type": "null" }
+          ]
+        },
+        "planned_duration_ms": {
+          "anyOf": [
+            { "type": "integer", "minimum": 1 },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "character_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["character_id", "state"],
+      "properties": {
+        "character_id": { "$ref": "#/$defs/id" },
+        "state": { "$ref": "#/$defs/text" }
+      }
+    },
+    "text_array": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/text" }
+    },
+    "hash_array": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/sha256" }
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_states",
+        "continuity_in_shot_hashes",
+        "required_outcomes",
+        "forbidden_outcomes",
+        "location_state",
+        "time_state",
+        "style_state"
+      ],
+      "properties": {
+        "character_states": {
+          "type": "array",
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/character_state" }
+        },
+        "continuity_in_shot_hashes": { "$ref": "#/$defs/hash_array" },
+        "required_outcomes": { "$ref": "#/$defs/text_array" },
+        "forbidden_outcomes": { "$ref": "#/$defs/text_array" },
+        "location_state": { "$ref": "#/$defs/nullable_text" },
+        "time_state": { "$ref": "#/$defs/nullable_text" },
+        "style_state": { "$ref": "#/$defs/nullable_text" }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production", "generation"],
+      "properties": {
+        "production": { "$ref": "#/$defs/text_array" },
+        "generation": { "$ref": "#/$defs/text_array" }
+      }
+    }
+  }
+}

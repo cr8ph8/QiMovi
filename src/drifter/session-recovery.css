@@ -1,0 +1,17 @@
+.session-preserved-workspace{display:contents}
+.session-preserved-workspace[hidden]{display:none!important}
+.session-recovery{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;overflow:auto;background:#101210;color:#eeeadd;padding:40px 24px}
+.session-recovery>section{width:min(100%,540px)}
+.session-recovery .eyebrow{display:block;margin-top:32px;letter-spacing:.16em;font-size:10px}
+.session-recovery h1{font-size:clamp(28px,3vw,38px);font-weight:500;letter-spacing:-.035em;line-height:1.15;margin:15px 0 20px}
+.session-recovery p{font-size:15px;line-height:1.6;margin:10px 0}
+.session-recovery .eyebrow,.session-recovery small,.session-recovery-note{color:#adaf9f}
+.session-recovery label{display:block;margin:28px 0 10px;font-size:13px;font-weight:600}
+.session-recovery input{background:#191d18;color:#eeeadd;border:1px solid #616958;min-height:44px;width:100%;padding:12px;border-radius:5px}
+.session-recovery-actions{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 24px}
+.session-recovery-actions button{min-height:44px;padding:10px 18px;border:1px solid #67705c;border-radius:5px;color:#eeeadd;background:transparent;font-size:13px}
+.session-recovery-actions .primary{background:#d7ad61;border-color:#d7ad61;color:#26241e}
+.session-recovery button:disabled{opacity:.5;cursor:wait}
+.session-recovery :is(input,button):focus-visible{outline:2px solid #dfc78c;outline-offset:4px}
+.session-recovery .session-recovery-error{color:#f0b49a;border-left:3px solid #b46d54;padding-left:13px;overflow-wrap:anywhere}
+.session-recovery small{display:block;border-top:1px solid #363b31;padding-top:18px;font-size:12px;line-height:1.6}

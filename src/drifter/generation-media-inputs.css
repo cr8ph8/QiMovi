@@ -1,0 +1,42 @@
+.generation-media-inputs { border-top: 1px solid #46443c; padding: 16px 0 4px; margin-top: 14px; color: #e9e2d6; font-size: 12px; line-height: 1.5; }
+.generation-media-inputs > header { display: flex; justify-content: space-between; align-items: start; gap: 14px; }
+.generation-media-inputs h4 { margin: 0; font-family: inherit; font-size: 15px; font-weight: 600; line-height: 1.4; }
+.generation-media-inputs p { margin: 7px 0; font-size: 11px; color: #bfb7a9; }
+.generation-media-inputs button, .generation-media-inputs select, .generation-media-inputs input { font: inherit; }
+.generation-media-inputs button { border: 1px solid #504b41; border-radius: 4px; background: transparent; color: inherit; padding: 7px 9px; cursor: pointer; }
+.generation-media-inputs button:disabled { opacity: .5; cursor: default; }
+.generation-media-inputs :is(button, input, select, summary, a):focus-visible { outline: 2px solid #d7ab72; outline-offset: 3px; }
+.generation-media-inputs label { display: block; font-size: 11px; color: #d3cabe; }
+.generation-media-inputs :is(input, select) { display: block; box-sizing: border-box; width: 100%; margin-top: 5px; padding: 8px; color: #e9e2d6; background: #191918; border: 1px solid #514b42; border-radius: 4px; }
+.generation-media-filters { display: grid; grid-template-columns: minmax(0, 2fr) minmax(120px, 1fr); gap: 12px; margin: 14px 0 8px; }
+.generation-media-choices { max-height: 240px; overflow: auto; overscroll-behavior: contain; }
+.generation-media-choices button { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; border-width: 0 0 1px; border-radius: 0; padding: 10px 4px; }
+.generation-media-choices small, .generation-media-selected small { display: block; color: #bfb7a9; font-size: 11px; }
+.generation-media-choices button > span:last-child { color: #dfb983; font-size: 11px; }
+.generation-media-selected { margin: 14px 0; }
+.generation-media-selected > div { display: flex; align-items: center; gap: 8px; border-top: 1px solid #46443c; }
+.generation-media-selected > div > button:first-child { flex: 1; min-width: 0; text-align: left; border: 0; border-left: 2px solid transparent; border-radius: 0; padding: 10px; }
+.generation-media-selected strong { display: block; font-weight: 500; overflow-wrap: anywhere; }
+.generation-media-selected button[aria-pressed=true] { border-left-color: #d7ab72 !important; background: #d7ab720a; }
+.generation-media-selected > div > button:last-child { border: 0; font-size: 11px; }
+.generation-media-preview video { display: block; width: 100%; max-height: 240px; object-fit: contain; background: #141413; }
+.generation-media-preview audio { display: block; width: 100%; }
+.generation-media-original { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0 14px; font-size: 11px; }
+.generation-media-original a { color: #dfb983; }
+.generation-media-original small { color: #bfb7a9; font-size: 10px; overflow-wrap: anywhere; }
+.generation-media-inspector > label { max-width: 280px; }
+.generation-media-inputs details, .generation-media-excerpt { margin-top: 12px; padding-top: 10px; border-top: 1px solid #46443c; }
+.generation-media-inputs summary { cursor: pointer; font-size: 11px; }
+.generation-media-excerpt > h5 { margin: 0 0 6px; font-size: 12px; font-weight: 600; }
+.generation-media-times { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+.generation-media-excerpt-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.generation-media-excerpt-actions button:first-child { background: #d7ab72; color: #181715; border-color: #d7ab72; }
+.generation-media-inputs p[role=alert] { color: #e8ae90; }
+.generation-media-inputs .generation-media-pending { color: #dfbf92; }
+.generation-media-inputs .generation-media-note { color: #aaa395; font-size: 11px; margin-top: 12px; }
+.generation-media-identity code { display: block; margin-top: 8px; overflow-wrap: anywhere; font-size: 10px; }
+@media (max-width: 600px) {
+  .generation-media-inputs > header { flex-direction: column; gap: 7px; }
+  .generation-media-filters { grid-template-columns: 1fr; }
+  .generation-media-preview video { max-height: 200px; }
+}

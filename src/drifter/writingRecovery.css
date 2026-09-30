@@ -1,0 +1,14 @@
+.writer-recovery-status { display: block; min-height: 1.3em; margin: .25rem 0 .5rem; color: var(--text-muted, #a5a5a5); font-size: .75rem; }
+.writer-recovery-warning { font-size: .8rem; color: #e7b77c; }
+.writing-recovery { border-top: 1px solid var(--border, #343434); margin-top: .8rem; padding-top: .8rem; }
+.writing-recovery-heading, .writing-recovery-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; }
+.writing-recovery-heading { justify-content: space-between; }
+.writing-recovery p, .writing-recovery small { font-size: .75rem; color: var(--text-muted, #aaa); line-height: 1.5; }
+.writing-recovery ul { list-style: none; padding: 0; margin: .5rem 0; max-height: 20rem; overflow: auto; }
+.writing-recovery li { padding: .6rem 0; border-top: 1px solid var(--border, #343434); }
+.writing-recovery li strong { display: block; overflow-wrap: anywhere; }
+.writing-recovery li small { display: block; margin-bottom: .5rem; }
+.creative-writer-history { margin: .5rem 0; }
+.creative-writer-history > summary { cursor: pointer; font-size: .85rem; }
+.creative-writer-tools > input[type="file"][hidden] { display: none; }
+.writer-menu-content:has(.writing-recovery) { max-height: min(75vh, 48rem); overflow-y: auto; }

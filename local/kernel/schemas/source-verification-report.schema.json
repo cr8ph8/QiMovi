@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "filmstack-source-verification-report/v1",
+  "title": "FilmStack Source Verification Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "verification_report_id",
+    "verification_report_hash",
+    "observation_id",
+    "observation_hash",
+    "blob_sha256",
+    "byte_length",
+    "verifier_id",
+    "verifier_version",
+    "verification_profile",
+    "expected_blob_sha256",
+    "expected_hash_status",
+    "checks",
+    "technical_result",
+    "reason_codes",
+    "verified_at_ms",
+    "authority_state",
+    "admission_decision"
+  ],
+  "properties": {
+    "schema_version": { "const": "filmstack-source-verification-report/v1" },
+    "verification_report_id": { "$ref": "#/$defs/id" },
+    "verification_report_hash": { "$ref": "#/$defs/sha256" },
+    "observation_id": { "$ref": "#/$defs/id" },
+    "observation_hash": { "$ref": "#/$defs/sha256" },
+    "blob_sha256": { "$ref": "#/$defs/sha256" },
+    "byte_length": { "type": "integer", "minimum": 1, "maximum": 268435456 },
+    "verifier_id": { "const": "hampton.raw-byte-verifier" },
+    "verifier_version": { "const": "1.0.0" },
+    "verification_profile": { "const": "RAW_BYTES_SHA256_V1" },
+    "expected_blob_sha256": {
+      "anyOf": [
+        { "$ref": "#/$defs/sha256" },
+        { "type": "null" }
+      ]
+    },
+    "expected_hash_status": { "enum": ["NOT_PROVIDED", "MATCH", "MISMATCH"] },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_blob_hash_match",
+        "observation_byte_length_match",
+        "expected_blob_hash_match"
+      ],
+      "properties": {
+        "observation_blob_hash_match": { "type": "boolean" },
+        "observation_byte_length_match": { "type": "boolean" },
+        "expected_blob_hash_match": {
+          "anyOf": [
+            { "type": "boolean" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "technical_result": { "enum": ["PASS", "FAIL"] },
+    "reason_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "EXPECTED_BLOB_HASH_MISMATCH",
+          "OBSERVATION_BLOB_HASH_MISMATCH",
+          "OBSERVATION_BYTE_LENGTH_MISMATCH"
+        ]
+      }
+    },
+    "verified_at_ms": { "$ref": "#/$defs/time" },
+    "authority_state": { "const": "TECHNICAL_VERIFICATION_ONLY" },
+    "admission_decision": { "const": "NOT_PERFORMED" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "time": { "type": "integer", "minimum": 0 }
+  }
+}

@@ -1,0 +1,83 @@
+.production-readiness { margin: 4px 0 20px; padding-top: 18px; border-top: 1px solid #4e4638; color: #e5ddcb; }
+.production-readiness .production-readiness-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.production-readiness h3 { display: flex; align-items: center; gap: 9px; margin: 0; font-size: 16px; font-weight: 600; color: #eee4cf; }
+.production-readiness .production-readiness-heading p { margin: 7px 0 0; max-width: 620px; color: #bfb5a3; font-size: 13px; line-height: 1.6; }
+.production-readiness label { display: flex; flex-direction: column; gap: 7px; color: #d2c7b2; font-size: 12px; line-height: 1.5; }
+.production-readiness .production-department-filter { flex: 0 1 230px; min-width: 190px; }
+.production-readiness input, .production-readiness textarea, .production-readiness select { width: 100%; min-width: 0; border: 1px solid #675c48; border-radius: 4px; padding: 9px 10px; background: #1c1c18; color: #eee5d4; font-family: inherit; font-size: 13px; line-height: 1.5; }
+.production-readiness textarea { resize: vertical; }
+.production-readiness input::placeholder, .production-readiness textarea::placeholder { color: #afa18a; opacity: 1; }
+.production-readiness input:focus-visible, .production-readiness textarea:focus-visible, .production-readiness select:focus-visible, .production-readiness summary:focus-visible, .production-readiness button:focus-visible { outline: 2px solid #edc383; outline-offset: 3px; }
+.production-readiness input:disabled, .production-readiness textarea:disabled, .production-readiness select:disabled { opacity: .65; cursor: not-allowed; }
+.production-readiness .production-readiness-counts { display: flex; flex-wrap: wrap; gap: 8px 21px; padding: 13px 0; margin: 12px 0 0; list-style: none; color: #bfb5a3; font-size: 12px; line-height: 1.5; }
+.production-readiness-counts strong { font-variant-numeric: tabular-nums; font-weight: 600; color: #ead2a7; margin-right: 3px; }
+.production-readiness .production-readiness-counts .has-blockers, .production-readiness .production-readiness-counts .has-blockers strong { color: #f3b2a3; }
+.production-readiness .production-attention { margin-top: 16px; border: 1px solid #705849; border-radius: 5px; background: #29231e; }
+.production-readiness .production-attention > summary { padding: 11px 13px; cursor: pointer; color: #f0d6b6; font-size: 13px; line-height: 1.6; }
+.production-readiness .production-attention > summary > span { margin-left: 12px; color: #edbdaa; font-size: 12px; white-space: nowrap; }
+.production-readiness .production-attention ul { list-style: none; margin: 0; padding: 0 12px; }
+.production-readiness .production-attention li + li { border-top: 1px solid #4d4135; }
+.production-readiness .production-attention button { display: flex; justify-content: space-between; align-items: center; gap: 14px; width: 100%; padding: 10px 2px; border: 0; background: transparent; color: #e8dcca; text-align: left; font: inherit; cursor: pointer; }
+.production-readiness .production-attention button:hover { background: #332b22; }
+.production-readiness .production-attention button:disabled { opacity: .65; cursor: default; }
+.production-readiness .production-attention-item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.production-readiness .production-attention-item strong { font-size: 13px; line-height: 1.5; font-weight: 500; overflow-wrap: anywhere; }
+.production-readiness .production-attention-item > span { color: #c3b49d; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.production-readiness .production-attention-reason { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; font-size: 12px; color: #f0bdab; }
+.production-readiness .production-attention > p { margin: 4px 13px 12px; color: #baa88e; font-size: 12px; line-height: 1.6; }
+.production-readiness .production-requirements { border-top: 1px solid #4d4537; }
+.production-readiness .production-requirement { border-bottom: 1px solid #4d4537; }
+.production-readiness .production-requirement > summary { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 14px 7px 14px 0; cursor: pointer; list-style: none; font-size: 13px; color: #e6dbc6; }
+.production-readiness .production-requirement > summary::-webkit-details-marker { display: none; }
+.production-readiness .production-requirement > summary::before { content: '›'; align-self: flex-start; margin-top: -2px; font-size: 23px; line-height: 1; color: #ccb17f; }
+.production-readiness .production-requirement[open] > summary::before { transform: rotate(90deg); }
+.production-readiness .production-requirement > summary:hover { background: #2c2922; }
+.production-readiness .production-requirement-title { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 5px; }
+.production-readiness .production-requirement-title strong { font-size: 14px; line-height: 1.5; font-weight: 500; overflow-wrap: anywhere; }
+.production-readiness .production-requirement-title > span { font-size: 12px; line-height: 1.5; color: #b5a991; overflow-wrap: anywhere; }
+.production-readiness .production-status { flex-shrink: 0; border-radius: 4px; border: 1px solid #605847; padding: 4px 8px; color: #cfc3ad; background: #282720; font-size: 12px; line-height: 1.5; white-space: nowrap; }
+.production-readiness .production-status-in_progress { border-color: #637e87; color: #c3e0e9; background: #24333a; }
+.production-readiness .production-status-blocked { border-color: #99665b; color: #f4c1b5; background: #3c2824; }
+.production-readiness .production-status-ready_for_review { border-color: #97815a; color: #f2d198; background: #3a3120; }
+.production-readiness .production-status-not_applicable { color: #bfbeb7; background: #292a27; }
+.production-readiness .production-requirement-body { padding: 0 8px 20px 30px; }
+.production-readiness .production-handoff { display: grid; grid-template-columns: minmax(120px,.7fr) minmax(0,1.3fr) minmax(0,1fr); gap: 18px; margin: 0 0 18px; padding: 14px 16px; border-left: 2px solid #b99961; background: #1e201c; }
+.production-readiness .production-handoff dt { margin: 0 0 6px; color: #cdb586; font-size: 12px; font-weight: 500; }
+.production-readiness .production-handoff dd { margin: 0; color: #d2ccbd; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.production-readiness .production-review-fields { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(130px,.8fr) minmax(160px,1fr); gap: 14px; }
+.production-readiness .production-field-help { margin: 9px 0 16px; color: #b4aa97; font-size: 12px; line-height: 1.6; }
+.production-readiness .production-evidence-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.production-readiness .production-open-workspace { display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; padding: 8px 12px; border: 1px solid #907444; border-radius: 4px; background: #352e21; color: #f0cc91; font-size: 13px; cursor: pointer; }
+.production-readiness .production-open-workspace:hover { background: #443821; }
+.production-readiness .production-readiness-boundary { margin: 14px 0 0; color: #bfb39c; font-size: 12px; line-height: 1.65; }
+.production-readiness .production-readiness-empty { padding: 16px 0; color: #c6baa4; font-size: 13px; line-height: 1.6; }
+.production-readiness .production-coproduction { margin-top: 20px; border: 1px solid #5d503b; border-radius: 5px; }
+.production-readiness .production-coproduction > summary { padding: 13px 15px; cursor: pointer; color: #ead4ae; font-size: 14px; line-height: 1.6; }
+.production-readiness .production-coproduction > summary > span { margin-left: 12px; font-size: 12px; color: #bcb09a; }
+.production-readiness .production-coproduction-body { padding: 0 16px 18px; }
+.production-readiness .production-coproduction-body > p:first-child { margin: 0 0 18px; font-size: 13px; line-height: 1.65; color: #c7bdab; }
+.production-readiness .production-coproduction-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.production-readiness .production-coproduction-guidance { margin-top: 18px; padding-top: 15px; border-top: 1px solid #554a39; }
+.production-readiness .production-coproduction-guidance h4 { margin: 0; color: #e1c698; font-size: 13px; font-weight: 600; line-height: 1.6; }
+.production-readiness .production-coproduction-guidance h4 > span { margin-left: 10px; font-size: 12px; color: #bcb09a; font-weight: 400; }
+.production-readiness .production-coproduction-guidance p { font-size: 12px; color: #c9beaa; line-height: 1.65; margin: 9px 0; }
+.production-readiness .production-coproduction-guidance nav { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 14px; }
+.production-readiness .production-coproduction-guidance a { display: inline-flex; align-items: center; gap: 4px; color: #efd097; font-size: 12px; line-height: 1.6; text-decoration: underline; text-underline-offset: 3px; }
+.production-readiness .production-coproduction-guidance a:focus-visible { outline: 2px solid #edc383; outline-offset: 3px; }
+@media (max-width: 850px) {
+  .production-readiness .production-handoff { grid-template-columns: 1fr; gap: 12px; }
+  .production-readiness .production-review-fields { grid-template-columns: 1fr 1fr; }
+  .production-readiness .production-review-fields > label:first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 620px) {
+  .production-readiness .production-attention > summary > span { display: block; margin-left: 17px; }
+  .production-readiness .production-attention button { flex-wrap: wrap; gap: 6px; }
+  .production-readiness .production-readiness-heading { flex-direction: column; gap: 14px; }
+  .production-readiness .production-department-filter { flex-basis: auto; width: 100%; }
+  .production-readiness .production-requirement > summary { gap: 10px; flex-wrap: wrap; }
+  .production-readiness .production-requirement-title { flex-basis: calc(100% - 28px); }
+  .production-readiness .production-status { margin-left: 24px; }
+  .production-readiness .production-requirement-body { padding-left: 0; padding-right: 0; }
+  .production-readiness .production-evidence-fields, .production-readiness .production-coproduction-fields { grid-template-columns: 1fr; }
+  .production-readiness .production-coproduction > summary > span { display: block; margin-left: 0; }
+}

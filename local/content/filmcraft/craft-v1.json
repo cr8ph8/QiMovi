@@ -1,0 +1,982 @@
+{
+  "schema": "qimovi-filmcraft-catalog/v1",
+  "createdAt": "2026-09-25",
+  "scope": "Hampton's Slate shared filmmaking references",
+  "runtimeImported": true,
+  "projectCanon": false,
+  "sources": [
+    {
+      "id": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+      "title": "Copy of PSA REF",
+      "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit",
+      "slideCount": 42,
+      "snapshot": "deck-1/raw-template.json",
+      "sha256": "e9336318a6ffbd54044ee65eca614a61ebdfc85b1f984f7434c88131c5104267",
+      "textIndex": "deck-1/slides.json",
+      "classification": "external-craft-reference"
+    },
+    {
+      "id": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+      "title": "Copy of Cinematic Compositions",
+      "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit",
+      "slideCount": 43,
+      "snapshot": "deck-2/raw-template.json",
+      "sha256": "1f0bf61159abd1a3d44802a9496c67cd6ce5edb9b1ce07ed37758e3f19541ca0",
+      "textIndex": "deck-2/slides.json",
+      "classification": "external-craft-reference"
+    },
+    {
+      "id": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+      "title": "Copy of cinematic language",
+      "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit",
+      "slideCount": 66,
+      "snapshot": "deck-3/raw-template.json",
+      "sha256": "bed13473c2d982e0c2e23d76f10338f3ea691aaacc384e94ae3750be628d435a",
+      "textIndex": "deck-3/slides.json",
+      "classification": "external-craft-reference"
+    }
+  ],
+  "cards": [
+    {
+      "id": "craft:visual-intention",
+      "title": "Start with what this moment must communicate",
+      "primaryPhase": "development",
+      "guidance": "Record the information or feeling the audience needs before choosing the camera treatment.",
+      "reviewQuestion": "What changes for the viewer in this shot?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 2,
+          "slideId": "g84ef5eaa07_0_18",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_18"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:metaphor-pair",
+      "title": "Build a visual metaphor",
+      "primaryPhase": "development",
+      "guidance": "Describe two objects and the shared quality that makes their combination meaningful.",
+      "reviewQuestion": "Which shared quality connects the objects to the intended meaning?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 2,
+          "slideId": "gbfb75da1f2_22_63",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gbfb75da1f2_22_63"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 23,
+          "slideId": "g122e02d06ff_0_0",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.g122e02d06ff_0_0"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:context-clues",
+      "title": "Make meaning readable through context",
+      "primaryPhase": "development",
+      "guidance": "Use the environment and visual hierarchy to clarify an image's intended meaning.",
+      "reviewQuestion": "What would a viewer miss without the surrounding context?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 5,
+          "slideId": "gb9f1e10279_0_14",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gb9f1e10279_0_14"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 22,
+          "slideId": "gbeb2c50286_0_41",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gbeb2c50286_0_41"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:substitute-parts",
+      "title": "Substitute part of an object",
+      "primaryPhase": "development",
+      "guidance": "Try an original combination where an identifiable component belongs to a second object.",
+      "reviewQuestion": "Can the viewer recognize both objects?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 6,
+          "slideId": "gb9f1e10279_0_63",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gb9f1e10279_0_63"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 7,
+          "slideId": "gbebab6f0f0_0_71",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gbebab6f0f0_0_71"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:morph-parts",
+      "title": "Blend the junction between objects",
+      "primaryPhase": "development",
+      "guidance": "Explore a continuous transition between two recognizable forms.",
+      "reviewQuestion": "Does the blend preserve the intended connection?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 8,
+          "slideId": "gb9f1e10279_0_47",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gb9f1e10279_0_47"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 9,
+          "slideId": "gbebab6f0f0_0_64",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gbebab6f0f0_0_64"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:figure-ground-metaphor",
+      "title": "Share a contour between meanings",
+      "primaryPhase": "development",
+      "guidance": "Use the relationship between a positive shape and its surrounding space to suggest a second reading.",
+      "reviewQuestion": "Does each reading remain legible?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 15,
+          "slideId": "gb9f1e10279_0_95",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gb9f1e10279_0_95"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 16,
+          "slideId": "gbebab6f0f0_0_85",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gbebab6f0f0_0_85"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:styleframe-plan",
+      "title": "Move from intention to a style frame",
+      "primaryPhase": "pre-production",
+      "guidance": "Pair a rough frame and visual treatment with a written intention before investing in a finished shot.",
+      "reviewQuestion": "Does the rough frame communicate the idea before polish?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 20,
+          "slideId": "g79d10e32bb_1_0",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.g79d10e32bb_1_0"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 29,
+          "slideId": "gca232e1f1c_0_2",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gca232e1f1c_0_2"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 33,
+          "slideId": "gafd9910461_0_82",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gafd9910461_0_82"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:question-reveal",
+      "title": "Separate visual question, reveal and call to action",
+      "primaryPhase": "marketing",
+      "guidance": "Plan when the audience understands the image and what response the finished piece invites.",
+      "reviewQuestion": "Does the story make sense before the call to action?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 31,
+          "slideId": "gbfb75da1f2_56_1",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gbfb75da1f2_56_1"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 32,
+          "slideId": "gafd9910461_0_110",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gafd9910461_0_110"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 38,
+          "slideId": "gbfc3dbef7c_0_37",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gbfc3dbef7c_0_37"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:ad-format",
+      "title": "Choose a communication format",
+      "primaryPhase": "marketing",
+      "guidance": "Use the deck's advertising categories as optional ways to clarify a campaign brief.",
+      "reviewQuestion": "Which format serves this audience and message?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 39,
+          "slideId": "gae3c2aadbd_0_26",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gae3c2aadbd_0_26"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 40,
+          "slideId": "gae3c2aadbd_0_36",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gae3c2aadbd_0_36"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 41,
+          "slideId": "gafd9910461_0_42",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gafd9910461_0_42"
+        },
+        {
+          "presentationId": "15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA",
+          "slideNumber": 42,
+          "slideId": "gafd9910461_0_49",
+          "url": "https://docs.google.com/presentation/d/15TMuFQ7-fLxEWBfgWlrJ5wW3YxiOq8wU9VnVKYKYfPA/edit#slide=id.gafd9910461_0_49"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:figure-ground",
+      "title": "Control silhouette and readability",
+      "primaryPhase": "pre-production",
+      "guidance": "Choose which forms are immediately visible and which remain ambiguous through contrast or shadow.",
+      "reviewQuestion": "Which information should be revealed or withheld?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 6,
+          "slideId": "g8007d0ce21_0_465",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_465"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 7,
+          "slideId": "g8007d0ce21_0_31",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_31"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 8,
+          "slideId": "g8007d0ce21_0_287",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_287"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:depth-hierarchy",
+      "title": "Arrange visual priority through space",
+      "primaryPhase": "pre-production",
+      "guidance": "Place subjects at deliberate depths and divide the frame to guide attention.",
+      "reviewQuestion": "Who or what receives attention first?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 9,
+          "slideId": "g8007d0ce21_0_300",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_300"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 10,
+          "slideId": "g8007d0ce21_0_399",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_399"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:frame-within-frame",
+      "title": "Use the environment as a frame",
+      "primaryPhase": "pre-production",
+      "guidance": "Explore enclosing a subject or leaving a visible exit within the composition.",
+      "reviewQuestion": "Does the framing suggest confinement, protection or an opening?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 11,
+          "slideId": "g8007d0ce21_0_619",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_619"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 12,
+          "slideId": "g8007d0ce21_0_630",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_630"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:scale-and-space",
+      "title": "Choose the subject's relationship to scale",
+      "primaryPhase": "pre-production",
+      "guidance": "Compare a small subject in open space with a foreground subject that dominates the image.",
+      "reviewQuestion": "Should the environment or the character carry this moment?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 14,
+          "slideId": "g8007d0ce21_0_366",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_366"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 17,
+          "slideId": "g8007d0ce21_0_487",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_487"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 19,
+          "slideId": "g8007d0ce21_0_377",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_377"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 20,
+          "slideId": "g8007d0ce21_0_388",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_388"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:environment-insert",
+      "title": "Plan a meaningful environmental insert",
+      "primaryPhase": "pre-production",
+      "guidance": "Use a detail outside the main action to establish mood or reinforce a story idea.",
+      "reviewQuestion": "Why is this insert needed at this exact point?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 22,
+          "slideId": "g8007d0ce21_0_586",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_586"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:implied-direction",
+      "title": "Guide the eye",
+      "primaryPhase": "pre-production",
+      "guidance": "Coordinate gaze, open space and directional shapes to lead attention through a frame.",
+      "reviewQuestion": "Where should the viewer look next?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 24,
+          "slideId": "g8007d0ce21_0_443",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_443"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 25,
+          "slideId": "gc9348a120c_1_50",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.gc9348a120c_1_50"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:motion-parallax",
+      "title": "Plan foreground and background movement",
+      "primaryPhase": "pre-production",
+      "guidance": "Identify depth layers and how their relative screen motion will reveal space.",
+      "reviewQuestion": "Which layers need to remain distinguishable during the move?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 27,
+          "slideId": "g8007d0ce21_0_333",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_333"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 28,
+          "slideId": "gc9348a120c_1_94",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.gc9348a120c_1_94"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:angle-intention",
+      "title": "Relate viewpoint to dramatic intent",
+      "primaryPhase": "pre-production",
+      "guidance": "Compare elevated, low and tilted views against the intended power balance or instability.",
+      "reviewQuestion": "Does this viewpoint support the scene rather than decorate it?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 29,
+          "slideId": "g8007d0ce21_0_421",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_421"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 30,
+          "slideId": "g8007d0ce21_0_432",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_432"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 31,
+          "slideId": "g8007d0ce21_0_410",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_410"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 32,
+          "slideId": "g8007d0ce21_0_476",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_476"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:pattern-variation",
+      "title": "Use repetition and interruption",
+      "primaryPhase": "pre-production",
+      "guidance": "Plan whether order, moving patterns or an irregular element should guide the viewer.",
+      "reviewQuestion": "What should the viewer notice as the pattern changes?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 33,
+          "slideId": "g8007d0ce21_0_531",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_531"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 34,
+          "slideId": "g8007d0ce21_0_542",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_542"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 35,
+          "slideId": "g8007d0ce21_0_553",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_553"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 36,
+          "slideId": "g8007d0ce21_0_564",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_564"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 37,
+          "slideId": "g8007d0ce21_0_575",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_575"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 38,
+          "slideId": "g1e98bfeaedb_3_126",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g1e98bfeaedb_3_126"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:subject-obstruction",
+      "title": "Choose clarity or obstruction deliberately",
+      "primaryPhase": "pre-production",
+      "guidance": "Use softness, distortion, reflection or foreground obstruction as an authored treatment.",
+      "reviewQuestion": "What information can remain ambiguous without losing the story?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 39,
+          "slideId": "g8007d0ce21_0_322",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_322"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 40,
+          "slideId": "g8007d0ce21_0_597",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_597"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 41,
+          "slideId": "g8007d0ce21_0_608",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_608"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 42,
+          "slideId": "g8007d0ce21_0_509",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_509"
+        },
+        {
+          "presentationId": "1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY",
+          "slideNumber": 43,
+          "slideId": "g8007d0ce21_0_520",
+          "url": "https://docs.google.com/presentation/d/1siPSdIH4cqbpqCuO6KaZiraMZAUnQcJ4OPkc_bxa_UY/edit#slide=id.g8007d0ce21_0_520"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:shot-size",
+      "title": "Choose shot size separately from lens",
+      "primaryPhase": "pre-production",
+      "guidance": "Specify the subject's framing before translating that framing into a physical camera setup.",
+      "reviewQuestion": "How much character detail and environmental context are necessary?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 4,
+          "slideId": "g84ef5eaa07_0_47",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_47"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 5,
+          "slideId": "g84ef5eaa07_0_24",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_24"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 6,
+          "slideId": "g84ef5eaa07_0_118",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_118"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 7,
+          "slideId": "g84ef5eaa07_0_132",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_132"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 8,
+          "slideId": "g84ef5eaa07_0_104",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_104"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 9,
+          "slideId": "g84ef5eaa07_0_146",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_146"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 10,
+          "slideId": "g84ef5eaa07_0_160",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_160"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 11,
+          "slideId": "g84ef5eaa07_0_174",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_174"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 13,
+          "slideId": "g143b0c3e1e5_0_37",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g143b0c3e1e5_0_37"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 15,
+          "slideId": "g84ef5eaa07_0_202",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_202"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 16,
+          "slideId": "g84ef5eaa07_0_216",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_216"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:coverage",
+      "title": "Plan coverage by purpose",
+      "primaryPhase": "pre-production",
+      "guidance": "Mark a shot as single, two-person, insert, reaction or environmental coverage when useful.",
+      "reviewQuestion": "Which story information is uncovered if this shot is missing?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 18,
+          "slideId": "g84ef5eaa07_0_238",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_238"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 19,
+          "slideId": "g84ef5eaa07_0_252",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_252"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 20,
+          "slideId": "g84ef5eaa07_0_266",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_266"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 21,
+          "slideId": "g84ef5eaa07_0_280",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_280"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 22,
+          "slideId": "g84ef5eaa07_0_294",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_294"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 23,
+          "slideId": "g84ef5eaa07_0_308",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_308"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:axis-and-viewpoint",
+      "title": "Preserve viewpoint and screen direction",
+      "primaryPhase": "pre-production",
+      "guidance": "Record the conversational axis, viewpoint character and intended eyelines across related shots.",
+      "reviewQuestion": "Will the next shot preserve the intended spatial relationship?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 34,
+          "slideId": "g84ef5eaa07_0_491",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_491"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 35,
+          "slideId": "g84ef5eaa07_0_463",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_463"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 36,
+          "slideId": "g84ef5eaa07_0_477",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_477"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:static-follow",
+      "title": "Distinguish a stationary camera from following a subject",
+      "primaryPhase": "pre-production",
+      "guidance": "Describe the subject's motion and the camera's response independently; choose the execution method separately.",
+      "reviewQuestion": "What must stay stable and what should move?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 38,
+          "slideId": "g84ef5eaa07_0_513",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_513"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 39,
+          "slideId": "g84ef5eaa07_0_527",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_527"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 40,
+          "slideId": "g84ef5eaa07_0_541",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_541"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:focus-shift",
+      "title": "Plan a focus handoff",
+      "primaryPhase": "pre-production",
+      "guidance": "Name the starting and ending focus targets and the story event that motivates the change.",
+      "reviewQuestion": "When should attention move between subjects?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 41,
+          "slideId": "g9300859a39_0_0",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g9300859a39_0_0"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:dolly-vs-zoom",
+      "title": "Distinguish camera travel from focal-length change",
+      "primaryPhase": "pre-production",
+      "guidance": "Label dolly, zoom or their combination explicitly in the shot plan.",
+      "reviewQuestion": "Should the camera position change, the lens change, or both?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 42,
+          "slideId": "g84ef5eaa07_0_555",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_555"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 43,
+          "slideId": "g84ef5eaa07_0_569",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_569"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 44,
+          "slideId": "g84ef5eaa07_0_583",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_583"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 45,
+          "slideId": "g84ef5eaa07_0_597",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_597"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:rotation-vs-translation",
+      "title": "Specify how the camera moves",
+      "primaryPhase": "pre-production",
+      "guidance": "Choose between rotation, sideways or vertical travel, an arc, and attachment to a moving subject.",
+      "reviewQuestion": "Which physical motion actually produces the planned image?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 46,
+          "slideId": "g84ef5eaa07_0_611",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_611"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 47,
+          "slideId": "g84ef5eaa07_0_625",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_625"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 48,
+          "slideId": "g84ef5eaa07_0_639",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_639"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 49,
+          "slideId": "g84ef5eaa07_0_653",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_653"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 50,
+          "slideId": "g84ef5eaa07_0_667",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_667"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 51,
+          "slideId": "g84ef5eaa07_0_681",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_681"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 52,
+          "slideId": "g96d8b0859c_2_0",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g96d8b0859c_2_0"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:continuity-cut",
+      "title": "Connect coverage across a cut",
+      "primaryPhase": "post-production",
+      "guidance": "Record the action, eyeline or spatial relationship that must continue into the next shot.",
+      "reviewQuestion": "Which detail must match on both sides of the edit?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 54,
+          "slideId": "g84ef5eaa07_0_695",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_695"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 55,
+          "slideId": "g84ef5eaa07_0_717",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_717"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 56,
+          "slideId": "g84ef5eaa07_0_731",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_731"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 57,
+          "slideId": "g84ef5eaa07_0_745",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_745"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 59,
+          "slideId": "g84ef5eaa07_0_773",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_773"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:graphic-match",
+      "title": "Connect two images by composition",
+      "primaryPhase": "post-production",
+      "guidance": "Identify the shape, placement or visual relationship intended to bridge adjacent frames.",
+      "reviewQuestion": "Which elements must align at the cut?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 60,
+          "slideId": "g84ef5eaa07_0_787",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_787"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:transition-purpose",
+      "title": "Choose why a transition changes the scene",
+      "primaryPhase": "post-production",
+      "guidance": "Distinguish elapsed time, disruption, contrast and a concealed edit before choosing an effect.",
+      "reviewQuestion": "What should the transition tell the viewer?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 58,
+          "slideId": "g84ef5eaa07_0_759",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_759"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 61,
+          "slideId": "g84ef5eaa07_0_801",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_801"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 62,
+          "slideId": "g84ef5eaa07_0_815",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_815"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 63,
+          "slideId": "g915a5dfde1_0_107",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g915a5dfde1_0_107"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 64,
+          "slideId": "g84ef5eaa07_0_829",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_829"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    },
+    {
+      "id": "craft:audio-bridge",
+      "title": "Plan an audio bridge",
+      "primaryPhase": "post-production",
+      "guidance": "Specify whether the outgoing sound continues after a visual cut or incoming sound begins before it.",
+      "reviewQuestion": "Which sound crosses the cut, and by how much?",
+      "status": "CURATED_REFERENCE",
+      "sources": [
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 65,
+          "slideId": "g84ef5eaa07_0_843",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_843"
+        },
+        {
+          "presentationId": "15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c",
+          "slideNumber": 66,
+          "slideId": "g84ef5eaa07_0_857",
+          "url": "https://docs.google.com/presentation/d/15Y4ko1P2giUNbsHjHqm8Bz6ZBoVEniJIgyhDATgOF7c/edit#slide=id.g84ef5eaa07_0_857"
+        }
+      ],
+      "knowledgeType": "craft-convention"
+    }
+  ],
+  "reviewLimits": [
+    "Native slide text and structure reviewed; complete visual rendering was unavailable.",
+    "35 embedded video objects indexed; linked videos were not watched.",
+    "Course restrictions and suggested emotional effects are not universal app rules.",
+    "No example artwork was selected as a project asset or generation reference."
+  ],
+  "catalogVersion": "craft-2026-09-25-v1",
+  "authority": "REFERENCE_ONLY",
+  "knowledgeType": "craft-convention",
+  "upstreamIndexSha256": "0ffe99a9933e6a07852c25a5e058390d2cb187d73033dd7b1376f7a5d65f0d87",
+  "usage": "Attributed creative guidance. Not project canon, validated physics, executable camera presets, or permission to reproduce source examples."
+}

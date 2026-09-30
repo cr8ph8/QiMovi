@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "filmstack-source-observation/v1",
+  "title": "FilmStack Source Observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_id",
+    "observation_hash",
+    "blob_sha256",
+    "byte_length",
+    "intake_case_id",
+    "source_kind_claim",
+    "claimed_custodian_id",
+    "original_filename",
+    "declared_format",
+    "observed_at_ms",
+    "quarantine_state",
+    "authority_state",
+    "admission_state"
+  ],
+  "properties": {
+    "schema_version": { "const": "filmstack-source-observation/v1" },
+    "observation_id": { "$ref": "#/$defs/id" },
+    "observation_hash": { "$ref": "#/$defs/sha256" },
+    "blob_sha256": { "$ref": "#/$defs/sha256" },
+    "byte_length": { "type": "integer", "minimum": 1, "maximum": 268435456 },
+    "intake_case_id": { "$ref": "#/$defs/id" },
+    "source_kind_claim": { "enum": ["INTENTIONAL_EXPORT", "CACHE_LEAD", "SYNTHETIC_FIXTURE", "OTHER"] },
+    "claimed_custodian_id": { "$ref": "#/$defs/id" },
+    "original_filename": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[^/\\\\\\u0000-\\u001f\\u007f]+$"
+    },
+    "declared_format": { "enum": ["FDX", "FOUNTAIN", "PDF", "DOCX", "TXT", "RTF", "OTHER"] },
+    "observed_at_ms": { "$ref": "#/$defs/time" },
+    "quarantine_state": { "const": "QUARANTINED" },
+    "authority_state": { "const": "NO_CANONICAL_AUTHORITY" },
+    "admission_state": { "const": "NOT_ADMITTED" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "time": { "type": "integer", "minimum": 0 }
+  }
+}

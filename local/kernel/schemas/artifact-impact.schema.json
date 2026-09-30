@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.2/artifact-impact.schema.json",
+  "title": "FilmStack Artifact Impact Report v1",
+  "description": "A read-only, graph-bound dependency impact preview. It cannot clear an invalidation or authorize production.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "registry_hash",
+    "graph_hash",
+    "rules_version",
+    "base_state_hash",
+    "triggers",
+    "impacts",
+    "impact_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "filmstack-artifact-impact/v1"},
+    "registry_hash": {"$ref": "#/$defs/sha256"},
+    "graph_hash": {"$ref": "#/$defs/sha256"},
+    "rules_version": {"$ref": "#/$defs/identifier"},
+    "base_state_hash": {"$ref": "#/$defs/sha256"},
+    "triggers": {
+      "description": "Canonical implementations additionally require node_id ordering.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_id", "change"],
+        "properties": {
+          "node_id": {"type": "string", "pattern": "^(?:(?:fact|evidence-class):[a-z][a-z0-9._:-]{0,127}|artifact:[A-Z][A-Z0-9_]{0,127})$"},
+          "change": {"enum": ["CHANGED", "LOST"]}
+        }
+      }
+    },
+    "impacts": {
+      "description": "Canonical implementations additionally require artifact_key ordering.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_key", "status", "root_causes", "rule_ids"],
+        "properties": {
+          "artifact_key": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,127}$"},
+          "status": {"enum": ["NEEDS_REVIEW", "STALE", "INVALID"]},
+          "root_causes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^(fact|evidence-class|artifact):[A-Za-z][A-Za-z0-9._:-]{0,127}$"}
+          },
+          "rule_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/identifier"}
+          }
+        }
+      }
+    },
+    "impact_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

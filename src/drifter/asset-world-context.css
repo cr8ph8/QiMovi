@@ -1,0 +1,23 @@
+.asset-world-context{margin-top:22px;border-top:1px solid var(--canis-line,#363a40);padding-top:18px;text-align:left}
+.asset-world-context header{display:flex;align-items:center;gap:8px;color:#e1be83}
+.asset-world-context header h4{margin:0;flex:1;font-size:13px}
+.asset-world-context header>span,.asset-world-context small{font-size:11px;color:#a8aeb8;display:block}
+.asset-world-context>p,.asset-world-context article p{font-size:12px;line-height:1.65;color:#b7bec8}
+.asset-world-context article{padding:16px 0;border-bottom:1px solid #ffffff12}
+.asset-world-title{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.asset-world-title>span{color:#a6adb8}
+.asset-world-title button{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1;border:0;background:none;padding:0;color:#f1ede6;text-align:left;font-size:14px;font-weight:600;cursor:pointer}
+.asset-world-title button:hover{color:#e1be83}
+.asset-world-title button:disabled{cursor:default}
+.asset-world-summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin:8px 0}
+.asset-world-context details{margin-top:10px;font-size:12px;color:#c8cdd4}
+.asset-world-context summary{cursor:pointer;padding:3px 0}
+.asset-world-context details p{white-space:pre-wrap;overflow-wrap:anywhere}
+.asset-world-pages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.asset-world-pages button,.asset-world-expand{background:none;border:1px solid #ffffff20;border-radius:5px;color:#d8c4a1;padding:6px 8px;font-size:11px;cursor:pointer}
+.asset-world-relation{display:block;width:100%;background:none;border:0;color:#dce0e5;text-align:left;padding:8px 0;font-size:12px;cursor:pointer}
+.asset-world-expand{margin-top:14px;width:100%}
+.asset-world-context button:focus-visible,.asset-world-context summary:focus-visible{outline:2px solid #e1be83;outline-offset:3px}
+.asset-world-context article section{margin-top:12px}
+.asset-world-context h5{margin:0 0 6px;font-size:11px;color:#c8cdd4;font-weight:600}
+.asset-world-notes p{white-space:pre-wrap;overflow-wrap:anywhere}

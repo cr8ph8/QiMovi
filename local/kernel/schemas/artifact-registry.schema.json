@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.2/artifact-registry.schema.json",
+  "title": "Hampton Artifact Registry v1",
+  "description": "A deterministic, source-bound registry compiled from the 30-artifact baseline and policy-overlay manifest. The semantic registry hash covers every root field except registry_hash.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "library",
+    "sources",
+    "counts",
+    "records",
+    "registry_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "filmstack-artifact-registry/v1"
+    },
+    "library": {
+      "$ref": "#/$defs/library"
+    },
+    "sources": {
+      "$ref": "#/$defs/sources"
+    },
+    "counts": {
+      "$ref": "#/$defs/counts"
+    },
+    "records": {
+      "type": "array",
+      "minItems": 53,
+      "maxItems": 53,
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    },
+    "registry_hash": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "nonempty_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8192,
+      "pattern": "^(?!\\s)(?:[^\\u0000-\\u001F\\u007F]*[^\\s\\u0000-\\u001F\\u007F])$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "library": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "library_name",
+        "library_version",
+        "created_on",
+        "updated_on",
+        "authority_model",
+        "status",
+        "source_prd",
+        "limitations"
+      ],
+      "properties": {
+        "library_name": { "$ref": "#/$defs/nonempty_text" },
+        "library_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "created_on": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "updated_on": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "authority_model": { "$ref": "#/$defs/nonempty_text" },
+        "status": { "$ref": "#/$defs/nonempty_text" },
+        "source_prd": { "$ref": "#/$defs/nonempty_text" },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonempty_text" }
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_file",
+        "manifest_sha256",
+        "library_version_file",
+        "library_version_sha256"
+      ],
+      "properties": {
+        "manifest_file": { "const": "TEMPLATE_LIBRARY_MANIFEST.csv" },
+        "manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "library_version_file": { "const": "LIBRARY_VERSION.json" },
+        "library_version_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "records",
+        "baseline_artifact_types",
+        "policy_overlays",
+        "office_deliverables"
+      ],
+      "properties": {
+        "records": { "const": 53 },
+        "baseline_artifact_types": { "const": 30 },
+        "policy_overlays": { "const": 23 },
+        "office_deliverables": { "const": 10 }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "baseline_number",
+        "artifact_name",
+        "artifact_key",
+        "bundle",
+        "authority_class",
+        "materialization_mode",
+        "template_file",
+        "template_locator",
+        "default_scope",
+        "default_applicability",
+        "gate_relevance",
+        "evidence_boundary",
+        "kind",
+        "source_format"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "pattern": "^(?:B|O)-[0-9]{3}$"
+        },
+        "baseline_number": {
+          "anyOf": [
+            { "type": "integer", "minimum": 1, "maximum": 30 },
+            { "type": "null" }
+          ]
+        },
+        "artifact_name": { "$ref": "#/$defs/nonempty_text" },
+        "artifact_key": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]{1,127}$"
+        },
+        "bundle": { "$ref": "#/$defs/nonempty_text" },
+        "authority_class": { "$ref": "#/$defs/nonempty_text" },
+        "materialization_mode": {
+          "enum": [
+            "CURATED_PACKAGE",
+            "EXTERNAL_EVIDENCE",
+            "GENERATED_VIEW",
+            "HYBRID",
+            "TRANSACTIONAL_VIEW",
+            "WORKING_RECORD"
+          ]
+        },
+        "template_file": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*\\\\)[^?:*<>|#\\u0000-\\u001F\\u007F]+/(?:[^/?:*<>|#\\u0000-\\u001F\\u007F]+)\\.(?:docx|pptx|xlsx)$"
+        },
+        "template_locator": { "$ref": "#/$defs/nonempty_text" },
+        "default_scope": { "$ref": "#/$defs/nonempty_text" },
+        "default_applicability": {
+          "enum": ["CONDITIONAL", "REQUIRED"]
+        },
+        "gate_relevance": { "$ref": "#/$defs/nonempty_text" },
+        "evidence_boundary": { "$ref": "#/$defs/nonempty_text" },
+        "kind": {
+          "enum": ["BASELINE", "POLICY_OVERLAY"]
+        },
+        "source_format": {
+          "enum": ["DOCX", "PPTX", "XLSX"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "BASELINE" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": {
+              "record_id": { "pattern": "^B-[0-9]{3}$" },
+              "baseline_number": { "type": "integer" }
+            }
+          },
+          "else": {
+            "properties": {
+              "record_id": { "pattern": "^O-[0-9]{3}$" },
+              "baseline_number": { "type": "null" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

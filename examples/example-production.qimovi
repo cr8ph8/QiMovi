@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "qimovi-phone-production/v1",
+  "exportedAt": "2026-01-01T00:00:00Z",
+  "origin": "Synthetic quickstart example",
+  "projects": [
+    {
+      "id": "example-project-001",
+      "title": "Example Short",
+      "phase": "Pre-production",
+      "shots": [
+        {
+          "id": "example-shot-001",
+          "sceneId": "example-scene-001",
+          "sceneHeading": "INT. EXAMPLE ROOM - DAY",
+          "title": "Establish the empty room",
+          "order": 1,
+          "framing": "Wide shot",
+          "movement": "Static",
+          "durationSeconds": 5,
+          "notes": "Synthetic demonstration. Replace with your own plan.",
+          "status": "planned"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "example-task-001",
+          "title": "Confirm the framing",
+          "phase": "Pre-production",
+          "status": "todo"
+        }
+      ]
+    }
+  ]
+}

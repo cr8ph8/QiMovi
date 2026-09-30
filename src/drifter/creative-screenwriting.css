@@ -1,0 +1,52 @@
+.creative-writer { color: #e7dfd0; }
+.creative-writer>header,.creative-writer-tools,.creative-writer>header>div,.creative-writer-insert { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.creative-writer>header { justify-content: space-between; margin-bottom: 16px; }
+.creative-writer>header>label { flex: 1 1 250px; }
+.creative-writer label { font-size: 11px; }
+.creative-writer input,.creative-writer select { display: block; width: 100%; padding: 9px; margin-top: 5px; background: #181816; color: #eee6d9; border: 1px solid #514e44; border-radius: 4px; font: inherit; }
+.creative-writer>header>div>strong { font-size: 11px; color: #bcb19e; }
+.creative-writer>header>div>button { color: #ebc99c; border-color: #b18d5b; }
+.creative-writer-tools { align-items: flex-end; border-bottom: 1px solid #47453e; padding-bottom: 16px; margin-bottom: 18px; }
+.creative-writer-tools>label { flex: 1 1 200px; max-width: 350px; }
+.creative-writer-tools .creative-writer-exports { flex-basis: 100%; font-size: 12px; padding: 8px 0 0; }
+.creative-writer-tools .creative-writer-exports > h3 { margin: 0; font: 500 12px/1.4 system-ui, sans-serif; color: #d7bd8e; }
+.creative-writer-tools .creative-writer-exports>div { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+.creative-writer-tools .creative-writer-exports p { max-width: 560px; font-size: 11px; color: #bcb19e; }
+.creative-writer-layout { display: grid; grid-template-columns: minmax(0,1.45fr) minmax(250px,1fr); gap: 22px; align-items: start; }
+.creative-writer-layout>div,.creative-writer-layout>aside { min-width: 0; }
+.creative-writer fieldset { padding: 0; border: 0; min-width: 0; }
+.creative-writer-insert { gap: 6px; margin-bottom: 9px; }
+.creative-writer-insert button { font-size: 11px; padding: 6px 8px; }
+.creative-writer-editor { display: block; }
+.creative-writer-editor>span { display: block; margin-bottom: 6px; }
+.creative-writer-editor>div { background: #f3eee2; color: #25251f; border-radius: 4px; }
+.creative-writer-editor textarea { color: transparent; caret-color: #25251f; font: inherit; }
+.creative-writer-layout aside>nav { display: flex; gap: 7px; padding-bottom: 15px; }
+.creative-writer-layout aside>nav button[aria-pressed=true] { color: #ebc99c; border-color: #b18d5b; }
+.creative-writer .draft-scene-index { border: 0; padding: 0; }
+.creative-writer .draft-scene-index nav { max-height: 380px; overflow: auto; }
+.creative-writer-scope,.creative-writer-next small { font-size: 11px; color: #b7ad9b; }
+.creative-writer-next { border-top: 1px solid #47453e; margin-top: 20px; padding-top: 15px; }
+.creative-writer-next strong { font-weight: 550; }
+.creative-writer-next p { overflow-wrap: anywhere; }
+.creative-writer-next small { display: block; margin-top: 9px; }
+.creative-writing-preview { max-height: 510px; overflow: auto; background: #f3eee2; color: #26251f; padding: 18px; font: 12px/1.6 'Courier New',monospace; white-space: pre-wrap; }
+.creative-writing-preview section+section { border-top: 1px solid #c1b7a8; margin-top: 20px; padding-top: 16px; }
+.creative-writing-preview .scene-heading,.creative-writing-preview .transition { font-weight: bold; }
+.creative-writing-preview .character { margin-left: 36%; }
+.creative-writing-preview .dialogue,.creative-writing-preview .parenthetical { margin-left: 20%; margin-right: 15%; }
+.creative-writer [role=alert] { color: #edb69a; }
+.creative-writer [role=status] { color: #d5bb96; }
+.creative-writer-decision { border: 1px solid #b18d5b; padding: 12px; margin-bottom: 15px; }
+.creative-writer-decision button+button { margin-left: 8px; }
+@media(max-width:850px) { .creative-writer-layout { grid-template-columns: 1fr; } }
+
+@media (min-width: 851px) {
+ .creative-writer-layout { grid-template-columns: minmax(225px,25%) minmax(0,1fr); }
+ .creative-writer-layout>div { grid-column: 2; grid-row: 1; }
+ .creative-writer-layout>aside { grid-column: 1; grid-row: 1; padding-right: 18px; border-right: 1px solid #47453e; }
+}
+.creative-writer-reports { margin-top: 20px; border-top: 1px solid #4b483f; padding-top: 14px; }
+.creative-writer-history { margin-bottom: 18px; }
+.creative-writer-history > h3,.creative-writer-reports > h3 { margin: 0; color: #d7bd8e; font: 500 13px/1.4 system-ui, sans-serif; padding: 8px 0; }
+.creative-writer-reports .script-analysis { margin-top: 12px; }

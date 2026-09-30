@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.1/decision-result.schema.json",
+  "title": "Hampton Decision Result v0.1",
+  "description": "The deterministic transaction outcome. REJECT, REWRITE, and ESCALATE must preserve the before-state version and hash; only COMMIT may change them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "proposal_id",
+    "proposal_hash",
+    "decision",
+    "reason_codes",
+    "effective_risk",
+    "state_before_version",
+    "state_before_hash",
+    "state_after_version",
+    "state_after_hash",
+    "event_id",
+    "event_hash",
+    "idempotent_replay"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "hampton-decision-result/v1"
+    },
+    "proposal_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "proposal_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "decision": {
+      "enum": [
+        "COMMIT",
+        "REJECT",
+        "REWRITE",
+        "ESCALATE"
+      ]
+    },
+    "reason_codes": {
+      "description": "Canonical implementations additionally require lexical sort order.",
+      "$ref": "#/$defs/reason_codes"
+    },
+    "effective_risk": {
+      "$ref": "#/$defs/risk"
+    },
+    "state_before_version": {
+      "$ref": "#/$defs/version"
+    },
+    "state_before_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "state_after_version": {
+      "$ref": "#/$defs/version"
+    },
+    "state_after_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "event_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "event_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "idempotent_replay": {
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "enum": [
+              "REJECT",
+              "REWRITE",
+              "ESCALATE"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reason_codes": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "risk": {
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    }
+  }
+}

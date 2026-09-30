@@ -1,0 +1,61 @@
+.budget-production-work { padding: 18px 0 8px; min-width: 0; }
+.budget-production-work-heading { margin-bottom: 16px; }
+.budget-production-work-heading h4 { margin: 0 0 6px; }
+.budget-production-work-heading p { margin: 0; max-width: 72ch; color: var(--budget-muted, #bcb4a6); }
+.budget-production-work-filters { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(120px, .85fr) minmax(140px, 1fr) minmax(170px, 1.25fr); gap: 12px; align-items: end; }
+.budget-production-work-results { min-height: 46px; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 8px 0; }
+.budget-production-work-results p { margin: 0; color: var(--budget-muted, #bcb4a6); font-size: 11px; }
+.budget-production-work-results button { font-size: 11px; }
+.budget-production-work-empty { border-block: 1px solid var(--budget-rule, #454138); padding: 30px 0; }
+.budget-production-work-empty strong { display: block; font-size: 13px; font-weight: 500; }
+.budget-production-work-empty p { margin: 8px 0 0; color: var(--budget-muted, #bcb4a6); }
+.budget-production-work-empty > button { margin-top: 16px; }
+.production-budget .budget-production-work-table table { min-width: 720px; font-size: 12px; }
+.production-budget .budget-production-work-table th, .production-budget .budget-production-work-table td { padding-block: 15px; min-width: 0; }
+.production-budget .budget-production-work-table thead th:first-child { width: 29%; }
+.production-budget .budget-production-work-table thead th:nth-child(2) { width: 20%; }
+.production-budget .budget-production-work-table thead th:nth-child(3), .production-budget .budget-production-work-table thead th:nth-child(4) { width: 17%; }
+.production-budget .budget-production-work-table thead th:last-child { width: 17%; }
+.production-budget .budget-production-work-table tbody th { max-width: 330px; }
+.production-budget .budget-production-work-table tbody th strong { font-size: 12px; line-height: 1.5; }
+.production-budget .budget-production-work-table small { font-size: 11px; line-height: 1.5; }
+.production-budget .budget-production-work-table td:last-child > button { display: block; margin-top: 8px; font-size: 11px; }
+.budget-work-next { display: block; font-size: 11px; color: var(--budget-ink, #e9e3d8); }
+.budget-work-shared { display: inline-block; margin-top: 7px; font-size: 10px; color: var(--budget-accent, #d7ab72); }
+.production-budget .budget-production-work-table .budget-work-selected { background: #d7ab720d; }
+.production-budget .budget-production-work-table .budget-work-selected > th { box-shadow: inset 2px 0 var(--budget-accent, #d7ab72); padding-left: 10px; }
+.production-budget .budget-production-work-table .budget-work-detail-row:hover { background: transparent; }
+.production-budget .budget-production-work-table .budget-work-detail-row > td { padding: 0; }
+.budget-work-detail { padding: 20px 16px 24px; background: #17181555; animation: budget-work-detail-in 130ms ease-out; }
+.budget-work-detail-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.budget-work-detail h5 { margin: 0; font-size: 14px; line-height: 1.5; font-weight: 550; }
+.budget-work-detail-heading p { margin: 6px 0 0; color: var(--budget-muted, #bcb4a6); max-width: 72ch; font-size: 12px; }
+.budget-work-source { padding-left: 12px; border-left: 2px solid var(--budget-rule, #454138); margin: 16px 0; max-width: 90ch; }
+.budget-work-source p { margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; color: var(--budget-muted, #bcb4a6); }
+.budget-work-source strong { font-weight: 500; color: var(--budget-ink, #e9e3d8); }
+.budget-work-detail-columns { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(240px, 1fr); gap: 28px; margin-top: 22px; }
+.budget-work-detail h6 { margin: 0 0 12px; font-size: 12px; font-weight: 550; }
+.budget-work-linked-costs { list-style: none; margin: 0; padding: 0; }
+.budget-work-linked-costs li { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; padding: 12px 0; border-top: 1px solid var(--budget-rule, #454138); }
+.budget-work-linked-costs li > div { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.budget-work-linked-costs strong, .budget-work-linked-costs span { display: block; line-height: 1.5; }
+.budget-work-linked-costs strong { font-size: 12px; font-weight: 500; margin-bottom: 4px; }
+.budget-work-linked-costs span { color: var(--budget-muted, #bcb4a6); font-size: 11px; margin-top: 3px; }
+.budget-work-linked-costs li > button { flex-shrink: 0; font-size: 11px; }
+.budget-work-linked-costs .budget-work-current-cost strong { color: var(--budget-accent, #d7ab72); }
+.budget-work-allocation { min-width: 0; }
+.budget-work-allocation > p { color: var(--budget-muted, #bcb4a6); font-size: 11px; margin: 0 0 12px; }
+.budget-work-allocation > label { margin-bottom: 11px; }
+.budget-work-allocation-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0 12px; }
+.budget-work-allocation-actions button { font-size: 11px; }
+.budget-work-detail .budget-work-note { color: var(--budget-muted, #bcb4a6); font-size: 11px; line-height: 1.6; margin: 10px 0; }
+.budget-work-pagination, .budget-work-cost-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; padding-top: 16px; }
+.budget-work-pagination > span, .budget-work-cost-pagination > span { margin-right: auto; font-size: 11px; color: var(--budget-muted, #bcb4a6); font-variant-numeric: tabular-nums; }
+.budget-work-cost-pagination { padding-top: 8px; gap: 6px; }
+.budget-work-cost-pagination > span { flex-basis: 100%; }
+.budget-work-cost-pagination button { font-size: 10px; padding: 5px 7px; }
+@keyframes budget-work-detail-in { from { opacity: .6; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 950px) { .budget-production-work-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .budget-work-detail-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; }.budget-work-allocation { max-width: 500px; }.budget-work-detail-heading { gap: 14px; }.budget-work-detail { padding-inline: 12px; } }
+@media (max-width: 450px) { .budget-production-work-filters { grid-template-columns: minmax(0, 1fr); }.budget-production-work-results { align-items: flex-start; }.budget-work-pagination > span { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .budget-work-detail { animation: none; } }

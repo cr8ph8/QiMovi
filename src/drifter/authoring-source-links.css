@@ -1,0 +1,35 @@
+.authoring-source-links { margin: 18px 0; padding: 16px 0; border-block: 1px solid var(--ss-line, #414137); color: var(--ss-paper, #ece8db); }
+.authoring-source-links > header, .asl-preview > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; border: 0; padding: 0; margin: 0; background: none; }
+.authoring-source-links > header { display: block; }
+.authoring-source-links h3, .authoring-source-links h4 { margin: 0 0 6px; font-size: 13px; font-weight: 600; line-height: 1.5; }
+.authoring-source-links p { margin: 4px 0 10px; font-size: 11px; line-height: 1.6; color: var(--ss-muted, #b4b5a9); }
+.asl-list { margin: 0; padding: 0; list-style: none; }
+.asl-list > li { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--ss-line, #414137); }
+.asl-label { min-width: 0; flex: 1; }
+.asl-label strong, .asl-label span, .asl-label small, .asl-label code { display: block; overflow-wrap: anywhere; }
+.asl-label strong { font-size: 12px; font-weight: 500; }
+.asl-label span { font-size: 11px; margin-top: 3px; }
+.asl-label small { color: var(--ss-gold, #d8b782); margin-top: 5px; font-size: 10px; }
+.asl-label code { font-size: 9px; margin-top: 4px; color: var(--ss-muted, #b4b5a9); }
+.asl-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.authoring-source-links .asl-actions button { width: auto; min-height: 32px; padding: 5px 9px; border: 1px solid var(--ss-line, #414137); border-radius: 3px; background: transparent; color: var(--ss-gold, #d8b782); font: inherit; font-size: 10px; line-height: 1.4; text-align: left; }
+.authoring-source-links .asl-actions button:hover:not(:disabled) { border-color: var(--ss-gold, #d8b782); }
+.authoring-source-links .asl-actions button:focus-visible { outline: 2px solid var(--ss-gold, #d8b782); outline-offset: 3px; }
+.authoring-source-links .asl-actions button:disabled { opacity: .5; cursor: default; }
+.asl-preview { margin-top: 14px; padding: 14px; background: #11140f55; border-left: 2px solid var(--ss-gold, #d8b782); }
+.asl-preview > header small { color: var(--ss-gold, #d8b782); font-size: 9px; letter-spacing: .05em; }
+.asl-preview > header h4 { margin-top: 5px; }
+.asl-preview pre { max-height: 300px; overflow: auto; margin: 12px 0; padding: 12px; background: #080b0755; font: 11px/1.7 ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; }
+.asl-exact code { overflow-wrap: anywhere; font-size: 9px; }
+.asl-ancestors { margin-top: 18px; }
+.asl-fields { display: grid; gap: 14px; margin: 14px 0; }
+.asl-fields dt { font-size: 11px; font-weight: 600; color: var(--ss-gold, #d8b782); }
+.asl-fields dd, .asl-prose { margin: 5px 0 0; font-size: 12px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.asl-review { font-style: italic; }
+.asl-technical { margin-top: 14px; font-size: 10px; color: var(--ss-muted, #b4b5a9); }
+.asl-technical summary { cursor: pointer; padding-block: 6px; }
+.asl-citations { margin-top: 18px; }
+.asl-citations blockquote { margin: 12px 0; border-left: 1px solid var(--ss-line, #414137); padding-left: 12px; }
+.asl-citations strong { font-size: 11px; font-weight: 500; }
+.authoring-source-links .asl-error { color: #f4bda3; }
+@media (max-width: 700px) { .asl-list > li, .asl-preview > header { flex-direction: column; } }

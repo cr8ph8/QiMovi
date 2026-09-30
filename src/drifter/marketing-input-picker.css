@@ -1,0 +1,24 @@
+.marketing-input-picker { margin-block: 12px; padding-block: 12px; border-block: 1px solid #343536; color: #e2ded5; font-size: 12px; }
+.marketing-input-heading { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.marketing-input-picker button, .marketing-input-picker input { padding: 8px 10px; border: 1px solid #5c503a; border-radius: 5px; background: #232423; color: #e8d2a9; font: inherit; }
+.marketing-input-picker button, .marketing-input-picker summary { cursor: pointer; }
+.marketing-input-picker button:disabled { cursor: default; opacity: .5; }
+.marketing-input-picker :is(button,input,summary,a):focus-visible { outline: 2px solid #d4b273; outline-offset: 3px; }
+.marketing-input-picker small, .marketing-input-scope { color: #aaa89f; font-size: 11px; line-height: 1.5; }
+.marketing-input-picker p { line-height: 1.5; overflow-wrap: anywhere; }
+.marketing-input-results { margin-top: 12px; }
+.marketing-input-picker summary, .marketing-input-picker a { color: #d5bb8d; }
+.marketing-input-results > label { display: grid; gap: 5px; margin-block: 12px; }
+.marketing-input-body { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(180px, 1fr); gap: 18px; }
+.marketing-input-list { list-style: none; max-height: 260px; overflow: auto; margin: 0; padding: 0 8px 0 0; }
+.marketing-input-list li { margin-bottom: 3px; }
+.marketing-input-list button { width: 100%; text-align: left; display: grid; gap: 4px; border-color: transparent; background: transparent; color: #e2ded5; overflow-wrap: anywhere; }
+.marketing-input-list button[aria-pressed="true"] { border-color: #7d6945; background: #2b2822; }
+.marketing-input-list strong { font-size: 12px; font-weight: 500; }
+.marketing-input-inspector { min-width: 0; padding-inline-start: 16px; border-left: 1px solid #343536; }
+.marketing-input-inspector > p:first-child { margin-top: 0; color: #aaa89f; }
+.marketing-input-inspector a { display: block; margin-block: 12px; line-height: 1.5; }
+.marketing-input-inspector details { margin-top: 12px; font-size: 11px; }
+.marketing-input-inspector code { display: block; margin-block: 8px; overflow-wrap: anywhere; }
+.marketing-input-error { color: #e3b09d; }
+@media (max-width: 600px) { .marketing-input-body { grid-template-columns: 1fr; gap: 12px; } .marketing-input-inspector { border-left: 0; border-top: 1px solid #343536; padding: 12px 0 0; } .marketing-input-list { max-height: 220px; } }

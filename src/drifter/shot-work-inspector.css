@@ -1,0 +1,34 @@
+.shot-work { margin-top: 18px; border-top: 1px solid var(--ss-line); padding-top: 14px; }
+.shot-work .sw-next { margin: 0 0 12px; color: var(--ss-paper); font-size: 13px; line-height: 1.55; }
+.shot-work .sw-next small { display: block; margin-bottom: 5px; font-size: 9px; letter-spacing: .08em; color: var(--ss-muted); }
+.shot-work .sw-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.shot-work .sw-actions button { min-height: 36px; padding: 8px; border: 1px solid var(--ss-line); border-radius: 3px; font-size: 11px; color: var(--ss-gold); }
+.shot-work .sw-actions button.primary { color: #262018; background: var(--ss-gold); border-color: var(--ss-gold); }
+.shot-work > details, .shot-work > div > details { margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--ss-line); }
+.shot-work summary { cursor: pointer; font-size: 11px; color: var(--ss-paper); line-height: 1.5; }
+.shot-work p, .shot-work li { font-size: 11px; line-height: 1.65; overflow-wrap: anywhere; }
+.shot-work ul { padding-left: 16px; color: var(--ss-muted); }
+.shot-work .sw-note, .shot-work .sw-inputs p { color: var(--ss-muted); font-size: 10px; }
+.shot-work article { padding: 14px 0; }
+.shot-work article + article { border-top: 1px solid var(--ss-line); }
+.shot-work article > small { display: block; font-size: 9px; letter-spacing: .06em; color: var(--ss-gold); margin-bottom: 5px; }
+.shot-work article > strong { display: block; font-size: 12px; font-weight: 500; }
+.shot-work article > button { padding: 7px 0; font-size: 11px; color: var(--ss-gold); text-align: left; }
+.shot-work .sw-source summary { color: var(--ss-muted); font-size: 10px; }
+.shot-work .sw-source div { padding-top: 10px; }
+.shot-work .sw-source small { font-size: 9px; color: var(--ss-gold); }
+.shot-work .sw-source p { font: 11px/1.7 'Courier New', monospace; white-space: pre-wrap; }
+.shot-work .sw-questions > summary { color: var(--ss-gold); }
+
+.shot-work .sw-production pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 11px/1.7 inherit; color: var(--ss-muted); }
+
+/* Keep the selected shot readable beside the canvas. */
+.shot-work .sw-input-counts { display:flex; gap:18px; padding:13px 0 0; color:var(--ss-muted); font-size:11px; }
+.shot-work .sw-input-counts b { color:var(--ss-paper); font-weight:600; margin-right:3px; font-variant-numeric:tabular-nums; }
+.shot-work .sw-next { padding:11px 12px; border-left:2px solid var(--ss-gold); background:#d8b78208; }
+.shot-work .sw-actions button { min-height:38px; font-size:12px; }
+.shot-work .sw-actions button:hover { background:#d8b78212; }
+.shot-work .sw-actions button.primary:hover { background:#e4c693; }
+.shot-work .sw-craft>summary { color:var(--ss-gold); font-size:12px; }
+.shot-work .sw-craft .filmcraft-guide { margin-top:14px; }
+.shot-work p,.shot-work li { font-size:12px; }

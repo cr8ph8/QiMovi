@@ -1,0 +1,23 @@
+.opencreator-finishing { display: grid; gap: 14px; padding: 22px; border: 1px solid #465044; border-radius: 10px; background: #181e19; }
+.opencreator-finishing :is(h3,h4,p) { margin: 0; }
+.opencreator-heading, .opencreator-job-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.opencreator-heading > div { display: grid; gap: 7px; }
+.opencreator-finishing .opencreator-state { flex-shrink: 0; border: 1px solid #555e4e; border-radius: 5px; padding: 5px 8px; color: #c6c8b9; font-size: 12px; }
+.opencreator-finishing .opencreator-state[data-ready="true"] { color: #bad6b8; border-color: #516f4e; }
+.opencreator-finishing .opencreator-muted, .opencreator-job time, .opencreator-uncertain small { font-size: 12px; line-height: 1.55; color: #a7ac9e; }
+.opencreator-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.opencreator-form { display: grid; gap: 12px; border: 1px solid #394235; border-radius: 7px; padding: 16px; min-width: 0; }
+.opencreator-form legend { padding-inline: 6px; color: #d5c298; font-size: 13px; }
+.opencreator-form label { display: grid; gap: 6px; font-size: 13px; }
+.opencreator-inputs { display: grid; grid-template-columns: minmax(0, 2fr) minmax(150px, 1fr); gap: 12px; }
+.opencreator-finishing :is(select,textarea,input[type="file"]) { width: 100%; min-width: 0; box-sizing: border-box; color: inherit; background: #121812; border: 1px solid #485241; border-radius: 5px; padding: 9px; font: inherit; }
+.opencreator-finishing textarea { resize: vertical; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 12px; }
+.opencreator-form .opencreator-review { display: flex; align-items: center; gap: 9px; }
+.opencreator-review input { width: 16px; height: 16px; flex-shrink: 0; accent-color: #c6b180; }
+.opencreator-finishing :is(button,select,textarea,input):focus-visible { outline: 2px solid #d5c298; outline-offset: 3px; }
+.opencreator-finishing :disabled { opacity: .55; cursor: default; }
+.opencreator-uncertain { display: grid; justify-items: start; gap: 10px; border-left: 3px solid #bca66d; padding: 10px 14px; background: #24251b; }
+.opencreator-jobs { display: grid; gap: 12px; }
+.opencreator-job { display: grid; gap: 10px; border-top: 1px solid #394235; padding-top: 14px; overflow-wrap: anywhere; }
+.opencreator-finishing [role="alert"] { color: #ecc1aa; }
+@media (max-width: 760px) { .opencreator-finishing { padding: 16px; } .opencreator-heading, .opencreator-job-heading { flex-direction: column; gap: 8px; } .opencreator-inputs { grid-template-columns: minmax(0, 1fr); } }

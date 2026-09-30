@@ -1,0 +1,13 @@
+.uni-relationship-editor { display: grid; gap: 14px; max-width: 660px; padding: 20px; color: #ede3d0; background: #171b1a; border: 1px solid #56503b; border-radius: 10px; }
+.uni-relationship-editor :is(h3,p) { margin: 0; }
+.uni-relationship-editor header { display: grid; gap: 6px; }
+.uni-relationship-editor header p, .uni-relationship-editor .uni-relationship-note { color: #aaa18e; font-size: 12px; line-height: 1.55; }
+.uni-relationship-direction { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; border-radius: 6px; background: #242a23; }
+.uni-relationship-direction > span:first-of-type { color: #e7ad51; }
+.uni-relationship-editor fieldset { display: grid; gap: 12px; padding: 0; margin: 0; border: 0; min-width: 0; }
+.uni-relationship-editor label { display: grid; gap: 5px; font-size: 12px; }
+.uni-relationship-editor :is(select,input) { width: 100%; min-width: 0; padding: 9px; border: 1px solid #464b3e; border-radius: 5px; background: #101612; color: inherit; font: inherit; }
+.uni-relationship-editor footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.uni-relationship-editor [role=alert] { color: #e9ba86; font-size: 12px; line-height: 1.5; }
+.uni-relationship-editor :is(button,input,select):focus-visible { outline: 2px solid #e7ad51; outline-offset: 3px; }
+.uni-relationship-editor :disabled { opacity: .65; }

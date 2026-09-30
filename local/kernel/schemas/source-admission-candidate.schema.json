@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "filmstack-source-admission-candidate/v1",
+  "title": "FilmStack Source Admission Candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "admission_candidate_id",
+    "admission_candidate_hash",
+    "observation_id",
+    "observation_hash",
+    "verification_report_id",
+    "verification_report_hash",
+    "blob_sha256",
+    "byte_length",
+    "intake_case_id",
+    "title_id",
+    "proposed_evidence_class",
+    "proposed_revision_id",
+    "source_title_claim",
+    "source_kind_claim",
+    "intake_mode",
+    "candidate_state",
+    "authority_state",
+    "production_gate_effect",
+    "unresolved_controls",
+    "created_at_ms"
+  ],
+  "properties": {
+    "schema_version": { "const": "filmstack-source-admission-candidate/v1" },
+    "admission_candidate_id": { "$ref": "#/$defs/id" },
+    "admission_candidate_hash": { "$ref": "#/$defs/sha256" },
+    "observation_id": { "$ref": "#/$defs/id" },
+    "observation_hash": { "$ref": "#/$defs/sha256" },
+    "verification_report_id": { "$ref": "#/$defs/id" },
+    "verification_report_hash": { "$ref": "#/$defs/sha256" },
+    "blob_sha256": { "$ref": "#/$defs/sha256" },
+    "byte_length": { "type": "integer", "minimum": 1, "maximum": 268435456 },
+    "intake_case_id": { "$ref": "#/$defs/id" },
+    "title_id": { "$ref": "#/$defs/id" },
+    "proposed_evidence_class": { "const": "source_revision" },
+    "proposed_revision_id": { "$ref": "#/$defs/id" },
+    "source_title_claim": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "source_kind_claim": { "enum": ["INTENTIONAL_EXPORT", "SYNTHETIC_FIXTURE"] },
+    "intake_mode": { "enum": ["STANDARD", "SYNTHETIC_FIXTURE"] },
+    "candidate_state": { "const": "PENDING_HUMAN_ADMISSION" },
+    "authority_state": { "const": "NO_CANONICAL_AUTHORITY" },
+    "production_gate_effect": { "const": "NONE" },
+    "unresolved_controls": {
+      "const": [
+        "AUTHENTICATED_HUMAN_ADMISSION_REQUIRED",
+        "CREATIVE_APPROVAL_REQUIRED",
+        "INTENTIONAL_EXPORT_ATTESTATION_REQUIRED",
+        "RIGHTS_BASIS_REQUIRED",
+        "SOURCE_AUTHORITY_REVIEW_REQUIRED",
+        "TITLE_REVISION_IDENTITY_REVIEW_REQUIRED"
+      ]
+    },
+    "created_at_ms": { "$ref": "#/$defs/time" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "time": { "type": "integer", "minimum": 0 }
+  }
+}

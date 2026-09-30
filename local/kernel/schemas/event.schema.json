@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.1/event.schema.json",
+  "title": "Hampton Event v0.1",
+  "description": "A hash-chained audit event. GENESIS embeds the aggregate envelope needed for self-contained replay; DECISION records no genesis_state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "sequence",
+    "event_id",
+    "event_type",
+    "aggregate_id",
+    "occurred_at_ms",
+    "proposal_id",
+    "proposal_hash",
+    "decision",
+    "reason_codes",
+    "effective_risk",
+    "receipt_hashes",
+    "delta",
+    "genesis_state",
+    "state_before_version",
+    "state_before_hash",
+    "state_after_version",
+    "state_after_hash",
+    "previous_event_hash",
+    "event_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "hampton-event/v1"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "event_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "event_type": {
+      "enum": [
+        "GENESIS",
+        "DECISION"
+      ]
+    },
+    "aggregate_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "occurred_at_ms": {
+      "$ref": "#/$defs/timestamp_ms"
+    },
+    "proposal_id": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/identifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "proposal_hash": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "decision": {
+      "anyOf": [
+        {
+          "enum": [
+            "COMMIT",
+            "REJECT",
+            "REWRITE",
+            "ESCALATE"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reason_codes": {
+      "description": "Canonical implementations additionally require lexical sort order.",
+      "$ref": "#/$defs/reason_codes"
+    },
+    "effective_risk": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/risk"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "receipt_hashes": {
+      "description": "Canonical implementations additionally require lexical sort order.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/sha256"
+      }
+    },
+    "delta": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "proposal.schema.json#/$defs/delta_operation"
+      }
+    },
+    "genesis_state": {
+      "anyOf": [
+        {
+          "$ref": "aggregate-state.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state_before_version": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/version"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state_before_hash": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state_after_version": {
+      "$ref": "#/$defs/version"
+    },
+    "state_after_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "previous_event_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "event_hash": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "GENESIS"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "proposal_id": {
+            "type": "null"
+          },
+          "proposal_hash": {
+            "type": "null"
+          },
+          "decision": {
+            "type": "null"
+          },
+          "reason_codes": {
+            "maxItems": 0
+          },
+          "effective_risk": {
+            "type": "null"
+          },
+          "receipt_hashes": {
+            "maxItems": 0
+          },
+          "delta": {
+            "maxItems": 0
+          },
+          "genesis_state": {
+            "$ref": "aggregate-state.schema.json"
+          },
+          "state_before_version": {
+            "type": "null"
+          },
+          "state_before_hash": {
+            "type": "null"
+          },
+          "state_after_version": {
+            "const": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "proposal_id": {
+            "$ref": "#/$defs/identifier"
+          },
+          "proposal_hash": {
+            "$ref": "#/$defs/sha256"
+          },
+          "decision": {
+            "enum": [
+              "COMMIT",
+              "REJECT",
+              "REWRITE",
+              "ESCALATE"
+            ]
+          },
+          "effective_risk": {
+            "$ref": "#/$defs/risk"
+          },
+          "genesis_state": {
+            "type": "null"
+          },
+          "state_before_version": {
+            "$ref": "#/$defs/version"
+          },
+          "state_before_hash": {
+            "$ref": "#/$defs/sha256"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "COMMIT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "delta": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "enum": [
+              "REJECT",
+              "REWRITE",
+              "ESCALATE"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reason_codes": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "timestamp_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "risk": {
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    }
+  }
+}

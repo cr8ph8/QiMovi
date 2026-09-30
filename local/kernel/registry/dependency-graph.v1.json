@@ -1,0 +1,1606 @@
+{
+  "graph_hash": "472b64362c58363c50a1ed91865f37f145027782c338d7e099083d244277c3c6",
+  "graph_id": "qi-movie-production-artifact-dependencies",
+  "graph_version": 2,
+  "registry_hash": "3550a35c28759a586c359178d597cfa26e2fe2358a47b242f587fce9e4cfaec4",
+  "rules": [
+    {
+      "from": {
+        "key": "source.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r001-source-canon-lock",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CANON_LOCK",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "source.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r002-source-change-review",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CHANGE_IMPACT_REVIEW",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "source.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r003-source-treatment",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TREATMENT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "source.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r004-source-one-liner",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "ONE_LINER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "source.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r005-source-breakdown",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "canon.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r006-canon-lock",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CANON_LOCK",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "canon.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r007-canon-shot-list",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "SHOT_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "canon.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r008-canon-wardrobe",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "WARDROBE_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "canon.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r009-canon-props",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PROPS_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "canon.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r010-canon-hmu",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "HMU_REFERENCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "canon.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r011-canon-mood",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "MOOD_BOARD",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "canon.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r012-canon-look",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "LOOK_BOOK",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "TREATMENT",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r013-treatment-mood",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "MOOD_BOARD",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "MOOD_BOARD",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r014-mood-look",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "LOOK_BOOK",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "LOOK_BOOK",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r015-look-colour",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "COLOUR_PALETTE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r016-breakdown-schedule",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r017-breakdown-stripboard",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "STRIPBOARD",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r018-breakdown-shot-list",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "SHOT_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r019-breakdown-budget",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PRODUCTION_BUDGET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r020-breakdown-equipment",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "EQUIPMENT_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r021-breakdown-wardrobe",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "WARDROBE_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r022-breakdown-props",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PROPS_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r023-breakdown-hmu",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "HMU_REFERENCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r024-breakdown-art",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "ART_DEPARTMENT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SHOT_LIST",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r025-shot-storyboards",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "STORYBOARDS",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "SHOT_LIST",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r026-shot-equipment",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "EQUIPMENT_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r027-schedule-call-sheet",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r028-schedule-dood",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "DAY_OUT_OF_DAYS",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r029-schedule-catering",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CATER_CRAFT_ORDER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r030-schedule-travel",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TRAVEL_ACCOMMODATION",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r031-schedule-weather",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "WEATHER_CONTINGENCY",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r032-schedule-post",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "POST_PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "schedule.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r033-schedule-fact",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "schedule.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r034-schedule-stripboard",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "STRIPBOARD",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "cast.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r035-cast-release",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TALENT_RELEASE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "cast.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r036-cast-schedule",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "cast.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r037-cast-dood",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "DAY_OUT_OF_DAYS",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "cast.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r038-cast-wardrobe",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "WARDROBE_LIST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "cast.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r039-cast-hmu",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "HMU_REFERENCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "crew.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r040-crew-deal",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CREW_DEAL_MEMO",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "crew.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r041-crew-schedule",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "crew.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r042-crew-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r043-location-agreement",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "LOCATION_AGREEMENT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r044-location-permit",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FILMING_PERMIT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r045-location-insurance",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "INSURANCE_CERTIFICATE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r046-location-schedule",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r047-location-weather",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "WEATHER_CONTINGENCY",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r048-location-art",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "ART_DEPARTMENT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "budget.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r049-budget-fact",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PRODUCTION_BUDGET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PRODUCTION_BUDGET",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r050-budget-po",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "PURCHASE_ORDER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "PURCHASE_ORDER",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r051-po-invoice",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "INVOICE_TRACKER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "safety.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r052-safety-plan",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "SAFETY_EMERGENCY_PLAN",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "safety.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r053-safety-incident",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "INCIDENT_STOP_WORK",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "safety.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r054-safety-insurance",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "INSURANCE_CERTIFICATE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "safety.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": false,
+      "rule_id": "r055-safety-permit",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FILMING_PERMIT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "safety.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r056-safety-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "weather.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r057-weather-plan",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "WEATHER_CONTINGENCY",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "weather.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r058-weather-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "rights.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r059-rights-ai",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "AI_PROVENANCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "rights.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r060-rights-music",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "MUSIC_CUE_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "rights.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r061-rights-clearance",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "LEGAL_DELIVERY_CLEARANCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "rights.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r062-rights-funding",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_RIGHTS_MARKET_EVIDENCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "asset_manifest.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r063-asset-manifest",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "ASSET_MANIFEST",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "asset_manifest.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r064-asset-ai",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "AI_PROVENANCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "ASSET_MANIFEST",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r065-asset-post",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "POST_PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "ASSET_MANIFEST",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r066-asset-qc",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "QC_REPORT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "delivery_spec.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r067-delivery-post",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "POST_PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "delivery_spec.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r068-delivery-captions",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CAPTIONS_ACCESSIBILITY",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "delivery_spec.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r069-delivery-qc",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "QC_REPORT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "QC_REPORT",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r070-qc-clearance",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "LEGAL_DELIVERY_CLEARANCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "LEGAL_DELIVERY_CLEARANCE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r071-clearance-final",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FINAL_DELIVERABLE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "production.actuals_revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r072-actuals-daily",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "DAILY_PRODUCTION_REPORT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "production.actuals_revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r073-actuals-invoice",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "INVOICE_TRACKER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "production.actuals_revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r074-actuals-post",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "POST_PRODUCTION_SCHEDULE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "jurisdiction.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r075-jurisdiction-profile",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "INTERNATIONAL_JURISDICTION_PROFILE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "jurisdiction.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r076-jurisdiction-route",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_PROGRAM_ROUTE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "jurisdiction.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r077-jurisdiction-cavco",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CANADIAN_CONTENT_CAVCO",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "jurisdiction.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r078-jurisdiction-tax",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TAX_CREDIT_INCENTIVE_TRACKER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "jurisdiction.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r079-jurisdiction-treaty",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TREATY_COPRODUCTION_CERTIFICATION",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "funding.program_revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r080-program-route",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_PROGRAM_ROUTE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "funding.program_revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r081-program-cmf",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CMF_APPLICATION_PACKAGE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "funding.program_revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r082-program-telefilm",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TELEFILM_APPLICATION_PACKAGE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "funding.program_revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r083-program-cavco",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CANADIAN_CONTENT_CAVCO",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "funding.program_revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r084-program-tax",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TAX_CREDIT_INCENTIVE_TRACKER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "funding.program_revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r085-program-submission",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_SUBMISSION_REPORTING_COVENANTS",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "applicant.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r086-applicant-evidence",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "APPLICANT_CORPORATE_ELIGIBILITY",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "applicant.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r087-applicant-cmf",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CMF_APPLICATION_PACKAGE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "applicant.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r088-applicant-telefilm",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TELEFILM_APPLICATION_PACKAGE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "applicant.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r089-applicant-cavco",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CANADIAN_CONTENT_CAVCO",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "applicant.revision",
+        "kind": "FACT"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": false,
+      "rule_id": "r090-applicant-treaty",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TREATY_COPRODUCTION_CERTIFICATION",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "financing.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r091-financing-rights",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_RIGHTS_MARKET_EVIDENCE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "financing.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r092-financing-plan",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FINANCING_SOURCES_USES_CASHFLOW",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "financing.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r093-financing-waterfall",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "RECOUPMENT_REPAYMENT_WATERFALL",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "financing.revision",
+        "kind": "FACT"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r094-financing-submission",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_SUBMISSION_REPORTING_COVENANTS",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "tax_incentive.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": false,
+      "rule_id": "r095-tax-plan",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TAX_CREDIT_INCENTIVE_TRACKER",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "TAX_CREDIT_INCENTIVE_TRACKER",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": false,
+      "rule_id": "r096-tax-financing",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FINANCING_SOURCES_USES_CASHFLOW",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "treaty.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": false,
+      "rule_id": "r097-treaty-cert",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TREATY_COPRODUCTION_CERTIFICATION",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "TREATY_COPRODUCTION_CERTIFICATION",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": false,
+      "rule_id": "r098-treaty-cavco",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CANADIAN_CONTENT_CAVCO",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "FUNDING_RIGHTS_MARKET_EVIDENCE",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r099-rights-financing",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FINANCING_SOURCES_USES_CASHFLOW",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "FINANCING_SOURCES_USES_CASHFLOW",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r100-financing-waterfall-chain",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "RECOUPMENT_REPAYMENT_WATERFALL",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "reporting_covenant.revision",
+        "kind": "FACT"
+      },
+      "relation": "DERIVES_EXACTLY",
+      "required": true,
+      "rule_id": "r101-reporting-ledger",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_SUBMISSION_REPORTING_COVENANTS",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "RECOUPMENT_REPAYMENT_WATERFALL",
+        "kind": "ARTIFACT_TYPE"
+      },
+      "relation": "DEPENDS_MATERIALLY",
+      "required": true,
+      "rule_id": "r102-waterfall-reporting",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FUNDING_SUBMISSION_REPORTING_COVENANTS",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "source_revision",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r103-evidence-source-canon",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CANON_LOCK",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "source_revision",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r104-evidence-source-breakdown",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "SCRIPT_BREAKDOWN",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "talent_terms",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r105-evidence-talent-release",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "TALENT_RELEASE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "talent_terms",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r106-evidence-talent-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location_authorization",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r107-evidence-location-agreement",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "LOCATION_AGREEMENT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "location_authorization",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r108-evidence-location-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "insurance",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r109-evidence-insurance-certificate",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "INSURANCE_CERTIFICATE",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "insurance",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r110-evidence-insurance-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "permit",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r111-evidence-permit-document",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "FILMING_PERMIT",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "permit",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r112-evidence-permit-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "safety_plan",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r113-evidence-safety-plan",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "SAFETY_EMERGENCY_PLAN",
+        "kind": "ARTIFACT_TYPE"
+      }
+    },
+    {
+      "from": {
+        "key": "safety_plan",
+        "kind": "EVIDENCE_CLASS"
+      },
+      "relation": "SATISFIES_REQUIREMENT",
+      "required": true,
+      "rule_id": "r114-evidence-safety-call",
+      "scope_mode": "TITLE_WIDE",
+      "to": {
+        "key": "CALL_SHEET",
+        "kind": "ARTIFACT_TYPE"
+      }
+    }
+  ],
+  "rules_version": "filmstack-impact-rules-v2",
+  "schema_version": "filmstack-dependency-graph/v1"
+}

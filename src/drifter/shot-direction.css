@@ -1,0 +1,42 @@
+.shot-direction { padding: 18px 0; border-top: 1px solid var(--line, #34342d); color: var(--paper, #eae4d9); }
+.shot-direction header { display:flex; justify-content:space-between; align-items:start; gap:12px; }
+.shot-direction header h4 { margin:0; font-size:15px; }
+.shot-direction header p, .shot-direction header > span { color:var(--accent, #e7b16a); font-size:11px; margin:5px 0 12px; }
+.shot-direction .sd-context { color:#aca597; font-size:11px; line-height:1.6; margin:0 0 14px; }
+.shot-direction fieldset { min-width:0; border:0; margin:0; padding:0; }
+.shot-direction label { display:block; color:#d8ceba; font-size:12px; line-height:1.5; margin:0 0 12px; }
+.shot-direction textarea { display:block; box-sizing:border-box; width:100%; resize:vertical; min-height:56px; margin-top:5px; padding:9px 10px; border:1px solid #494336; border-radius:4px; background:#151613; color:#f0e7d9; font:inherit; line-height:1.6; }
+.shot-direction textarea::placeholder { color:#918c80; font-size:11px; }
+.shot-direction .sd-steps { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; border-top:1px solid var(--line,#34342d); border-bottom:1px solid var(--line,#34342d); margin:2px 0 20px; }
+.shot-direction .sd-steps button { display:flex; align-items:start; gap:9px; min-width:0; min-height:64px; padding:12px 9px; border:0; border-bottom:2px solid transparent; border-radius:0; background:transparent; color:#b7b0a3; text-align:left; transition:color 120ms ease,border-color 120ms ease; }
+.shot-direction .sd-steps button:hover { color:var(--paper,#eae4d9); }
+.shot-direction .sd-steps button[aria-pressed="true"] { color:var(--paper,#eae4d9); border-bottom-color:var(--accent,#e7b16a); }
+.shot-direction .sd-step-number { color:var(--accent,#e7b16a); font-size:11px; line-height:20px; font-variant-numeric:tabular-nums; }
+.shot-direction .sd-steps strong, .shot-direction .sd-steps small { display:block; }
+.shot-direction .sd-steps strong { font-size:12px; font-weight:600; line-height:20px; }
+.shot-direction .sd-steps small { font-size:10px; line-height:1.5; font-weight:400; color:#aca597; }
+.shot-direction .sd-step-panel[hidden] { display:none !important; }
+.shot-direction .sd-step-panel h5 { font-size:14px; line-height:1.5; margin:0 0 4px; }
+.shot-direction .sd-step-prompt { color:#d8ceba; font-size:12px; line-height:1.6; margin:0 0 6px; }
+.shot-direction .sd-open-decisions { color:#aca597; font-size:11px; line-height:1.6; margin:0 0 20px; }
+.shot-direction .sd-step-navigation { display:flex; justify-content:space-between; gap:10px; margin:2px 0 18px; }
+.shot-direction .sd-step-navigation button { border:0; padding:8px 0; min-height:36px; background:transparent; color:#d7bb8e; font-size:11px; }
+.shot-direction .sd-step-navigation button:disabled { color:#777568; cursor:default; }
+.shot-direction .sd-shared-context { padding-top:14px; border-top:1px solid var(--line,#34342d); font-size:12px; }
+.shot-direction .sd-shared-context h5 { font-size:12px; margin:0 0 10px; color:#d8ceba; }
+.shot-direction .sd-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.shot-direction .sd-actions button { flex:1; min-height:38px; }
+.shot-direction .sd-references { list-style:none; padding:0; margin:0 0 12px; }
+.shot-direction .sd-references li { display:flex; gap:10px; align-items:start; justify-content:space-between; padding:10px 0; border-top:1px solid #39372e; }
+.shot-direction .sd-references strong, .shot-direction .sd-references a { display:block; font-size:11px; }
+.shot-direction .sd-references a { color:#d7bb8e; margin-top:4px; }
+.shot-direction .sd-warning { color:#f4bc9b; font-size:12px; }
+.shot-direction :is(button,textarea,a,summary):focus-visible { outline:2px solid var(--accent,#e7b16a); outline-offset:2px; }
+.saved-shot-direction { padding:14px; border:1px solid var(--line,#484337); border-radius:5px; margin:12px 0; }
+.saved-shot-direction h4 { margin:0 0 7px; font-size:13px; }
+.saved-shot-direction pre { white-space:pre-wrap; overflow-wrap:anywhere; font:inherit; font-size:12px; line-height:1.6; max-height:260px; overflow:auto; }
+.shot-direction .sd-field { margin-bottom: 20px; }
+.shot-direction .sd-field label { margin-bottom: 3px; }
+.shot-direction .sd-field-hint { margin: 0 0 7px; color: #b7b0a3; font-size: 12px; line-height: 1.6; }
+.shot-direction .sd-save-details { margin-top: 14px; font-size: 11px; color: #aca597; }
+@media (prefers-reduced-motion:reduce) { .shot-direction .sd-steps button { transition:none; } }

@@ -1,0 +1,23 @@
+.dreamina-drawer .generation-control-section {
+  min-width: 0;
+}
+.dreamina-drawer .generation-control-section > h3 {
+  margin: 12px 0 9px;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: #d5d7c5;
+}
+.dreamina-drawer .generation-control-section > pre {
+  max-height: 320px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.dreamina-drawer .generation-saved-options {
+  margin: 12px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #414837;
+}

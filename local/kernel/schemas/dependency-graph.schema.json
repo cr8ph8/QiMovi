@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.2/dependency-graph.schema.json",
+  "title": "FilmStack Artifact Dependency Graph v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "graph_id",
+    "graph_version",
+    "rules_version",
+    "registry_hash",
+    "rules",
+    "graph_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "filmstack-dependency-graph/v1"},
+    "graph_id": {"$ref": "#/$defs/identifier"},
+    "graph_version": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "rules_version": {"$ref": "#/$defs/identifier"},
+    "registry_hash": {"$ref": "#/$defs/sha256"},
+    "rules": {
+      "description": "Canonical implementations additionally require rule_id ordering and an acyclic graph.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2048,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/rule"}
+    },
+    "graph_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "key"],
+      "properties": {
+        "kind": {"enum": ["FACT", "EVIDENCE_CLASS", "ARTIFACT_TYPE"]},
+        "key": {"type": "string", "minLength": 1, "maxLength": 128}
+      }
+    },
+    "fact_endpoint": {
+      "allOf": [
+        {"$ref": "#/$defs/endpoint"},
+        {"properties": {"kind": {"const": "FACT"}, "key": {"pattern": "^[a-z][a-z0-9._:-]{0,127}$"}}}
+      ]
+    },
+    "evidence_class_endpoint": {
+      "allOf": [
+        {"$ref": "#/$defs/endpoint"},
+        {"properties": {"kind": {"const": "EVIDENCE_CLASS"}, "key": {"pattern": "^[a-z][a-z0-9._:-]{0,127}$"}}}
+      ]
+    },
+    "artifact_endpoint": {
+      "allOf": [
+        {"$ref": "#/$defs/endpoint"},
+        {"properties": {"kind": {"const": "ARTIFACT_TYPE"}, "key": {"pattern": "^[A-Z][A-Z0-9_]{0,127}$"}}}
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "from", "to", "relation", "required", "scope_mode"],
+      "properties": {
+        "rule_id": {"$ref": "#/$defs/identifier"},
+        "from": {
+          "oneOf": [
+            {"$ref": "#/$defs/fact_endpoint"},
+            {"$ref": "#/$defs/evidence_class_endpoint"},
+            {"$ref": "#/$defs/artifact_endpoint"}
+          ]
+        },
+        "to": {"$ref": "#/$defs/artifact_endpoint"},
+        "relation": {"enum": ["DERIVES_EXACTLY", "DEPENDS_MATERIALLY", "SATISFIES_REQUIREMENT", "GOVERNS_GATE"]},
+        "required": {"type": "boolean"},
+        "scope_mode": {"const": "TITLE_WIDE"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"from": {"properties": {"kind": {"const": "EVIDENCE_CLASS"}}}}},
+          "then": {"properties": {"relation": {"const": "SATISFIES_REQUIREMENT"}}}
+        }
+      ]
+    }
+  }
+}

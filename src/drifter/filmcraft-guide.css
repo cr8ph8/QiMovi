@@ -1,0 +1,89 @@
+.filmcraft-guide {
+  container-type: inline-size;
+  color: var(--paper, #eae4d9);
+  min-width: 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--line, #34342d);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.filmcraft-guide-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.filmcraft-guide-heading h3 { margin: 0; font-family: inherit; font-size: 16px; line-height: 1.4; font-weight: 500; }
+.filmcraft-guide-heading p { margin: 4px 0 0; color: #aaa79b; font-size: 12px; }
+.filmcraft-guide-heading > span { color: var(--muted, #97978a); font-size: 11px; }
+.filmcraft-guide-modes { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid var(--line, #34342d); }
+.filmcraft-guide-modes button { min-height: 40px; padding: 8px 12px; background: transparent; color: #aaa79b; border: 0; border-bottom: 2px solid transparent; border-radius: 0; font-size: 12px; }
+.filmcraft-guide-modes button[aria-pressed=true] { color: #f3d6b0; border-bottom-color: var(--accent, #e7b16a); }
+.filmcraft-guide-modes button:hover { color: var(--paper, #eae4d9); }
+.filmcraft-guide-path { margin-bottom: 16px; }
+.filmcraft-guide-path h4 { margin: 0 0 3px; font-size: 14px; font-weight: 500; }
+.filmcraft-guide-path p { margin: 0; color: #aaa79b; font-size: 12px; }
+.filmcraft-guide-controls { display: grid; grid-template-columns: minmax(140px, .85fr) minmax(160px, 1fr); gap: 12px; margin-bottom: 18px; }
+.filmcraft-guide-controls label { display: block; color: #bcb7ab; font-size: 11px; }
+.filmcraft-guide-search { grid-column:1 / -1; }
+.filmcraft-guide-controls input, .filmcraft-guide-controls select { display: block; width: 100%; min-height: 40px; padding: 8px 10px; margin: 5px 0 0; font-size: 12px; background: var(--bg, #151512); border: 1px solid #47453b; border-radius: 3px; color: var(--paper, #eae4d9); }
+.filmcraft-guide-controls input::placeholder { color: #979386; }
+.filmcraft-guide-body { display: grid; grid-template-columns: minmax(140px, .7fr) minmax(0, 1.4fr); gap: 22px; align-items: start; }
+.filmcraft-guide-index { min-width: 0; }
+.filmcraft-guide-count { display: block; margin-bottom: 7px; color: #a8a497; font-size: 11px; }
+.filmcraft-guide-index ul { list-style: none; margin: 0; padding: 0 5px 0 0; max-height: 290px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #565245 transparent; }
+.filmcraft-guide-index li { margin: 0; padding: 0; }
+.filmcraft-guide-index button { display: block; width: 100%; min-height: 40px; padding: 9px 11px; border: 0; border-left: 2px solid transparent; border-radius: 0; background: transparent; color: #bbb5a7; text-align: left; font-size: 12px; line-height: 1.5; transition: color 140ms ease, background 140ms ease, border-color 140ms ease; }
+.filmcraft-guide-index button[aria-pressed=true] { color: #f3d6b0; border-left-color: var(--accent, #e7b16a); background: #e7b16a0d; }
+.filmcraft-guide-index button:hover { color: var(--paper, #eae4d9); background: #ffffff06; }
+.filmcraft-guide-index--decisions ul { max-height: none; }
+.filmcraft-guide-index--decisions button { display: flex; align-items: baseline; gap: 10px; }
+.filmcraft-guide-step-number { color: #aaa79b; font-size: 10px; font-variant-numeric: tabular-nums; }
+.filmcraft-guide-detail { min-width: 0; padding-left: 20px; border-left: 1px solid var(--line, #34342d); animation: filmcraft-reveal 160ms ease-out; }
+.filmcraft-guide-kind { display: block; color: var(--accent, #e7b16a); font-size: 10px; font-weight: 600; letter-spacing: .06em; }
+.filmcraft-guide-detail h4 { margin: 7px 0 17px; font-family: inherit; font-size: 17px; line-height: 1.45; font-weight: 500; }
+.filmcraft-guide-detail h5 { margin: 0 0 5px; font-family: inherit; font-size: 11px; line-height: 1.5; font-weight: 600; color: #b2aa9b; }
+.filmcraft-guide-detail p { margin: 0; font-size: 13px; line-height: 1.7; }
+.filmcraft-guide-detail .filmcraft-guide-decision-question { margin: 0 0 18px; color: #ead1ac; font-size: 14px; line-height: 1.6; }
+.filmcraft-guide-explanation { margin-bottom: 16px; }
+.filmcraft-guide-prompt { padding-left: 12px; border-left: 2px solid #766042; margin-bottom: 15px; }
+.filmcraft-guide-detail .filmcraft-guide-example { color: #c4bdad; font-size: 12px; margin: 0 0 12px; }
+.filmcraft-guide-detail .filmcraft-guide-scope { color: #aba597; font-size: 11px; }
+.filmcraft-guide-assumptions { margin-top: 12px; font-size: 11px; color: #b8b1a1; }
+.filmcraft-guide-assumptions summary { min-height: 32px; padding: 5px 0; cursor: pointer; color: #d1c3ae; }
+.filmcraft-guide-assumptions p { margin-top: 8px; font-size: 11px; }
+.filmcraft-guide-assumptions code { display: block; margin-top: 9px; overflow-wrap: anywhere; font-size: 11px; color: #cec6b6; }
+.filmcraft-guide-assumptions ul { margin: 9px 0 0; padding-left: 17px; }
+.filmcraft-guide-assumptions li { margin: 4px 0; }
+.filmcraft-guide-sources { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line, #34342d); }
+.filmcraft-guide-sources ul { padding: 0; margin: 0; list-style: none; }
+.filmcraft-guide-sources li { margin-top: 7px; }
+.filmcraft-guide-sources a { color: #d2c0a6; text-decoration: underline; text-decoration-color: #665a45; text-underline-offset: 3px; font-size: 11px; overflow-wrap: anywhere; transition: color 140ms ease; }
+.filmcraft-guide-sources a:hover { color: var(--accent, #e7b16a); }
+.filmcraft-guide-sources li > span { display: block; color: #999486; font-size: 10px; line-height: 1.5; }
+.filmcraft-guide .filmcraft-guide-use { width: 100%; min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; padding: 9px 12px; color: #ead1ac; background: #e7b16a0b; border: 1px solid #67553b; border-radius: 3px; font-size: 12px; text-align: left; }
+.filmcraft-guide .filmcraft-guide-use:hover { color: #f5dab5; background: #e7b16a16; border-color: var(--accent, #e7b16a); }
+.filmcraft-guide :is(button, input, select, summary, a):focus-visible { outline: 2px solid var(--accent, #e7b16a); outline-offset: 2px; }
+.filmcraft-guide-empty { padding: 22px 0; color: #b6ae9e; font-size: 12px; }
+.filmcraft-guide-empty p { margin: 0 0 10px; }
+.filmcraft-guide-empty button { padding: 8px 0; color: var(--accent, #e7b16a); }
+.filmcraft-guide--compact .filmcraft-guide-body { grid-template-columns: 1fr; gap: 17px; }
+.filmcraft-guide--compact .filmcraft-guide-index ul { max-height: 136px; }
+.filmcraft-guide--compact .filmcraft-guide-index--decisions ul { max-height: none; display: flex; flex-wrap: wrap; gap: 3px; padding: 0; }
+.filmcraft-guide--compact .filmcraft-guide-index--decisions button { border-left: 0; border-bottom: 2px solid transparent; }
+.filmcraft-guide--compact .filmcraft-guide-index--decisions button[aria-pressed=true] { border-bottom-color: var(--accent, #e7b16a); }
+.filmcraft-guide--compact .filmcraft-guide-detail { border-left: 0; border-top: 1px solid var(--line, #34342d); padding: 16px 0 0; }
+@container (max-width: 430px) {
+  .filmcraft-guide-controls { grid-template-columns: 1fr; }
+  .filmcraft-guide-body { grid-template-columns: 1fr; gap: 17px; }
+  .filmcraft-guide-index ul { max-height: 136px; }
+  .filmcraft-guide-index--decisions ul { max-height: none; }
+  .filmcraft-guide-detail { padding: 16px 0 0; border-left: 0; border-top: 1px solid var(--line, #34342d); }
+}
+@keyframes filmcraft-reveal { from { opacity: .6; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .filmcraft-guide-detail { animation: none; }
+  .filmcraft-guide :is(button, a) { transition: none; }
+}
+.filmcraft-note { margin: 8px 0 12px; font-size: 11px; line-height: 1.6; }
+.filmcraft-note summary { cursor: pointer; color: var(--ss-gold, #d7bb8e); }
+.filmcraft-note summary span, .filmcraft-note small { color: var(--ss-muted, #aaa497); }
+.filmcraft-note p { margin: 8px 0; }
+.filmcraft-note ul { padding-left: 16px; }
+.filmcraft-note a { color: var(--ss-gold, #d7bb8e); overflow-wrap: anywhere; }
+.filmcraft-note summary:focus-visible { outline: 2px solid #d7bb8e; outline-offset: 3px; }

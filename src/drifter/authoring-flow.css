@@ -1,0 +1,12 @@
+.canis-form [hidden] { display: none !important; }
+.canis-form .authoring-task-nav { display: flex; flex-wrap: wrap; gap: 4px; margin: 16px 0 10px; border-bottom: 1px solid var(--line, #454137); }
+.canis-form .authoring-task-nav button { flex: 1 1 auto; padding: 11px 12px; min-height: 42px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; color: var(--muted, #b5b0a5); font: inherit; font-size: 12px; }
+.canis-form .authoring-task-nav button[aria-pressed=true] { border-bottom-color: var(--accent, #dfb77e); color: var(--accent, #dfb77e); background: transparent; }
+.canis-form .authoring-task-help { margin: 8px 0 20px; font-size: 13px; line-height: 1.65; color: var(--muted, #b5b0a5); }
+.canis-form .authoring-field-help { display: block; color: var(--muted, #b5b0a5); font-size: 12px; font-weight: normal; line-height: 1.6; margin: 4px 0 7px; }
+.canis-form .authoring-next-task { display: block; width: fit-content; margin: 20px 0 0 auto; min-height: 40px; }
+.canis-form .authoring-task-nav button:focus-visible { outline: 2px solid var(--accent, #dfb77e); outline-offset: 2px; }
+.development-draft-browser { margin: 12px 0 20px; padding: 12px 0; border-block: 1px solid var(--line, #454137); }
+.development-draft-browser summary { cursor: pointer; color: var(--muted, #b5b0a5); font-size: 12px; }
+.development-draft-browser p { color: var(--muted, #b5b0a5); font-size: 12px; line-height: 1.6; }
+.development-draft-browser summary:focus-visible { outline: 2px solid var(--accent, #dfb77e); outline-offset: 3px; }

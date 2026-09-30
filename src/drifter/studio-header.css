@@ -1,0 +1,13 @@
+/* One visible desktop tool header, shared by authoring and film preparation. */
+.studio-shared-header.studio-production-header{display:block;height:auto;padding:0;gap:0}
+.studio-shared-header[hidden]{display:none}
+.studio-shared-header[data-unsaved=true] .canis-local-status i{background:#e4b25d}
+.studio-production-header+.studio-layout{min-height:0}
+.studio-shared-header .canis-brand-bar{min-width:0;height:auto;min-height:54px;flex-wrap:wrap;padding-block:8px;row-gap:8px}
+.studio-shared-header .canis-shell-utilities{flex-wrap:wrap;gap:6px}
+.studio-shared-header .canis-shell-utilities .maker-icon-button{display:inline-flex;align-items:center;gap:6px;width:auto;height:auto;min-height:31px;padding:6px 9px;font-size:11px;border:1px solid #3d4437}
+.studio-shared-header .canis-local-status{display:flex}
+.studio-unsaved-links{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;padding:7px 22px;border-top:1px solid #343830;background:#1b211a;font-size:11px}
+.studio-unsaved-links>span{color:#bfc0af}
+.studio-unsaved-links>button{color:#edc47f;text-decoration:underline;text-underline-offset:3px;padding:4px 0;text-align:left}
+@media(max-width:680px){.studio-shared-header .canis-brand-bar{gap:10px;padding-inline:12px}.studio-shared-header .canis-shell-utilities{margin-left:0;width:100%}.studio-shared-header .canis-brand-bar .canis-project{max-width:190px}.studio-unsaved-links{padding-inline:12px}}

@@ -1,0 +1,20 @@
+.movie-timing-proposal { padding:12px 18px; border-bottom:1px solid var(--movie-line,#43453e); background:#272a23; font-size:11px; }
+.movie-timing-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.movie-timing-heading p { margin:0; display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 12px; }
+.movie-timing-heading strong { font-weight:500; color:#e5d6bd; }
+.movie-timing-heading span,.movie-timing-actions small { color:#b2b6a8; }
+.movie-timing-proposal button { padding:7px 10px; border:1px solid #766347; border-radius:3px; white-space:nowrap; }
+.movie-timing-proposal button:disabled { opacity:.45; }
+.movie-timing-proposal details { margin:10px 0; }
+.movie-timing-proposal summary { cursor:pointer; color:#d7bd94; }
+.movie-timing-scenes { display:flex; flex-wrap:wrap; gap:16px; margin:14px 0; }
+.movie-timing-scenes span { display:grid; gap:4px; font-variant-numeric:tabular-nums; }
+.movie-timing-scenes b { font-size:10px; font-weight:500; color:#b2b6a8; }
+.movie-timing-proposal ol { max-height:210px; overflow:auto; padding-left:20px; }
+.movie-timing-proposal li { margin:10px 0; }
+.movie-timing-proposal li b { font-weight:500; }
+.movie-timing-proposal li p { margin:4px 0; color:#b2b6a8; line-height:1.6; }
+.movie-timing-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; }
+.movie-timing-actions small { flex:1; min-width:150px; }
+.movie-timing-proposal p[role=alert] { color:#e4ae8b; margin-top:8px; }
+.movie-timing-proposal :is(button,summary):focus-visible { outline:2px solid #d7ab72; outline-offset:3px; }

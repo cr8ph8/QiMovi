@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.4/artifact-dependency-snapshot.schema.json",
+  "title": "FilmStack Artifact Dependency Snapshot v1",
+  "description": "A prospective, hash-sealed observation of the title-wide inputs to one artifact type. It is not approval or eligibility evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "registry_hash",
+    "graph_hash",
+    "rules_version",
+    "base_state_version",
+    "base_state_hash",
+    "scope_hash",
+    "bindings",
+    "unresolved_required_rule_ids",
+    "snapshot_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "filmstack-artifact-dependency-snapshot/v1"},
+    "registry_hash": {"$ref": "#/$defs/sha256"},
+    "graph_hash": {"$ref": "#/$defs/sha256"},
+    "rules_version": {"$ref": "#/$defs/identifier"},
+    "base_state_version": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "base_state_hash": {"$ref": "#/$defs/sha256"},
+    "scope_hash": {"$ref": "#/$defs/sha256"},
+    "bindings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "relation", "required", "source_kind", "source_id", "source_state", "source_hash"],
+        "properties": {
+          "rule_id": {"$ref": "#/$defs/identifier"},
+          "relation": {"enum": ["DERIVES_EXACTLY", "DEPENDS_MATERIALLY", "SATISFIES_REQUIREMENT", "GOVERNS_GATE"]},
+          "required": {"type": "boolean"},
+          "source_kind": {"enum": ["FACT", "EVIDENCE_CLASS", "ARTIFACT_TYPE"]},
+          "source_id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "source_state": {"enum": ["PRESENT", "ABSENT"]},
+          "source_hash": {"$ref": "#/$defs/sha_or_absent"}
+        }
+      }
+    },
+    "unresolved_required_rule_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "snapshot_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "sha_or_absent": {"type": "string", "pattern": "^(?:[0-9a-f]{64}|ABSENT)$"}
+  }
+}

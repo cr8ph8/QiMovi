@@ -1,0 +1,17 @@
+.writer-draft-history { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.writer-draft-history > label { display: block; margin-top: 12px; }
+.writer-draft-history details { margin: 12px 0; }
+.writer-draft-history summary { cursor: pointer; font-size: 11px; color: var(--muted); }
+.writer-draft-history pre, .writer-draft-history code, .writer-history-diff { white-space: pre-wrap; overflow-wrap: anywhere; font: 11px/1.7 ui-monospace, monospace; }
+.writer-draft-history pre, .writer-history-diff { max-height: 250px; overflow: auto; margin: 10px 0; }
+.writer-draft-history .writer-history-diff p { margin: 0; font: inherit; color: inherit; }
+.writer-draft-history .writer-history-diff p[data-change="add"] { background: #6eb8891a; color: #a6dabb; }
+.writer-draft-history .writer-history-diff p[data-change="remove"] { background: #d08b861a; color: #e8aaa6; }
+.writer-draft-history > button:last-child { margin-top: 4px; }
+
+.writer-scene-restore { border-top: 1px solid var(--studio-border, #46423a); margin-top: 1rem; padding-top: 1rem; }
+.writer-scene-restore h4, .writer-scene-restore h5 { margin: .5rem 0; }
+.writer-scene-restore-preview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: .75rem 0; }
+.writer-scene-restore-preview pre { max-height: 22rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: .85rem/1.6 ui-monospace, monospace; }
+.writer-scene-restore small { display: block; margin-top: .65rem; }
+@media (max-width: 780px) { .writer-scene-restore-preview { grid-template-columns: 1fr; } }

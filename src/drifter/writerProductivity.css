@@ -1,0 +1,101 @@
+/* One writing surface, with tools and reference material kept in context. */
+.screenwriting-drawer.screenwriting-workspace { padding: 20px 24px 24px; }
+.screenwriting-embedded .screenwriting-drawer.screenwriting-workspace { padding: 0; }
+.screenwriting-workspace .writer-draft-bar { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0 0 12px; border: 0; }
+.screenwriting-workspace .writer-title { display: block; flex: 1; min-width: 160px; margin: 0; }
+.screenwriting-workspace .writer-title > span { display: block; color: var(--muted); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.screenwriting-workspace .writer-title input { width: 100%; margin: 3px 0 0; padding: 5px 0; border: 0; border-radius: 0; background: transparent; color: var(--paper); font: 500 21px/1.3 'Avenir Next', system-ui, sans-serif; }
+.screenwriting-workspace .writer-save-controls { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+.screenwriting-workspace .writer-save-controls strong { font-size: 10px; color: var(--muted); font-weight: 400; }
+.screenwriting-workspace .writer-save-controls button { white-space: nowrap; font-size: 11px; padding: 10px 12px; }
+.screenwriting-workspace .writer-save-controls > button[aria-label] { padding: 6px; font-size: 20px; }
+.screenwriting-workspace .writer-utilities { display: flex; align-items: center; flex-wrap: wrap; gap: 0 17px; min-height: 38px; margin-bottom: 14px; border-block: 1px solid var(--line); }
+.screenwriting-workspace .writer-tool-menu { position: relative; margin: 0; min-width: 0; font-size: 11px; }
+.screenwriting-workspace .writer-tool-menu > summary { display: flex; align-items: center; gap: 6px; padding: 11px 0; border: 0; border-radius: 0; color: var(--muted); cursor: pointer; list-style: none; }
+.screenwriting-workspace .writer-tool-menu > summary::-webkit-details-marker { display: none; }
+.screenwriting-workspace .writer-tool-menu > summary::after { content: '⌄'; color: var(--muted); }
+.screenwriting-workspace .writer-tool-menu[open] > summary { color: var(--accent); }
+.screenwriting-workspace .writer-tool-menu > .writer-menu-content { position: absolute; top: calc(100% + 5px); bottom: auto; left: 0; right: auto; width: min(340px, calc(100vw - 48px)); max-height: min(500px, 70vh); overflow: auto; display: block; margin: 0; padding: 18px; border: 1px solid var(--line); border-radius: 5px; background: #22221d; color: var(--paper); box-shadow: 0 12px 30px #0005; z-index: 30; }
+.screenwriting-workspace .writer-menu-content p { margin: 12px 0 0; font-size: 11px; line-height: 1.65; color: var(--muted); }
+.screenwriting-workspace .writer-menu-content label { display: block; margin: 0; font-size: 11px; color: var(--muted); }
+.screenwriting-workspace .writer-menu-content input, .screenwriting-workspace .writer-menu-content select { display: block; width: 100%; margin: 7px 0 0; padding: 9px; font-size: 12px; background: var(--bg); color: var(--paper); border-color: var(--line); }
+.screenwriting-workspace .writer-menu-actions, .screenwriting-workspace .writer-session-actions, .screenwriting-workspace .writer-export-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
+.screenwriting-workspace .writer-menu-content button { min-height: 32px; padding: 8px 10px; font-size: 11px; }
+.screenwriting-workspace .screenwriting-library .writer-menu-actions > button { flex: 1 1 auto; }
+.screenwriting-workspace .screenwriting-metadata { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; border: 0; padding: 0; margin: 0 0 16px; }
+.screenwriting-workspace .screenwriting-metadata > label:first-child { grid-column: 1 / -1; }
+.screenwriting-workspace .writer-progress-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+.screenwriting-workspace .writer-progress-heading progress { width: 100%; height: 5px; accent-color: var(--accent); }
+.screenwriting-workspace .writer-session > strong { font-size: 12px; font-weight: 500; }
+.screenwriting-workspace .writer-session small { display: block; margin-top: 10px; font-size: 10px; line-height: 1.6; color: var(--muted); }
+.screenwriting-workspace .writer-session-about, .screenwriting-workspace .writer-editor-help { margin-top: 14px; }
+.screenwriting-workspace .writer-session-about > summary, .screenwriting-workspace .writer-editor-help > summary { font-size: 10px; color: var(--muted); cursor: pointer; }
+.screenwriting-workspace .writer-clock { font: 11px ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--accent); }
+.screenwriting-workspace .writer-draft-stats { margin-left: auto; color: var(--muted); font-size: 10px; white-space: nowrap; }
+.screenwriting-workspace .writer-notice { margin: 0 0 12px; color: var(--accent); font-size: 11px; line-height: 1.6; }
+.screenwriting-drawer.screenwriting-workspace .screenwriting-layout { grid-template-columns: minmax(0, 1fr) minmax(260px, 32%); align-items: start; gap: 24px; }
+.screenwriting-workspace .screenwriting-format { display: flex; align-items: center; gap: 18px; margin: 0; padding: 0 0 10px; min-height: 30px; }
+.screenwriting-workspace .screenwriting-format > span { color: var(--muted); font-size: 10px; }
+.screenwriting-workspace .screenwriting-format button { padding: 0; font-size: 11px; color: var(--accent); }
+.screenwriting-workspace .screenwriting-fountain > textarea { height: clamp(360px, calc(100dvh - 300px), 820px); min-height: 360px; }
+.screenwriting-workspace .screenwriting-fountain > pre, .screenwriting-workspace .screenwriting-fountain > textarea { padding: 22px; line-height: 24px; }
+.screenwriting-drawer.screenwriting-workspace .screenwriting-source { padding: 0 0 0 20px; border-top: 0; border-left: 1px solid var(--line); }
+.screenwriting-workspace .screenwriting-reader-tabs { display: flex; gap: 13px; align-items: center; overflow-x: auto; margin: 0; padding: 0 0 9px; min-height: 30px; border: 0; scrollbar-width: thin; }
+.screenwriting-workspace .screenwriting-reader-tabs > button { flex: 0 0 auto; margin: 0; padding: 0 0 5px; font-size: 10px; line-height: 1.5; border: 0; border-bottom: 1px solid transparent; color: var(--muted); }
+.screenwriting-workspace .screenwriting-reader-tabs > button[aria-selected="true"] { color: var(--paper); border-color: var(--accent); }
+.screenwriting-workspace .writer-context-content { height: clamp(360px, calc(100dvh - 300px), 820px); overflow: auto; scrollbar-width: thin; }
+.screenwriting-workspace .writer-context-content .draft-scene-index { border: 0; margin: 0; padding: 0; }
+.screenwriting-workspace .writer-context-content .draft-scene-index > header h3 { font: 500 15px/1.4 'Avenir Next', system-ui, sans-serif; margin: 0; }
+.screenwriting-workspace .writer-context-content .draft-scene-index > header { display: block; padding: 0; border: 0; margin: 0; }
+.screenwriting-workspace .writer-context-content .draft-scene-index > header > span { display: block; margin-top: 4px; }
+.screenwriting-workspace .writer-context-content .draft-scene-index > p { margin-top: 10px; }
+.screenwriting-workspace .writer-context-content .draft-scene-index nav { max-height: none; }
+.screenwriting-workspace .writer-context-content .draft-scene-index nav button { flex-wrap: wrap; }
+.screenwriting-workspace .writer-context-content .draft-scene-main { flex: 1; min-width: 150px; }
+.screenwriting-workspace .writer-context-content .field-label { display: block; margin: 0; font-size: 10px; }
+.screenwriting-workspace .writer-context-hint { margin: 10px 0; font-size: 10px; line-height: 1.65; color: var(--muted); }
+.screenwriting-workspace .screenwriting-source-pages { max-height: none; padding: 18px 12px; overflow: visible; font-size: 11px; }
+.screenwriting-source-passage { display: block; width: 100%; padding: 5px 8px; border: 0; border-left: 2px solid transparent; border-radius: 0; background: transparent; color: inherit; font: inherit; text-align: inherit; line-height: inherit; white-space: pre-wrap; cursor: pointer; }
+.screenwriting-source-passage:hover { background: rgba(191, 156, 96, .08); }
+.screenwriting-source-passage[aria-pressed="true"] { border-left-color: #cba46b; background: rgba(191, 156, 96, .12); }
+.screenwriting-workspace .writer-selected-passage { margin: 14px 0; padding: 12px; background: #ddd6c8; color: #322c22; font: 11px/1.8 'Courier New', monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.screenwriting-workspace .writer-source-back { padding: 0; font-size: 11px; color: var(--accent); }
+.screenwriting-workspace .screenplay-connections { margin: 14px 0 0; max-height: none; overflow: visible; }
+.screenwriting-workspace .writing-preview { padding: 0; max-height: none; overflow: visible; }
+.screenwriting-workspace .writer-visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); }
+.screenwriting-workspace button:focus-visible, .screenwriting-workspace summary:focus-visible, .screenwriting-workspace .writer-title input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 850px) {
+  .screenwriting-drawer.screenwriting-workspace .screenwriting-layout { grid-template-columns: minmax(0, 1fr); }
+  .screenwriting-drawer.screenwriting-workspace .screenwriting-source { border-left: 0; border-top: 1px solid var(--line); padding: 16px 0 0; }
+  .screenwriting-workspace .writer-context-content { height: 380px; }
+  .screenwriting-workspace .writer-save-controls { flex-wrap: wrap; gap: 5px 10px; }
+  .screenwriting-workspace .writer-save-controls strong { flex-basis: 100%; text-align: right; }
+}
+@media (max-width: 600px) {
+  .screenwriting-workspace .writer-draft-bar { gap: 10px; }
+  .screenwriting-workspace .writer-title { min-width: 100px; }
+  .screenwriting-workspace .writer-title input { font-size: 17px; }
+  .screenwriting-workspace .writer-save-controls button { padding: 8px; font-size: 10px; }
+  .screenwriting-workspace .writer-utilities { position: relative; gap: 0 15px; padding-bottom: 5px; }
+  .screenwriting-workspace .writer-tool-menu { position: static; }
+  .screenwriting-workspace .writer-tool-menu > .writer-menu-content { top: 100%; width: 100%; }
+  .screenwriting-workspace .writer-draft-stats { flex-basis: 100%; margin: 0 0 5px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .screenwriting-workspace .writer-tool-menu[open] > .writer-menu-content { animation: writer-menu-reveal .1s ease-out; }
+  .screenwriting-workspace .screenwriting-reader-tabs > button, .screenwriting-source-passage { transition: color .12s ease, border-color .12s ease, background .12s ease; }
+  @keyframes writer-menu-reveal { from { opacity: .5; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+}
+.screenwriting-workspace .writer-menu-content.screenwriting-library > label { display: block; }
+.screenwriting-workspace .writer-workflow-actions { display: flex; align-items: center; gap: 14px; padding-right: 16px; border-right: 1px solid var(--line); }
+.screenwriting-workspace .writer-workflow-actions nav { display: flex; align-items: center; gap: 14px; margin: 0; padding: 0; border: 0; }
+.screenwriting-workspace .writer-workflow-actions button { border: 0; background: transparent; font-size: 11px; padding: 10px 0; color: var(--muted); }
+.screenwriting-workspace .writer-workflow-actions button[aria-current], .screenwriting-workspace .writer-workflow-actions button[aria-pressed="true"] { color: var(--accent); }
+@media (min-width: 601px) { .screenwriting-workspace .writer-export-menu > .writer-menu-content { left: auto; right: 0; } }
+
+/* Outline beside the page; a single writing canvas serves both representations. */
+@media (min-width: 851px) {
+ .screenwriting-drawer.screenwriting-workspace .screenwriting-layout { grid-template-columns: minmax(225px, 25%) minmax(0, 1fr); gap: 22px; }
+ .screenwriting-workspace .screenwriting-author { grid-column: 2; grid-row: 1; min-width: 0; }
+ .screenwriting-drawer.screenwriting-workspace .screenwriting-source { grid-column: 1; grid-row: 1; border-left: 0; border-right: 1px solid var(--line); padding: 0 18px 0 0; }
+}

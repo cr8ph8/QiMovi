@@ -1,0 +1,110 @@
+/* Cinema Aurea theme override for driver.js popovers */
+@import "driver.js/dist/driver.css";
+
+.driver-popover.qi-tour {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px hsl(var(--primary) / 0.15);
+  font-family: "Inter", system-ui, sans-serif;
+  max-width: 380px;
+}
+
+.driver-popover.qi-tour .driver-popover-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.25rem;
+}
+
+.driver-popover.qi-tour .driver-popover-description {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.driver-popover.qi-tour .driver-popover-footer {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.driver-popover.qi-tour .driver-popover-progress-text {
+  color: hsl(var(--muted-foreground));
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.driver-popover.qi-tour .driver-popover-navigation-btns {
+  margin-left: auto;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.driver-popover.qi-tour button.driver-popover-prev-btn,
+.driver-popover.qi-tour button.driver-popover-next-btn,
+.driver-popover.qi-tour button.driver-popover-close-btn {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-shadow: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.driver-popover.qi-tour button.driver-popover-next-btn {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.85));
+  color: hsl(var(--primary-foreground));
+  border-color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.driver-popover.qi-tour button.driver-popover-next-btn:hover {
+  filter: brightness(1.1);
+}
+
+.driver-popover.qi-tour button.driver-popover-prev-btn:hover {
+  background: hsl(var(--muted) / 0.7);
+}
+
+.driver-popover.qi-tour button.driver-popover-close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  color: hsl(var(--muted-foreground));
+}
+
+.driver-popover.qi-tour .driver-popover-arrow {
+  border-color: hsl(var(--card));
+}
+
+.driver-popover.qi-tour .driver-popover-arrow-side-top.driver-popover-arrow {
+  border-top-color: hsl(var(--card));
+}
+.driver-popover.qi-tour .driver-popover-arrow-side-bottom.driver-popover-arrow {
+  border-bottom-color: hsl(var(--card));
+}
+.driver-popover.qi-tour .driver-popover-arrow-side-left.driver-popover-arrow {
+  border-left-color: hsl(var(--card));
+}
+.driver-popover.qi-tour .driver-popover-arrow-side-right.driver-popover-arrow {
+  border-right-color: hsl(var(--card));
+}
+
+/* Spotlight overlay tint */
+.driver-overlay {
+  fill: rgb(0 0 0 / 0.78) !important;
+}

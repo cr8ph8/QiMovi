@@ -1,0 +1,468 @@
+{
+  "schema": "drifter-module-completion/v1",
+  "modules": [
+    {
+      "moduleId": "M01",
+      "module": "Hampton state/governance kernel",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "local-api",
+        "admission",
+        "recovery",
+        "selected-project-integrity"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M02",
+      "module": "Source intake and admission",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Owner plus independent technical reviewer",
+      "checks": [
+        "source",
+        "admission",
+        "selected-project-integrity"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M03",
+      "module": "Artifact registry and dependencies",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "documents"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M04",
+      "module": "Shot vocabulary and candidates",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "source",
+        "segments",
+        "creative-coverage"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M05",
+      "module": "Story Room and episode script",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "source",
+        "browser",
+        "admission"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M06",
+      "module": "Timing rehearsal",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "browser",
+        "media-qc"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M07",
+      "module": "Character/environment references",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Owner plus independent technical reviewer",
+      "checks": [
+        "casting"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M08",
+      "module": "Storyboard review/persistence",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "segments",
+        "browser",
+        "casting"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M09",
+      "module": "Preproduction generation and AI routing",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "segments",
+        "provider"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M10",
+      "module": "Canonical pack storage/downloads",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "local-api",
+        "recovery",
+        "selected-project-integrity"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M11",
+      "module": "Evidence observation ledger",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "local-api",
+        "reviews"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M12",
+      "module": "Rehearsal Room",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "browser",
+        "local-api"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M13",
+      "module": "Living Atlas",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "browser",
+        "documents"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M14",
+      "module": "The Score",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "browser",
+        "media-qc"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M15",
+      "module": "Production template library",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "documents",
+        "kernel"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M16",
+      "module": "International/Canada funding",
+      "scope": "DEFERRED",
+      "reason": "Funding applications outside private pilot",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M17",
+      "module": "Shared-fact document compiler",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "documents",
+        "documents-integration",
+        "browser"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M18",
+      "module": "Higgsfield MCP / Seedance generation execution",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Current film path uses Higgsfield MCP asynchronous Seedance generation; local preflight alone does not qualify execution",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Owner plus independent technical reviewer",
+      "checks": [
+        "provider-tooling",
+        "provider",
+        "budget"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M19",
+      "module": "Additional provider adapters (Comfy, Reactor/Helios)",
+      "scope": "DEFERRED",
+      "reason": "Additional execution adapters deferred; historical Reactor tooling remains separate from current film qualification",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M20",
+      "module": "Media QC/selects/editorial handoff",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Owner plus independent technical reviewer",
+      "checks": [
+        "media-qc",
+        "delivery"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M21",
+      "module": "Release and delivery clearance",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Owner plus independent technical reviewer",
+      "checks": [
+        "delivery",
+        "film-acceptance"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M22",
+      "module": "Node workflows, hooks and adaptive crews",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Typed local planning and comparison graphs are implemented; execution hooks and adaptive crew expansion stay deferred.",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "nodes-tooling"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace.",
+      "capabilities": [
+        {
+          "id": "local-node-planning",
+          "scope": "REQUIRED_LOCAL_PILOT",
+          "checks": [
+            "nodes-tooling"
+          ]
+        },
+        {
+          "id": "hook-router-adaptive-crews",
+          "scope": "DEFERRED",
+          "checks": []
+        }
+      ]
+    },
+    {
+      "moduleId": "M23",
+      "module": "Relational/spatial rehearsal",
+      "scope": "OPTIONAL_LOCAL_CAPABILITY",
+      "reason": "Bounded camera exchange and retained Blender observations are optional production aids; general spatial rehearsal and VR/gameplay stay deferred.",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "camera-tooling"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace.",
+      "capabilities": [
+        {
+          "id": "bounded-camera-exchange",
+          "scope": "OPTIONAL_LOCAL_CAPABILITY",
+          "checks": [
+            "camera-tooling"
+          ]
+        },
+        {
+          "id": "general-spatial-vr-rehearsal",
+          "scope": "DEFERRED",
+          "checks": []
+        }
+      ]
+    },
+    {
+      "moduleId": "M24",
+      "module": "Creative identity and limited editions",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "trading",
+        "trading-demo"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M25",
+      "module": "Licences and project/IP assignments",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "trading",
+        "trading-demo"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M26",
+      "module": "Ownership and economic participation",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "trading",
+        "trading-demo"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M27",
+      "module": "Collectible exchange and swaps",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "trading",
+        "trading-demo"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M28",
+      "module": "Value profiles and portfolio records",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "trading",
+        "trading-demo"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M29",
+      "module": "Revenue allocation and settlement",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "trading",
+        "trading-demo"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M30",
+      "module": "Blockchain/NFT adapter",
+      "scope": "DEFERRED",
+      "reason": "Live blockchain issuance deferred; fictional ledger covers pilot",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    },
+    {
+      "moduleId": "M31",
+      "module": "Integration, deployment and operations",
+      "scope": "REQUIRED_LOCAL_PILOT",
+      "reason": "Required bounded local pilot capability; expansion stays outside this finish line",
+      "implementationOwner": "Implementation agent",
+      "acceptanceOwner": "Independent reviewer",
+      "checks": [
+        "regression",
+        "local-api",
+        "browser",
+        "recovery",
+        "completion-contract",
+        "selected-project-integrity",
+        "readiness-tooling"
+      ],
+      "evidenceLocation": "local/completion/runs/<run-id>/report.json",
+      "priorStatus": "Not qualified for this public checkout; run the applicable checks against your own workspace."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+.scene-coverage-review { flex: 1; min-height: 0; overflow: auto; padding: 22px; color: var(--ss-paper); scrollbar-width: thin; container-type: inline-size; }
+.scene-coverage-review > header { display: block; margin: 0; padding: 0; border: 0; }
+.scene-coverage-review > header > span { font-size: 10px; letter-spacing: .08em; color: var(--ss-gold); }
+.scene-coverage-review h3 { margin: 8px 0; font: 500 18px/1.45 'Avenir Next', system-ui, sans-serif; }
+.scene-coverage-review p { margin: 8px 0; font-size: 12px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.scene-coverage-review > header p, .scr-context p { color: var(--ss-muted); }
+.scr-context { margin: 15px 0 20px; }
+.scr-context .filmcraft-note { margin-bottom: 0; }
+.scr-table-wrap { overflow-x: auto; }
+.scene-coverage-review table { width: 100%; min-width: 530px; border-collapse: collapse; table-layout: fixed; }
+.scene-coverage-review th, .scene-coverage-review td { vertical-align: top; text-align: left; font-weight: 400; padding: 18px 14px; border-bottom: 1px solid var(--ss-line); }
+.scene-coverage-review th:first-child { width: 38%; padding-left: 0; }
+.scene-coverage-review td:last-child { padding-right: 0; }
+.scene-coverage-review thead th { padding-top: 0; padding-bottom: 10px; color: var(--ss-muted); font-size: 10px; font-weight: 500; }
+.scene-coverage-review tbody tr[data-selected=true] { background: #d8b78208; }
+.scr-caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.scene-coverage-review .scr-shot { display: flex; width: 100%; align-items: flex-start; gap: 10px; padding: 0; color: var(--ss-paper); text-align: left; }
+.scr-shot > span:last-child { flex: 1; min-width: 0; }
+.scr-shot strong { display: block; font-size: 14px; font-weight: 500; color: var(--ss-gold); }
+.scr-shot small { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 11px; line-height: 1.6; margin-top: 4px; }
+.scr-image { display: flex; flex: 0 0 82px; width: 82px; min-height: 46px; align-items: center; justify-content: center; overflow: hidden; background: #151812; color: var(--ss-muted); font-size: 10px; }
+.scr-image .cell-image { width: 100%; }
+.scr-image img { display: block; width: 100%; object-fit: contain; }
+.scr-facts, .scene-coverage-review p.scr-facts { display: block; color: var(--ss-muted); font-size: 10px; line-height: 1.6; }
+.scene-coverage-review .scr-link { padding: 7px 0; min-height: 34px; color: var(--ss-gold); font-size: 11px; text-align: left; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: text-decoration-color 120ms ease; }
+.scene-coverage-review .scr-link:hover { text-decoration-color: var(--ss-gold); }
+.scr-next { font-size: 11px; font-weight: 500; color: var(--ss-gold); }
+.scene-coverage-review .scr-open { color: var(--ss-muted); font-style: italic; }
+.scr-question { display: block; color: var(--ss-muted); font-size: 10px; line-height: 1.6; }
+.scene-coverage-review .scr-caution { color: #d8b782; font-size: 11px; line-height: 1.6; }
+.scr-clips { margin: 10px 0 0; padding: 0; list-style: none; }
+.scr-clips li { margin-top: 12px; }
+.scr-clips li > span { display: block; font-size: 11px; line-height: 1.5; }
+.scr-clips small { display: block; margin-top: 5px; }
+.scene-coverage-review footer, .scr-empty { padding: 16px 0 0; color: var(--ss-muted); font-size: 10px; line-height: 1.6; }
+@container (max-width: 680px) { .scr-shot { flex-direction: column; } .scr-image { flex-basis: auto; width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .scene-coverage-review .scr-link { transition: none; } }

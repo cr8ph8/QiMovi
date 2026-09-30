@@ -1,0 +1,8 @@
+.project-story-bible-intro { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+.project-story-bible-intro h2 { margin: 0 0 6px; color: #eee6d9; font-size: 20px; font-weight: 550; }
+.project-story-bible-intro p { max-width: 680px; margin: 0; color: #bdb6a9; font-size: 12px; }
+.project-story-bible-intro > span { flex-shrink: 0; color: #d3b982; font-size: 11px; padding-top: 5px; }
+.project-story-bible-surface { margin: 0; padding: 0; min-width: 0; border: 0; }
+.project-story-bible > [role=alert] { color: #edb69a; }
+.project-story-bible > [role=status] { color: #d5bb96; }
+@media(max-width:760px) { .project-story-bible-intro { flex-direction: column; gap: 8px; } }

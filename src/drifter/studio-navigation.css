@@ -1,0 +1,38 @@
+/* The phase bar replaces the old four-column tool directory. */
+.canis-navigation.studio-phase-navigation{position:relative;z-index:60;display:block;height:auto;min-height:0;padding:0 18px;background:#131b17;border-bottom:1px solid #354036}
+.studio-phase-navigation .maker-workspace-nav{display:block;width:100%;height:auto;overflow:visible}
+.studio-phase-navigation .studio-phase-tabs{display:flex;align-items:stretch;gap:2px;overflow-x:auto;scrollbar-width:thin}
+.studio-phase-navigation .maker-workspace-nav button{display:inline-flex;align-items:center;justify-content:flex-start;gap:6px;height:auto;min-height:30px;padding:6px 8px;border:0;border-bottom:2px solid transparent;border-radius:0;font-size:11px;line-height:1.3;color:#bdc1b4;white-space:nowrap;text-align:left;transition:color 100ms ease,background 100ms ease,border-color 100ms ease}
+.studio-phase-navigation .studio-phase-tabs>button{flex:1;justify-content:center;min-height:43px;padding:10px 7px;font-size:11px}
+.studio-phase-navigation .studio-phase-tabs>button>small{font-size:9px;color:#748575;font-variant-numeric:tabular-nums}
+.studio-phase-navigation .studio-phase-tabs>button[aria-selected=true]{background:#202a21;color:#f2cd8d;border-bottom-color:#dbb46e}
+.studio-phase-navigation .studio-phase-tabs>button[aria-selected=true]>small{color:#c3a875}
+.studio-phase-navigation .studio-phase-tabs>button>svg{flex-shrink:0;transition:transform 120ms ease}
+.studio-phase-navigation .studio-phase-tabs>button[aria-expanded=true]>svg{transform:rotate(180deg)}
+.studio-phase-navigation button:focus-visible{outline:2px solid #e5bb75;outline-offset:-3px}
+.studio-phase-navigation .maker-workspace-nav button[aria-current=page]{color:#edc486;border-bottom-color:transparent;background:#262d23}
+.studio-phase-navigation .maker-workspace-nav button:hover:not(:disabled){background:#ffffff08;color:#f5dfb9}
+.studio-phase-navigation .maker-workspace-nav button:disabled{opacity:.45;cursor:default}
+.studio-phase-navigation .studio-phase-utilities{display:flex;align-items:center;gap:14px;min-height:40px;border-top:1px solid #26332b}
+.studio-phase-navigation .maker-tool-search{position:relative;top:auto;right:auto;flex:0 1 230px;width:230px;height:27px;margin:0;padding:0 8px;box-sizing:border-box;border-color:#364437;background:#101712}
+.studio-phase-navigation .maker-tool-search input{font-size:11px}
+.studio-phase-navigation .maker-tool-search button{min-height:20px;padding:2px;border:0}
+.studio-phase-navigation .studio-global-tools{display:flex;align-items:center;flex:1;justify-content:flex-end;gap:4px;overflow-x:auto}
+.studio-phase-navigation .studio-global-tools>button{font-size:10px;padding:5px 7px;min-height:28px}
+.studio-phase-navigation .maker-workspace-nav button[data-search=match]{color:#ffe0a7;background:#302b20}
+.studio-phase-navigation .studio-phase-dropdown{position:absolute;top:100%;left:18px;right:18px;z-index:80;max-width:800px;max-height:min(58vh,420px);overflow:auto;padding:12px 14px 14px;background:#1c251e;border:1px solid #435040;border-top:2px solid #d4ac67;border-radius:0 0 7px 7px;box-shadow:0 14px 30px #0007;animation:studio-phase-reveal 110ms ease-out}
+.studio-phase-navigation .studio-phase-dropdown-heading{display:flex;align-items:baseline;gap:12px;padding:0 2px 10px;color:#eee0c2}
+.studio-phase-navigation .studio-phase-dropdown-heading strong{font-size:12px;font-weight:600}
+.studio-phase-navigation .studio-phase-dropdown-heading>span{font-size:10px;color:#a8b19f}
+.studio-phase-navigation .studio-phase-tool-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px 10px}
+.studio-phase-navigation .studio-phase-tool-list>button{position:relative;min-height:37px;padding:8px;gap:8px;white-space:normal;border:0;border-radius:3px}
+.studio-phase-navigation .studio-phase-tool-list>button>svg{flex-shrink:0}
+.studio-phase-navigation .studio-phase-tool-list>button>small{margin-left:auto;font-size:9px;color:#a5ad9c;text-align:right;line-height:1.2}
+.studio-phase-navigation .studio-phase-dropdown>p{margin:8px 2px;font-size:12px;color:#b7bfaf}
+.studio-nav-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.studio-phase-navigation .studio-phase-tool-list>button:has(.studio-tool-description){display:grid;grid-template-columns:14px 1fr;text-align:left;align-content:start}
+.studio-tool-description{grid-column:2;font-size:10px;line-height:1.5;font-style:normal;color:#aeb8a7;font-weight:400}
+@keyframes studio-phase-reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1050px){.canis-navigation.studio-phase-navigation{padding-inline:10px}.studio-phase-navigation .studio-phase-tabs>button{flex:none;padding-inline:10px}.studio-phase-navigation .studio-phase-tabs>button>small{display:none}.studio-phase-navigation .studio-phase-utilities{gap:8px}.studio-phase-navigation .studio-phase-dropdown{left:10px;right:10px}.studio-phase-navigation .studio-global-tools>button{padding-inline:5px}.studio-phase-navigation .studio-global-tools>button>svg{display:none}}
+@media(max-width:680px){.studio-phase-navigation .studio-phase-utilities{flex-wrap:wrap;padding-block:6px;gap:5px}.studio-phase-navigation .maker-tool-search{flex:1 0 100%;width:100%;order:0}.studio-phase-navigation .studio-global-tools{flex:1 0 100%;justify-content:flex-start}.studio-phase-navigation .studio-phase-tool-list{grid-template-columns:repeat(2,minmax(0,1fr))}.studio-phase-navigation .studio-phase-dropdown{max-height:55vh;padding-inline:9px}.studio-phase-navigation .studio-phase-tool-list>button{font-size:11px}.studio-phase-navigation .studio-phase-tool-list>button>small{display:none}}
+@media(prefers-reduced-motion:reduce){.studio-phase-navigation .studio-phase-dropdown{animation:none}.studio-phase-navigation .maker-workspace-nav button,.studio-phase-navigation .studio-phase-tabs>button>svg{transition:none}}

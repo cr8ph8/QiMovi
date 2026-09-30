@@ -1,0 +1,12 @@
+.screenplay-title-page-dialog { max-width: 620px; max-height: 90dvh; overflow-y: auto; background: #25241f; color: #e6dfd0; border: 1px solid #555044; }
+.screenplay-title-page-dialog form { display: grid; gap: 14px; }
+.screenplay-title-page-dialog .screenplay-title-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border: 0; margin: 0; padding: 0; }
+.screenplay-title-page-dialog .screenplay-title-fields label { display: grid; gap: 5px; font: 12px/1.4 system-ui,sans-serif; }
+.screenplay-title-page-dialog textarea { width: 100%; resize: vertical; padding: 8px; border: 1px solid #555044; border-radius: 4px; background: #191a16; color: #ece5d7; font: 13px/1.5 system-ui,sans-serif; }
+.screenplay-title-page-dialog button { border: 1px solid #555044; border-radius: 4px; padding: 7px 12px; font: 12px/1.4 system-ui,sans-serif; cursor: pointer; }
+.screenplay-title-page-dialog button[type=submit] { background: #d7bd8e; color: #211e18; }
+.screenplay-title-page-dialog button:disabled,.screenplay-title-page-dialog fieldset:disabled { opacity: .5; cursor: default; }
+.screenplay-title-page-dialog .screenplay-title-hint { margin: 0; color: #bdb5a8; font: 11px/1.5 system-ui,sans-serif; }
+.screenplay-title-page-dialog [role=alert] { color: #f3ba9d; font-size: 12px; }
+.screenplay-title-page-dialog :is(textarea,button):focus-visible { outline: 2px solid #d7bd8e; outline-offset: 2px; }
+@media(max-width:550px) { .screenplay-title-page-dialog .screenplay-title-fields { grid-template-columns: 1fr; } }

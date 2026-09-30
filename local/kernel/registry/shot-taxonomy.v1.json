@@ -1,0 +1,1382 @@
+{
+  "counts": {
+    "categories": 8,
+    "entries": 111,
+    "sources": 8,
+    "supplied_references": 43
+  },
+  "provenance": {
+    "source_file": "02_Production_Planning/SHOT_TAXONOMY.json",
+    "source_sha256": "9bcef464a4d56a99e43e4c095253998ca306b76aa709087d020b714f4ecddd29"
+  },
+  "registry_hash": "8d67032342fc6b5b074685feed9539f32f4f5c1f97c66fc03f1fe1091119a433",
+  "schema_version": "filmstack-shot-taxonomy-registry/v1",
+  "taxonomy": {
+    "boundary": "This is a composable production-planning vocabulary, not an exhaustive artistic rulebook, camera authorization, safety approval, or substitute for story purpose and department review.",
+    "categories": {
+      "CAMERA_ANGLE": {
+        "entries": [
+          {
+            "aliases": [
+              "Neutral angle"
+            ],
+            "code": "ANGLE_EYE",
+            "definition": "Camera looks from approximately the subject's eye level.",
+            "supplied_refs": [
+              16
+            ],
+            "value": "Eye Level"
+          },
+          {
+            "aliases": [],
+            "code": "ANGLE_LOW",
+            "definition": "Camera looks upward from below the subject's eye line.",
+            "supplied_refs": [
+              17
+            ],
+            "value": "Low Angle"
+          },
+          {
+            "aliases": [],
+            "code": "ANGLE_HIGH",
+            "definition": "Camera looks downward from above the subject's eye line.",
+            "supplied_refs": [
+              18
+            ],
+            "value": "High Angle"
+          },
+          {
+            "aliases": [
+              "Dutch angle",
+              "Canted angle"
+            ],
+            "code": "ANGLE_DUTCH",
+            "definition": "The horizon is intentionally tilted.",
+            "supplied_refs": [
+              19
+            ],
+            "value": "Dutch / Canted"
+          },
+          {
+            "aliases": [
+              "Bird's eye"
+            ],
+            "code": "ANGLE_BIRD",
+            "definition": "A very high view emphasizing spatial overview rather than strict nadir geometry.",
+            "supplied_refs": [
+              20
+            ],
+            "value": "Bird's-Eye / Aerial Overview"
+          },
+          {
+            "aliases": [
+              "Top down",
+              "Nadir"
+            ],
+            "code": "ANGLE_TOP",
+            "definition": "Camera points approximately straight down toward the subject.",
+            "supplied_refs": [
+              21
+            ],
+            "value": "Top-Down / Overhead"
+          },
+          {
+            "aliases": [
+              "Worm's eye"
+            ],
+            "code": "ANGLE_WORM",
+            "definition": "An extreme low view looking strongly upward.",
+            "supplied_refs": [
+              22
+            ],
+            "value": "Worm's-Eye"
+          },
+          {
+            "aliases": [],
+            "code": "ANGLE_GROUND",
+            "definition": "Camera is placed near the ground; viewing direction may remain level.",
+            "supplied_refs": [],
+            "value": "Ground-Level"
+          },
+          {
+            "aliases": [],
+            "code": "ANGLE_AERIAL_OBLIQUE",
+            "definition": "Elevated or airborne view that is not straight down.",
+            "supplied_refs": [],
+            "value": "Aerial Oblique"
+          },
+          {
+            "aliases": [],
+            "code": "ANGLE_CUSTOM",
+            "definition": "A project-specific angle defined in Notes.",
+            "supplied_refs": [],
+            "value": "Other / Custom Angle"
+          }
+        ],
+        "label": "Camera Angle"
+      },
+      "CAMERA_MOVEMENT": {
+        "entries": [
+          {
+            "aliases": [
+              "Locked shot"
+            ],
+            "code": "MOVE_STATIC",
+            "definition": "Camera position and orientation remain fixed.",
+            "supplied_refs": [],
+            "value": "Static / Locked-Off"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_PAN",
+            "definition": "Camera rotates horizontally from a fixed or moving support.",
+            "supplied_refs": [
+              23
+            ],
+            "value": "Pan"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_TILT",
+            "definition": "Camera rotates vertically from a fixed or moving support.",
+            "supplied_refs": [
+              24
+            ],
+            "value": "Tilt"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_ROLL",
+            "definition": "Camera rotates around the lens axis during the shot.",
+            "supplied_refs": [],
+            "value": "Camera Roll"
+          },
+          {
+            "aliases": [
+              "Tracking shot",
+              "Follow shot"
+            ],
+            "code": "MOVE_TRACK",
+            "definition": "Camera travels with or follows a moving subject.",
+            "supplied_refs": [
+              25
+            ],
+            "value": "Tracking / Follow"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_LEAD",
+            "definition": "Camera travels ahead of a subject while maintaining orientation toward them.",
+            "supplied_refs": [],
+            "value": "Lead / Retreat"
+          },
+          {
+            "aliases": [
+              "Crab move"
+            ],
+            "code": "MOVE_TRUCK",
+            "definition": "Camera translates laterally left or right.",
+            "supplied_refs": [],
+            "value": "Truck / Lateral Slide"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_PEDESTAL_UP",
+            "definition": "Camera translates vertically upward without tilting.",
+            "supplied_refs": [],
+            "value": "Pedestal / Boom Up"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_PEDESTAL_DOWN",
+            "definition": "Camera translates vertically downward without tilting.",
+            "supplied_refs": [],
+            "value": "Pedestal / Boom Down"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_PUSH_IN",
+            "definition": "Camera moves closer to the subject; support is recorded separately.",
+            "supplied_refs": [
+              26
+            ],
+            "value": "Push In"
+          },
+          {
+            "aliases": [
+              "Pull back",
+              "Push out"
+            ],
+            "code": "MOVE_PULL_OUT",
+            "definition": "Camera moves farther from the subject; support is recorded separately.",
+            "supplied_refs": [
+              27
+            ],
+            "value": "Pull Out / Push Out"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_DOLLY_IN",
+            "definition": "Camera physically translates inward using a dolly or dolly-like path.",
+            "supplied_refs": [
+              28
+            ],
+            "value": "Dolly In"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_DOLLY_OUT",
+            "definition": "Camera physically translates outward using a dolly or dolly-like path.",
+            "supplied_refs": [
+              29
+            ],
+            "value": "Dolly Out"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_ARC",
+            "definition": "Camera travels around the subject on a curved path.",
+            "supplied_refs": [],
+            "value": "Arc / Orbit"
+          },
+          {
+            "aliases": [
+              "Crane shot"
+            ],
+            "code": "MOVE_CRANE",
+            "definition": "Camera travels on a crane or jib path; record the rig separately.",
+            "supplied_refs": [
+              32
+            ],
+            "value": "Crane / Jib Move"
+          },
+          {
+            "aliases": [
+              "Whip pan"
+            ],
+            "code": "MOVE_WHIP_PAN",
+            "definition": "A deliberately very fast pan creates directional blur.",
+            "supplied_refs": [
+              31
+            ],
+            "value": "Whip / Swish Pan"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_SLIDER",
+            "definition": "Short controlled translation along a slider.",
+            "supplied_refs": [],
+            "value": "Slider Move"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_REVEAL",
+            "definition": "Movement deliberately uncovers new story information.",
+            "supplied_refs": [],
+            "value": "Reveal Move"
+          },
+          {
+            "aliases": [
+              "Aerial move"
+            ],
+            "code": "MOVE_FLYOVER",
+            "definition": "Airborne travelling movement.",
+            "supplied_refs": [],
+            "value": "Drone / Flyover"
+          },
+          {
+            "aliases": [],
+            "code": "MOVE_CUSTOM",
+            "definition": "A compound or project-specific move defined in Notes.",
+            "supplied_refs": [],
+            "value": "Other / Compound Movement"
+          }
+        ],
+        "label": "Camera Movement"
+      },
+      "CAPTURE_MODE": {
+        "entries": [
+          {
+            "aliases": [],
+            "code": "CAPTURE_NORMAL",
+            "definition": "Capture and playback use the intended normal-motion relationship.",
+            "supplied_refs": [],
+            "value": "Normal Speed"
+          },
+          {
+            "aliases": [
+              "High speed"
+            ],
+            "code": "CAPTURE_SLOW",
+            "definition": "Higher capture rate is played back more slowly; record exact FPS.",
+            "supplied_refs": [],
+            "value": "Slow Motion / High-Speed"
+          },
+          {
+            "aliases": [
+              "Undercrank"
+            ],
+            "code": "CAPTURE_FAST",
+            "definition": "Lower capture rate or planned playback creates accelerated motion.",
+            "supplied_refs": [],
+            "value": "Fast Motion / Undercrank"
+          },
+          {
+            "aliases": [],
+            "code": "CAPTURE_TIMELAPSE",
+            "definition": "Frames are captured at intervals to compress elapsed time.",
+            "supplied_refs": [],
+            "value": "Time-Lapse"
+          },
+          {
+            "aliases": [],
+            "code": "CAPTURE_STOP",
+            "definition": "Objects are incrementally posed and captured frame by frame.",
+            "supplied_refs": [],
+            "value": "Stop-Motion"
+          },
+          {
+            "aliases": [
+              "Speed ramp"
+            ],
+            "code": "CAPTURE_RAMP",
+            "definition": "Capture or playback rate changes within the shot.",
+            "supplied_refs": [],
+            "value": "Variable Frame Rate / Speed Ramp"
+          },
+          {
+            "aliases": [],
+            "code": "CAPTURE_STILL",
+            "definition": "A still frame or planned freeze-frame source is captured.",
+            "supplied_refs": [],
+            "value": "Still / Freeze Capture"
+          },
+          {
+            "aliases": [],
+            "code": "CAPTURE_CUSTOM",
+            "definition": "A project-specific capture method defined in Notes.",
+            "supplied_refs": [],
+            "value": "Other / Custom Capture"
+          }
+        ],
+        "label": "Capture Mode"
+      },
+      "COMPOSITION": {
+        "entries": [
+          {
+            "aliases": [
+              "Single shot"
+            ],
+            "code": "COMP_SINGLE",
+            "definition": "One primary subject dominates the frame.",
+            "supplied_refs": [
+              14
+            ],
+            "value": "Single"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_CLEAN_SINGLE",
+            "definition": "One primary subject with no other character intruding into frame.",
+            "supplied_refs": [],
+            "value": "Clean Single"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_DIRTY_SINGLE",
+            "definition": "A single with part of another character visible in foreground.",
+            "supplied_refs": [
+              15
+            ],
+            "value": "Dirty Single"
+          },
+          {
+            "aliases": [
+              "Two shot"
+            ],
+            "code": "COMP_TWO",
+            "definition": "Two primary subjects share the frame.",
+            "supplied_refs": [
+              10
+            ],
+            "value": "Two-Shot"
+          },
+          {
+            "aliases": [
+              "Three shot"
+            ],
+            "code": "COMP_THREE",
+            "definition": "Three primary subjects share the frame.",
+            "supplied_refs": [
+              11
+            ],
+            "value": "Three-Shot"
+          },
+          {
+            "aliases": [
+              "Group shot"
+            ],
+            "code": "COMP_GROUP",
+            "definition": "Four or more primary subjects share the frame.",
+            "supplied_refs": [],
+            "value": "Group / Ensemble"
+          },
+          {
+            "aliases": [
+              "Over the shoulder"
+            ],
+            "code": "COMP_OTS",
+            "definition": "Frames a subject across another person's shoulder to establish spatial viewpoint.",
+            "supplied_refs": [
+              12
+            ],
+            "value": "Over-the-Shoulder (OTS)"
+          },
+          {
+            "aliases": [
+              "POV"
+            ],
+            "code": "COMP_POV",
+            "definition": "Camera adopts a character or entity's literal visual viewpoint.",
+            "supplied_refs": [
+              13
+            ],
+            "value": "Point of View (POV)"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_REVERSE_POV",
+            "definition": "Shows the observer or opposing view corresponding to a POV.",
+            "supplied_refs": [],
+            "value": "Reverse POV"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_PROFILE",
+            "definition": "Subject is primarily framed from the side.",
+            "supplied_refs": [],
+            "value": "Profile"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_REAR",
+            "definition": "Subject is primarily framed from behind.",
+            "supplied_refs": [],
+            "value": "Rear / Back View"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_OVER_HIP",
+            "definition": "Foreground body placement is lower than a conventional OTS.",
+            "supplied_refs": [],
+            "value": "Over-the-Hip"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_REFLECTION",
+            "definition": "A reflection is a primary compositional element.",
+            "supplied_refs": [],
+            "value": "Reflection / Mirror"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_FRAME",
+            "definition": "Architecture or objects create an internal frame around the subject.",
+            "supplied_refs": [],
+            "value": "Frame Within Frame"
+          },
+          {
+            "aliases": [],
+            "code": "COMP_CUSTOM",
+            "definition": "A project-specific composition defined in Notes.",
+            "supplied_refs": [],
+            "value": "Other / Custom Composition"
+          }
+        ],
+        "label": "Composition / Perspective"
+      },
+      "COVERAGE_PURPOSE": {
+        "entries": [
+          {
+            "aliases": [
+              "Establishing"
+            ],
+            "code": "COVER_ESTABLISHING",
+            "definition": "Establishes location, time, geography, or situation.",
+            "supplied_refs": [
+              39
+            ],
+            "value": "Establishing Shot"
+          },
+          {
+            "aliases": [
+              "Master"
+            ],
+            "code": "COVER_MASTER",
+            "definition": "Covers the principal action of a scene in a continuous setup.",
+            "supplied_refs": [
+              40
+            ],
+            "value": "Master Shot"
+          },
+          {
+            "aliases": [
+              "Insert"
+            ],
+            "code": "COVER_INSERT",
+            "definition": "Isolates a story-relevant detail within the primary action.",
+            "supplied_refs": [
+              9
+            ],
+            "value": "Insert / Cut-In"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_CUTAWAY",
+            "definition": "Temporarily shows related action or information outside the primary framing.",
+            "supplied_refs": [
+              30
+            ],
+            "value": "Cutaway"
+          },
+          {
+            "aliases": [
+              "Reaction"
+            ],
+            "code": "COVER_REACTION",
+            "definition": "Prioritizes a subject's response to an event or line.",
+            "supplied_refs": [
+              41
+            ],
+            "value": "Reaction Shot"
+          },
+          {
+            "aliases": [
+              "One take",
+              "Sequence shot",
+              "Long take"
+            ],
+            "code": "COVER_ONER",
+            "definition": "Covers a planned passage without an editorial cut.",
+            "supplied_refs": [
+              42
+            ],
+            "value": "Oner / Continuous Take"
+          },
+          {
+            "aliases": [
+              "Reverse coverage"
+            ],
+            "code": "COVER_REVERSE",
+            "definition": "A paired coverage pattern alternates opposing viewpoints.",
+            "supplied_refs": [],
+            "value": "Shot–Reverse-Shot"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_PICKUP",
+            "definition": "Additional coverage records a missing or corrected fragment.",
+            "supplied_refs": [],
+            "value": "Pickup"
+          },
+          {
+            "aliases": [
+              "Protection shot"
+            ],
+            "code": "COVER_SAFETY",
+            "definition": "Alternate coverage protects editorial continuity or technical risk.",
+            "supplied_refs": [],
+            "value": "Safety / Protection"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_REVEAL",
+            "definition": "Timing or framing deliberately introduces new information.",
+            "supplied_refs": [],
+            "value": "Reveal"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_TRANSITION",
+            "definition": "Bridges scenes, places, times, or emotional states.",
+            "supplied_refs": [],
+            "value": "Transition Shot"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_BROLL",
+            "definition": "Supplemental illustrative footage supports primary story material.",
+            "supplied_refs": [],
+            "value": "B-Roll"
+          },
+          {
+            "aliases": [
+              "Clean plate"
+            ],
+            "code": "COVER_PLATE",
+            "definition": "Records a controlled background or element for compositing and cleanup.",
+            "supplied_refs": [],
+            "value": "Clean / VFX Plate"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_MONTAGE",
+            "definition": "A discrete image designed for montage structure.",
+            "supplied_refs": [],
+            "value": "Montage Beat"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_EYELINE",
+            "definition": "Establishes what a subject sees or the direction of attention.",
+            "supplied_refs": [],
+            "value": "Eyeline / Look Shot"
+          },
+          {
+            "aliases": [],
+            "code": "COVER_CUSTOM",
+            "definition": "A project-specific editorial purpose defined in Notes.",
+            "supplied_refs": [],
+            "value": "Other / Custom Purpose"
+          }
+        ],
+        "label": "Coverage / Purpose"
+      },
+      "FOCUS_OPTICAL": {
+        "entries": [
+          {
+            "aliases": [],
+            "code": "OPT_FIXED",
+            "definition": "Focus distance remains intentionally unchanged.",
+            "supplied_refs": [],
+            "value": "Fixed Focus"
+          },
+          {
+            "aliases": [
+              "Focus pull"
+            ],
+            "code": "OPT_RACK",
+            "definition": "Focus shifts between subjects or planes during the shot.",
+            "supplied_refs": [
+              38
+            ],
+            "value": "Rack Focus"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_PULL",
+            "definition": "Focus is actively adjusted to hold a moving subject or planned distance.",
+            "supplied_refs": [],
+            "value": "Continuous Focus Pull"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_DEEP",
+            "definition": "Near and far planes are held acceptably sharp.",
+            "supplied_refs": [],
+            "value": "Deep Focus"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_SHALLOW",
+            "definition": "A narrow depth of field isolates the focal plane.",
+            "supplied_refs": [],
+            "value": "Shallow Focus"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_SPLIT",
+            "definition": "A split optical element keeps separated near and far planes sharp.",
+            "supplied_refs": [],
+            "value": "Split Diopter"
+          },
+          {
+            "aliases": [
+              "Zoom in"
+            ],
+            "code": "OPT_ZOOM_IN",
+            "definition": "Focal length increases without required camera translation.",
+            "supplied_refs": [
+              35
+            ],
+            "value": "Optical Zoom In"
+          },
+          {
+            "aliases": [
+              "Zoom out"
+            ],
+            "code": "OPT_ZOOM_OUT",
+            "definition": "Focal length decreases without required camera translation.",
+            "supplied_refs": [
+              36
+            ],
+            "value": "Optical Zoom Out"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_CRASH_ZOOM",
+            "definition": "A deliberately rapid focal-length change.",
+            "supplied_refs": [],
+            "value": "Crash / Snap Zoom"
+          },
+          {
+            "aliases": [
+              "Vertigo effect"
+            ],
+            "code": "OPT_DOLLY_ZOOM",
+            "definition": "Camera translation and focal-length change oppose each other to alter perspective.",
+            "supplied_refs": [
+              37
+            ],
+            "value": "Dolly Zoom"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_MACRO",
+            "definition": "Specialized optics capture close detail or travel through tight spaces.",
+            "supplied_refs": [],
+            "value": "Macro / Probe Lens"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_TILT_SHIFT",
+            "definition": "Lens-plane control changes focus geometry or perspective.",
+            "supplied_refs": [],
+            "value": "Tilt-Shift / Selective Plane"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_FILTER_EFFECT",
+            "definition": "An intentional optical effect is created during capture; specify it in Notes.",
+            "supplied_refs": [],
+            "value": "In-Camera Filter / Lens Effect"
+          },
+          {
+            "aliases": [],
+            "code": "OPT_CUSTOM",
+            "definition": "A project-specific focus or optical behavior defined in Notes.",
+            "supplied_refs": [],
+            "value": "Other / Custom Optical"
+          }
+        ],
+        "label": "Focus / Optical"
+      },
+      "SHOT_SIZE": {
+        "entries": [
+          {
+            "aliases": [
+              "Extreme wide",
+              "Extreme long shot"
+            ],
+            "code": "SIZE_EWS",
+            "definition": "Environment dominates and the subject is very small.",
+            "supplied_refs": [
+              1
+            ],
+            "value": "Extreme Wide (EWS/ELS)"
+          },
+          {
+            "aliases": [
+              "Wide",
+              "Long shot"
+            ],
+            "code": "SIZE_WS",
+            "definition": "Shows the subject with substantial environment.",
+            "supplied_refs": [
+              2
+            ],
+            "value": "Wide (WS/LS)"
+          },
+          {
+            "aliases": [
+              "Full"
+            ],
+            "code": "SIZE_FULL",
+            "definition": "Frames a person approximately head to toe.",
+            "supplied_refs": [
+              3
+            ],
+            "value": "Full Shot (FS)"
+          },
+          {
+            "aliases": [
+              "Medium wide",
+              "Medium long shot"
+            ],
+            "code": "SIZE_MWS",
+            "definition": "Frames between full and medium; record the intended crop.",
+            "supplied_refs": [
+              4
+            ],
+            "value": "Medium Wide (MWS/MLS)"
+          },
+          {
+            "aliases": [
+              "American shot"
+            ],
+            "code": "SIZE_COWBOY",
+            "definition": "Frames roughly mid-thigh upward.",
+            "supplied_refs": [],
+            "value": "Cowboy / American Shot"
+          },
+          {
+            "aliases": [
+              "Medium"
+            ],
+            "code": "SIZE_MS",
+            "definition": "Frames roughly waist upward.",
+            "supplied_refs": [
+              5
+            ],
+            "value": "Medium Shot (MS)"
+          },
+          {
+            "aliases": [
+              "Medium close up"
+            ],
+            "code": "SIZE_MCU",
+            "definition": "Frames roughly chest or shoulders upward.",
+            "supplied_refs": [
+              6
+            ],
+            "value": "Medium Close-Up (MCU)"
+          },
+          {
+            "aliases": [
+              "Close up"
+            ],
+            "code": "SIZE_CU",
+            "definition": "Fills the frame with a face or significant detail.",
+            "supplied_refs": [
+              7
+            ],
+            "value": "Close-Up (CU)"
+          },
+          {
+            "aliases": [
+              "Extreme close up"
+            ],
+            "code": "SIZE_ECU",
+            "definition": "Isolates a very small facial or object detail.",
+            "supplied_refs": [
+              8
+            ],
+            "value": "Extreme Close-Up (ECU)"
+          },
+          {
+            "aliases": [
+              "Macro shot",
+              "Detail shot"
+            ],
+            "code": "SIZE_DETAIL",
+            "definition": "Records a small object or texture at detail scale.",
+            "supplied_refs": [],
+            "value": "Detail / Macro"
+          },
+          {
+            "aliases": [],
+            "code": "SIZE_CUSTOM",
+            "definition": "A project-specific framing defined in Notes.",
+            "supplied_refs": [],
+            "value": "Other / Custom Size"
+          }
+        ],
+        "label": "Shot Size / Framing"
+      },
+      "SUPPORT_RIG": {
+        "entries": [
+          {
+            "aliases": [],
+            "code": "RIG_TRIPOD",
+            "definition": "Camera is supported by a fixed tripod or fluid head.",
+            "supplied_refs": [],
+            "value": "Tripod / Fluid Head"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_HANDHELD",
+            "definition": "Operator directly supports the camera without a stabilizing rig.",
+            "supplied_refs": [
+              34
+            ],
+            "value": "Handheld"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_SHOULDER",
+            "definition": "Camera is supported on the operator's shoulder.",
+            "supplied_refs": [],
+            "value": "Shoulder-Mounted"
+          },
+          {
+            "aliases": [
+              "Steadicam"
+            ],
+            "code": "RIG_STEADICAM",
+            "definition": "Body-worn mechanical stabilizer isolates operator movement.",
+            "supplied_refs": [
+              33
+            ],
+            "value": "Steadicam®"
+          },
+          {
+            "aliases": [
+              "Gimbal"
+            ],
+            "code": "RIG_GIMBAL",
+            "definition": "Motorized axes stabilize camera orientation.",
+            "supplied_refs": [],
+            "value": "Motorized Gimbal"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_DOLLY",
+            "definition": "Camera rides on a wheeled or track-based platform.",
+            "supplied_refs": [],
+            "value": "Dolly"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_SLIDER",
+            "definition": "Camera rides on a short linear rail.",
+            "supplied_refs": [],
+            "value": "Slider"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_CRANE",
+            "definition": "Camera is supported on an extending or pivoting arm.",
+            "supplied_refs": [],
+            "value": "Crane / Jib"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_DRONE",
+            "definition": "Camera is carried by an airborne platform.",
+            "supplied_refs": [],
+            "value": "Drone / Aerial Platform"
+          },
+          {
+            "aliases": [
+              "Snorricam"
+            ],
+            "code": "RIG_SNORRI",
+            "definition": "Camera is fixed relative to an actor's body.",
+            "supplied_refs": [
+              43
+            ],
+            "value": "SnorriCam® / Actor-Mounted"
+          },
+          {
+            "aliases": [
+              "Car mount"
+            ],
+            "code": "RIG_VEHICLE",
+            "definition": "Camera is mounted to or operated from a vehicle or process platform.",
+            "supplied_refs": [],
+            "value": "Vehicle / Process Mount"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_CABLE",
+            "definition": "Camera travels along a suspended cable system.",
+            "supplied_refs": [],
+            "value": "Cable Cam"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_BODY",
+            "definition": "Camera is mounted to a performer's body or helmet.",
+            "supplied_refs": [],
+            "value": "Body / Helmet Mount"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_UNDERWATER",
+            "definition": "Camera is enclosed and supported for underwater capture.",
+            "supplied_refs": [],
+            "value": "Underwater Housing"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_MOTION_CONTROL",
+            "definition": "Programmable mechanics repeat a precise camera path.",
+            "supplied_refs": [],
+            "value": "Motion Control / Robot"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_REMOTE",
+            "definition": "Camera orientation is controlled remotely from a fixed or moving support.",
+            "supplied_refs": [],
+            "value": "Remote Head"
+          },
+          {
+            "aliases": [],
+            "code": "RIG_CUSTOM",
+            "definition": "A project-specific support system defined in Notes and safety planning.",
+            "supplied_refs": [],
+            "value": "Other / Custom Rig"
+          }
+        ],
+        "label": "Support / Rig"
+      }
+    },
+    "category_order": [
+      "SHOT_SIZE",
+      "CAMERA_ANGLE",
+      "COMPOSITION",
+      "CAMERA_MOVEMENT",
+      "SUPPORT_RIG",
+      "FOCUS_OPTICAL",
+      "COVERAGE_PURPOSE",
+      "CAPTURE_MODE"
+    ],
+    "reference_mapping": [
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size.",
+        "code": "SIZE_EWS",
+        "reference_number": 1,
+        "supplied_term": "Extreme wide"
+      },
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size.",
+        "code": "SIZE_WS",
+        "reference_number": 2,
+        "supplied_term": "Wide"
+      },
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size; record crop convention.",
+        "code": "SIZE_FULL",
+        "reference_number": 3,
+        "supplied_term": "Full"
+      },
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size; record crop convention.",
+        "code": "SIZE_MWS",
+        "reference_number": 4,
+        "supplied_term": "Medium wide"
+      },
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size.",
+        "code": "SIZE_MS",
+        "reference_number": 5,
+        "supplied_term": "Medium"
+      },
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size.",
+        "code": "SIZE_MCU",
+        "reference_number": 6,
+        "supplied_term": "Medium close up"
+      },
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size.",
+        "code": "SIZE_CU",
+        "reference_number": 7,
+        "supplied_term": "Close up"
+      },
+      {
+        "category": "SHOT_SIZE",
+        "clarification": "Shot size.",
+        "code": "SIZE_ECU",
+        "reference_number": 8,
+        "supplied_term": "Extreme close up"
+      },
+      {
+        "category": "COVERAGE_PURPOSE",
+        "clarification": "Editorial purpose, not inherently a size.",
+        "code": "COVER_INSERT",
+        "reference_number": 9,
+        "supplied_term": "Insert"
+      },
+      {
+        "category": "COMPOSITION",
+        "clarification": "Subject-count composition.",
+        "code": "COMP_TWO",
+        "reference_number": 10,
+        "supplied_term": "Two shot"
+      },
+      {
+        "category": "COMPOSITION",
+        "clarification": "Subject-count composition.",
+        "code": "COMP_THREE",
+        "reference_number": 11,
+        "supplied_term": "Three shot"
+      },
+      {
+        "category": "COMPOSITION",
+        "clarification": "Perspective and spatial composition.",
+        "code": "COMP_OTS",
+        "reference_number": 12,
+        "supplied_term": "Over the shoulder"
+      },
+      {
+        "category": "COMPOSITION",
+        "clarification": "Literal or subjective viewpoint.",
+        "code": "COMP_POV",
+        "reference_number": 13,
+        "supplied_term": "POV"
+      },
+      {
+        "category": "COMPOSITION",
+        "clarification": "One primary subject; not the same as an uninterrupted take.",
+        "code": "COMP_SINGLE",
+        "reference_number": 14,
+        "supplied_term": "Single"
+      },
+      {
+        "category": "COMPOSITION",
+        "clarification": "A single with foreground intrusion.",
+        "code": "COMP_DIRTY_SINGLE",
+        "reference_number": 15,
+        "supplied_term": "Dirty single"
+      },
+      {
+        "category": "CAMERA_ANGLE",
+        "clarification": "Camera angle.",
+        "code": "ANGLE_EYE",
+        "reference_number": 16,
+        "supplied_term": "Eye level"
+      },
+      {
+        "category": "CAMERA_ANGLE",
+        "clarification": "Camera angle.",
+        "code": "ANGLE_LOW",
+        "reference_number": 17,
+        "supplied_term": "Low angle"
+      },
+      {
+        "category": "CAMERA_ANGLE",
+        "clarification": "Camera angle.",
+        "code": "ANGLE_HIGH",
+        "reference_number": 18,
+        "supplied_term": "High angle"
+      },
+      {
+        "category": "CAMERA_ANGLE",
+        "clarification": "Canted horizon.",
+        "code": "ANGLE_DUTCH",
+        "reference_number": 19,
+        "supplied_term": "Dutch angle"
+      },
+      {
+        "category": "CAMERA_ANGLE",
+        "clarification": "High overview; separated here from strict top-down.",
+        "code": "ANGLE_BIRD",
+        "reference_number": 20,
+        "supplied_term": "Bird's eye"
+      },
+      {
+        "category": "CAMERA_ANGLE",
+        "clarification": "Approximately straight-down or nadir view.",
+        "code": "ANGLE_TOP",
+        "reference_number": 21,
+        "supplied_term": "Top down"
+      },
+      {
+        "category": "CAMERA_ANGLE",
+        "clarification": "Extreme low angle.",
+        "code": "ANGLE_WORM",
+        "reference_number": 22,
+        "supplied_term": "Worm's eye"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Horizontal rotation.",
+        "code": "MOVE_PAN",
+        "reference_number": 23,
+        "supplied_term": "Pan"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Vertical rotation.",
+        "code": "MOVE_TILT",
+        "reference_number": 24,
+        "supplied_term": "Tilt"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Travelling/following behavior; support is separate.",
+        "code": "MOVE_TRACK",
+        "reference_number": 25,
+        "supplied_term": "Tracking shot"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Trajectory or story intent; support is separate.",
+        "code": "MOVE_PUSH_IN",
+        "reference_number": 26,
+        "supplied_term": "Push in"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Normalized as pull out/pull back; support is separate.",
+        "code": "MOVE_PULL_OUT",
+        "reference_number": 27,
+        "supplied_term": "Push out"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Physical translation; also select Dolly as the rig when applicable.",
+        "code": "MOVE_DOLLY_IN",
+        "reference_number": 28,
+        "supplied_term": "Dolly in"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Physical translation; also select Dolly as the rig when applicable.",
+        "code": "MOVE_DOLLY_OUT",
+        "reference_number": 29,
+        "supplied_term": "Dolly out"
+      },
+      {
+        "category": "COVERAGE_PURPOSE",
+        "clarification": "Editorial purpose.",
+        "code": "COVER_CUTAWAY",
+        "reference_number": 30,
+        "supplied_term": "Cutaway"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Fast-pan subtype.",
+        "code": "MOVE_WHIP_PAN",
+        "reference_number": 31,
+        "supplied_term": "Whip pan"
+      },
+      {
+        "category": "CAMERA_MOVEMENT",
+        "clarification": "Movement; also select Crane/Jib as the rig.",
+        "code": "MOVE_CRANE",
+        "reference_number": 32,
+        "supplied_term": "Crane shot"
+      },
+      {
+        "category": "SUPPORT_RIG",
+        "clarification": "Support/operating system, not a complete shot specification.",
+        "code": "RIG_STEADICAM",
+        "reference_number": 33,
+        "supplied_term": "Steadicam"
+      },
+      {
+        "category": "SUPPORT_RIG",
+        "clarification": "Support/operating method.",
+        "code": "RIG_HANDHELD",
+        "reference_number": 34,
+        "supplied_term": "Handheld"
+      },
+      {
+        "category": "FOCUS_OPTICAL",
+        "clarification": "Focal-length change, not camera translation.",
+        "code": "OPT_ZOOM_IN",
+        "reference_number": 35,
+        "supplied_term": "Zoom in"
+      },
+      {
+        "category": "FOCUS_OPTICAL",
+        "clarification": "Focal-length change, not camera translation.",
+        "code": "OPT_ZOOM_OUT",
+        "reference_number": 36,
+        "supplied_term": "Zoom out"
+      },
+      {
+        "category": "FOCUS_OPTICAL",
+        "clarification": "Combined camera translation and opposing focal-length change.",
+        "code": "OPT_DOLLY_ZOOM",
+        "reference_number": 37,
+        "supplied_term": "Dolly zoom"
+      },
+      {
+        "category": "FOCUS_OPTICAL",
+        "clarification": "Focus shifts between planes.",
+        "code": "OPT_RACK",
+        "reference_number": 38,
+        "supplied_term": "Rack focus"
+      },
+      {
+        "category": "COVERAGE_PURPOSE",
+        "clarification": "Editorial purpose; not automatically a wide size.",
+        "code": "COVER_ESTABLISHING",
+        "reference_number": 39,
+        "supplied_term": "Establishing"
+      },
+      {
+        "category": "COVERAGE_PURPOSE",
+        "clarification": "Scene-coverage purpose; size varies.",
+        "code": "COVER_MASTER",
+        "reference_number": 40,
+        "supplied_term": "Master"
+      },
+      {
+        "category": "COVERAGE_PURPOSE",
+        "clarification": "Editorial purpose; size varies.",
+        "code": "COVER_REACTION",
+        "reference_number": 41,
+        "supplied_term": "Reaction"
+      },
+      {
+        "category": "COVERAGE_PURPOSE",
+        "clarification": "Ambiguous term normalized here as one-take/oner; use Single for one subject.",
+        "code": "COVER_ONER",
+        "reference_number": 42,
+        "supplied_term": "One shot"
+      },
+      {
+        "category": "SUPPORT_RIG",
+        "clarification": "Actor-mounted support/rig.",
+        "code": "RIG_SNORRI",
+        "reference_number": 43,
+        "supplied_term": "Snorricam"
+      }
+    ],
+    "schema_version": "filmstack-shot-taxonomy/v1",
+    "source_reference": {
+      "description": "A social-media screenshot headed '43 shot types every filmmaker should know'. The image itself is not redistributed in the library.",
+      "label": "User-supplied Photo 1.jpg",
+      "reference_count": 43
+    },
+    "sources": [
+      {
+        "label": "Adobe camera shots and angles",
+        "url": "https://www.adobe.com/creativecloud/video/production/cinematography/camera-shots-and-angles.html"
+      },
+      {
+        "label": "Yale Film Analysis cinematography",
+        "url": "https://filmanalysis.yale.edu/cinematography/"
+      },
+      {
+        "label": "American Cinematographer one-take example",
+        "url": "https://theasc.com/article/one-shot-ed-sheeran-cinematography/"
+      },
+      {
+        "label": "Adobe tracking shot",
+        "url": "https://www.adobe.com/creativecloud/video/production/cinematography/camera-shots-and-angles/tracking-shot.html"
+      },
+      {
+        "label": "Columbia Film Language Glossary zoom shot",
+        "url": "https://filmglossary.ccnmtl.columbia.edu/term/zoom-shot/"
+      },
+      {
+        "label": "Nikon rack-focus techniques",
+        "url": "https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/how-to-film-using-autofocus-rack-focus-and-manual-focus-techniques-for-video"
+      },
+      {
+        "label": "Tiffen Steadicam history",
+        "url": "https://tiffen.com/pages/history-of-steadicam"
+      },
+      {
+        "label": "Official SnorriCam description",
+        "url": "https://www.snorricam.com/"
+      }
+    ],
+    "taxonomy_version": "1.0.0",
+    "updated_on": "2026-08-30"
+  },
+  "taxonomy_hash": "73ca7b942b1ccad71d4b2f0e8295649771862419b4e53a69514a96fa7f0c290c"
+}

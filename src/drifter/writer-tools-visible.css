@@ -1,0 +1,54 @@
+/* Keep every draft tool in the writing workspace without disclosure menus. */
+.screenwriting-workspace .writer-utilities.writer-tools-visible {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(170px, 1fr));
+  align-items: start;
+  gap: 14px 18px;
+  padding: 12px 0;
+}
+.screenwriting-workspace .writer-tools-visible > .writer-workflow-actions {
+  grid-column: 1 / -1;
+  padding: 0;
+  border: 0;
+}
+.screenwriting-workspace .writer-tool-group { min-width: 0; }
+.screenwriting-workspace .writer-tool-group > h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 9px;
+  color: var(--paper);
+  font: 500 12px/1.4 'Avenir Next', system-ui, sans-serif;
+}
+.screenwriting-workspace .writer-tool-group > .writer-menu-content {
+  display: block;
+  position: static;
+  width: auto;
+  max-height: none;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  font-size: 11px;
+}
+.screenwriting-workspace .writer-tool-group .writer-menu-content > label { min-width: 0; }
+.screenwriting-workspace .writer-tool-group .writer-menu-content input,
+.screenwriting-workspace .writer-tool-group .writer-menu-content select { margin-top: 4px; padding: 6px 8px; }
+.screenwriting-workspace .writer-tool-group .writer-menu-content button { min-height: 30px; padding: 6px 8px; white-space: normal; }
+.screenwriting-workspace .writer-tool-group .writer-menu-content p { margin-top: 8px; font-size: 10px; line-height: 1.5; }
+.screenwriting-workspace .writer-tool-group .writer-menu-actions,
+.screenwriting-workspace .writer-tool-group .writer-session-actions,
+.screenwriting-workspace .writer-tool-group .writer-export-actions { gap: 6px; margin-top: 8px; }
+.screenwriting-workspace .writer-tool-group .screenwriting-metadata { gap: 8px; margin-bottom: 10px; }
+.screenwriting-workspace .writer-tool-group .writer-session-about,
+.screenwriting-workspace .writer-tool-group .writer-editor-help { margin-top: 10px; }
+.screenwriting-workspace .writer-tool-group .writer-session-about > strong,
+.screenwriting-workspace .writer-tool-group .writer-editor-help > strong { font-size: 10px; color: var(--muted); font-weight: 500; }
+.screenwriting-workspace .writer-tools-visible > .writer-draft-stats { grid-column: 1 / -1; margin: 0; }
+@media (max-width: 1200px) {
+  .screenwriting-workspace .writer-utilities.writer-tools-visible { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px) {
+  .screenwriting-workspace .writer-utilities.writer-tools-visible { grid-template-columns: minmax(0, 1fr); }
+}

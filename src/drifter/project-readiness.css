@@ -1,0 +1,24 @@
+.project-readiness { padding:18px 0; margin:0 0 22px; border-bottom:1px solid var(--line,#494032); }
+.readiness-heading { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.readiness-heading h3 { font-size:15px; margin:0; }
+.readiness-heading p, .readiness-note { color:var(--muted,#aaa); font-size:12px; margin:5px 0; }
+.readiness-heading button, .readiness-next button, .readiness-documents button { padding:8px 12px; font-size:12px; flex-shrink:0; }
+.readiness-progress { display:flex; flex-wrap:wrap; gap:18px 32px; margin:18px 0; }
+.readiness-progress div { display:flex; flex-direction:column-reverse; gap:4px; }
+.readiness-progress dt { font-size:11px; color:var(--muted,#aaa); }
+.readiness-progress dd { margin:0; font-size:19px; font-variant-numeric:tabular-nums; }
+.readiness-next { display:flex; align-items:center; justify-content:space-between; gap:16px; border-left:3px solid var(--accent,#c8a76c); padding:6px 0 6px 14px; }
+.readiness-next strong { font-size:13px; }
+.readiness-next p { margin:5px 0 0; font-size:12px; line-height:1.5; color:var(--muted,#aaa); }
+.readiness-documents { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:16px; font-size:12px; }
+.readiness-documents small { display:block; margin-top:4px; font-size:11px; color:var(--muted,#aaa); }
+.readiness-scenes { margin:18px 0; }
+.readiness-scenes button { display:grid; grid-template-columns:1fr 1.5fr; gap:6px 20px; width:100%; text-align:left; background:transparent; color:inherit; border:0; border-top:1px solid var(--line,#494032); padding:13px 0; font:inherit; font-size:12px; }
+.readiness-scenes button small { grid-column:2; color:var(--muted,#aaa); }
+.readiness-gate { border-top:1px solid var(--line,#494032); padding:12px 0; font-size:12px; }
+.readiness-gate strong small { margin-left:12px; font-weight:400; color:var(--muted,#aaa); }
+.readiness-gate p { margin:8px 0; }
+.project-readiness summary { cursor:pointer; margin-bottom:12px; font-size:12px; }
+@media(max-width:650px) { .readiness-heading,.readiness-next,.readiness-documents { align-items:flex-start; flex-direction:column; } .readiness-scenes button { grid-template-columns:1fr; } .readiness-scenes button small { grid-column:1; } }
+.readiness-progress dd small { display:block; font-size:11px; margin-top:4px; color:var(--muted,#aaa); }
+.maker-home .project-readiness { margin:0 0 22px; padding:18px 0; border-top:0; }

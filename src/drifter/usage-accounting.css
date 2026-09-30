@@ -1,0 +1,44 @@
+.usage-accounting[hidden] { display: none; }
+.usage-accounting { color: #e9e3d8; font-size: 12px; line-height: 1.5; }
+.usage-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.usage-heading h3 { font-size: 21px; margin: 0; }
+.usage-heading p, .usage-import p { color: #bcb4a6; margin: 5px 0; }
+.usage-heading button, .usage-import button, .usage-actions button { padding: 8px 12px; }
+.usage-scope, .usage-footnote { color: #bbb3a5; font-size: 11px; }
+.usage-totals { margin: 22px 0 12px; }
+.usage-totals>div { display: grid; grid-template-columns: 155px minmax(0,1fr); gap: 5px 16px; border-top: 1px solid #454138; padding: 13px 0; }
+.usage-totals dt { color: #c4baaa; }
+.usage-totals dd { margin: 0; font-variant-numeric: tabular-nums; }
+.usage-totals small { grid-column: 2; }
+.usage-import { display: flex; gap: 22px; align-items: center; justify-content: space-between; padding: 23px 0; border-bottom: 1px solid #454138; }
+.usage-accounting h4 { margin: 0; font-size: 14px; }
+.usage-import>input[type=file] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%); padding: 0; border: 0; }
+.usage-import button { flex-shrink: 0; }
+.usage-review { border-left: 2px solid #b99260; padding: 16px 0 16px 18px; margin: 16px 0; }
+.usage-review pre { max-height: 200px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 10px; background: #171716; padding: 10px; }
+.usage-review h4 { overflow-wrap: anywhere; }
+.usage-note { color: #d8b485; }
+.usage-actions { display: flex; gap: 10px; margin-top: 16px; }
+.usage-notice { color: #c4d0b8; }
+.usage-ledger-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 23px 0 12px; }
+.usage-table-scroll { overflow-x: auto; }
+.usage-accounting table { border-collapse: collapse; width: 100%; font-size: 11px; text-align: left; }
+.usage-accounting thead { color: #bcb4a6; }
+.usage-accounting th, .usage-accounting td { border-bottom: 1px solid #454138; padding: 12px 9px; vertical-align: top; font-weight: 400; }
+.usage-accounting th:first-child { padding-left: 0; min-width: 155px; }
+.usage-accounting td:last-child, .usage-accounting th:last-child { padding-right: 0; }
+.usage-accounting td { min-width: 88px; font-variant-numeric: tabular-nums; }
+.usage-accounting th strong, .usage-accounting th span, .usage-accounting th small, .usage-accounting td small { display: block; overflow-wrap: anywhere; }
+.usage-accounting th small, .usage-accounting td small { margin-top: 5px; font-size: 10px; }
+.usage-accounting th strong { font-weight: 600; }
+.usage-empty { color: #c4baaa; padding: 6px 0 18px; }
+.usage-accounting details { border-top: 1px solid #454138; padding: 12px 0; }
+.usage-accounting summary { cursor: pointer; }
+.usage-accounting .usage-actions .assistant-primary { background: #d7ab72; border-color: #d7ab72; color: #171716; }
+.creative-project-connection>.usage-accounting { border-top: 1px solid #454138; margin-top: 30px; padding-top: 26px; }
+.usage-source { display: grid; gap: 5px; padding: 12px 0; border-top: 1px solid #454138; }
+.usage-source a { color: #dfbd8e; }
+.usage-source span { color: #bcb4a6; font-size: 11px; }
+.usage-hash { display: block; overflow-wrap: anywhere; font-size: 10px; color: #bcb4a6; margin-top: 8px; }
+.usage-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%); white-space: nowrap; }
+@media(max-width:600px) { .usage-heading, .usage-import { align-items: flex-start; flex-direction: column; gap: 10px; } .usage-totals>div { grid-template-columns: 1fr; gap: 4px; } .usage-totals small { grid-column: 1; } .model-area-switch>div { flex-wrap: wrap; } }

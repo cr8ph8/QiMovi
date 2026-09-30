@@ -1,0 +1,19 @@
+.screenplay-scene-cards { color: #e6dfd0; min-height: 320px; font: 13px/1.5 system-ui,sans-serif; }
+.screenplay-scene-cards > header { display: flex; justify-content: space-between; gap: 20px; padding: 12px 0 18px; border-top: 1px solid #4b483f; }
+.screenplay-scene-cards > header strong { font-size: 17px; }
+.screenplay-scene-cards > header p { margin: 4px 0 0; color: #bdb5a8; }
+.screenplay-scene-cards > header small { max-width: 230px; color: #bdb5a8; }
+.screenplay-scene-card-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,270px),1fr)); gap: 14px; }
+.screenplay-scene-card { display: flex; flex-direction: column; min-width: 0; padding: 18px; border: 1px solid #4b483f; border-top: 3px solid #b39b72; border-radius: 5px; background: #24241f; }
+.screenplay-scene-card-heading { display: flex; justify-content: space-between; gap: 10px; color: #bdb5a8; font-size: 10px; }
+.screenplay-scene-card-heading > span { color: #d7bd8e; text-transform: uppercase; letter-spacing: .09em; }
+.screenplay-scene-card h3 { margin: 8px 0 16px; font: 600 14px/1.5 'Courier New',monospace; overflow-wrap: anywhere; }
+.screenplay-scene-card label { display: grid; gap: 5px; margin: 0; font-size: 10px; color: #cbbb9e; }
+.screenplay-scene-card input { width: 100%; min-width: 0; padding: 8px 9px; margin: 0; border: 1px solid #5f5a50; border-radius: 3px; background: #191c18; color: #f5eee0; font: 12px/1.5 system-ui,sans-serif; }
+.screenplay-scene-card input:disabled { opacity: .55; }
+.screenplay-scene-card-excerpt { margin: 14px 0; color: #bdb5a8; font: 12px/1.7 'Courier New',monospace; overflow-wrap: anywhere; }
+.screenplay-scene-card-characters { margin: 0 0 14px; color: #d2c3a9; font-size: 10px; }
+.screenplay-scene-card button { align-self: flex-start; margin-top: auto; padding: 5px 0; border: 0; border-bottom: 1px solid #8a795b; border-radius: 0; background: transparent; color: #dfc392; cursor: pointer; font: 12px/1.5 system-ui,sans-serif; }
+.screenplay-scene-card button:focus-visible,.screenplay-scene-card input:focus-visible { outline: 2px solid #d7bd8e; outline-offset: 3px; }
+.screenplay-scene-cards-empty { padding: 30px 0; color: #bdb5a8; }
+@media(max-width:650px) { .screenplay-scene-cards > header { flex-direction: column; gap: 8px; } .screenplay-scene-cards > header small { max-width: none; } }

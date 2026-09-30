@@ -1,0 +1,1794 @@
+{
+  "schema": "caniscreenwrite-filmmaking-catalog/v1",
+  "observedAt": "2026-09-08T07:13:30.655Z",
+  "evidence": {
+    "toolMatrixSha256": "457c6e4f7f6a1e61dafe12e1762ed47c563e6934f2931e6cc14f242b5217ee71",
+    "marketingVideoSha256": "256f93a3746b3cb71733484a0aba640e80730af0ee46b2599f88b530dc000875",
+    "marketingAdsSha256": "d9340bbc25a6fe060ad109daa15016d98b1f905665f05e2ff32a1e2503304c90"
+  },
+  "composerModelIds": [
+    "nano_banana_pro",
+    "gpt_image_2",
+    "seedance_2_5",
+    "kling3_0",
+    "minimax_h3",
+    "cinematic_studio_3_0",
+    "hf_mult_motion_control",
+    "hf_mult_replace_object",
+    "seed_audio",
+    "nano_banana_2",
+    "seedream_v4_5",
+    "seedream_v5_lite",
+    "flux_2",
+    "cinematic_studio_2_5",
+    "cinematic_studio_video_v2",
+    "seedance_2_0",
+    "wan2_6",
+    "minimax_h3_max",
+    "topaz_image",
+    "image_background_remover",
+    "topaz_video",
+    "video_upscale",
+    "video_deflicker",
+    "video_background_remover",
+    "sync_so",
+    "qwen_audio_tts",
+    "text2speech_v2",
+    "ms_image",
+    "marketing_studio_video"
+  ],
+  "actions": [
+    {
+      "id": "balance",
+      "group": "connections",
+      "title": "Check available credits",
+      "purpose": "See the production workspace’s current credit balance and plan limits.",
+      "inputs": [
+        "The connected Higgsfield production workspace."
+      ],
+      "output": "The latest credit balance and available account allowances.",
+      "nextStep": "Estimate the exact creative task, then confirm how it will be paid for before starting.",
+      "toolSuffix": "balance",
+      "tool": "mcp__codex_apps__higgsfield_balance",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "list_workspaces",
+      "group": "connections",
+      "title": "Choose a production workspace",
+      "purpose": "Find the Higgsfield workspace that holds the right team, assets and budget.",
+      "inputs": [
+        "Your connected Higgsfield account."
+      ],
+      "output": "Available production workspaces and your access to each.",
+      "nextStep": "Choose the workspace for this production before preparing uploads or paid work.",
+      "toolSuffix": "list_workspaces",
+      "tool": "mcp__codex_apps__higgsfield_list_workspaces",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "workspace_select",
+      "group": "connections",
+      "title": "Use this production workspace",
+      "purpose": "Set the Higgsfield workspace for the production you are working on.",
+      "inputs": [
+        "A workspace chosen from your available workspaces."
+      ],
+      "output": "The selected workspace for subsequent Higgsfield activity.",
+      "nextStep": "Check that its assets and budget belong to this production before continuing.",
+      "toolSuffix": "workspace_select",
+      "tool": "mcp__codex_apps__higgsfield_workspace_select",
+      "effect": "Selection mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "workspace_clear_selection",
+      "group": "connections",
+      "title": "Return to the private workspace",
+      "purpose": "Return subsequent Higgsfield work to your default private workspace.",
+      "inputs": [
+        "Your decision to leave the currently selected workspace."
+      ],
+      "output": "Your private workspace becomes the context for subsequent work.",
+      "nextStep": "Check its assets and balance before continuing; no workspace is deleted.",
+      "toolSuffix": "workspace_clear_selection",
+      "tool": "mcp__codex_apps__higgsfield_workspace_clear_selection",
+      "effect": "Selection mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "models_get",
+      "group": "connections",
+      "title": "Inspect a model’s controls",
+      "purpose": "Understand what one model needs and what it can produce.",
+      "inputs": [
+        "A model selected from the current catalog."
+      ],
+      "output": "Its available controls, supported references, output formats and limits.",
+      "nextStep": "Match those requirements to your creative brief before preparing a request.",
+      "toolSuffix": "models_get",
+      "tool": "mcp__codex_apps__higgsfield_models_get",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "models_list",
+      "group": "connections",
+      "title": "Browse generation models",
+      "purpose": "Browse the available tools for images, clips, speech and 3D assets.",
+      "inputs": [
+        "The kind of creative work you want to make, with optional search filters."
+      ],
+      "output": "A browsable model catalog.",
+      "nextStep": "Inspect a model’s controls; being listed does not mean the desktop can run it yet.",
+      "toolSuffix": "models_list",
+      "tool": "mcp__codex_apps__higgsfield_models_list",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "models_search",
+      "group": "connections",
+      "title": "Find a model for the task",
+      "purpose": "Find models suited to a particular look or production task.",
+      "inputs": [
+        "A description of the result you want and any format preferences."
+      ],
+      "output": "Matching models from the current catalog.",
+      "nextStep": "Compare their reference requirements, limits and cost before choosing.",
+      "toolSuffix": "models_search",
+      "tool": "mcp__codex_apps__higgsfield_models_search",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "models_recommend",
+      "group": "connections",
+      "title": "Compare suitable models",
+      "purpose": "Shortlist models for a creative brief.",
+      "inputs": [
+        "Your intended result, available references and output needs."
+      ],
+      "output": "Suggested models to compare.",
+      "nextStep": "Review the suggestions and qualify a small example before committing production work.",
+      "toolSuffix": "models_recommend",
+      "tool": "mcp__codex_apps__higgsfield_models_recommend",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "estimate_image_cost",
+      "group": "frames",
+      "title": "Estimate frame cost",
+      "purpose": "Plan the cost of creating a frame or image variation.",
+      "inputs": [
+        "Your chosen model, image settings and intended references.",
+        "The number of images you want."
+      ],
+      "output": "A credit estimate for that specific image request, including any adjusted settings.",
+      "nextStep": "Check the effective settings and approve the cost in the intended workspace before generating.",
+      "toolSuffix": "estimate_image_cost",
+      "tool": "mcp__codex_apps__higgsfield_estimate_image_cost",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "estimate_video_cost",
+      "group": "connections",
+      "title": "Estimate clip cost",
+      "purpose": "Plan the cost of creating or transforming a clip.",
+      "inputs": [
+        "Your chosen model, clip length, output settings and intended references."
+      ],
+      "output": "A credit estimate for that specific clip request, including any adjusted settings.",
+      "nextStep": "Confirm the quoted length and settings match the shot, then approve the cost before generating.",
+      "toolSuffix": "estimate_video_cost",
+      "tool": "mcp__codex_apps__higgsfield_estimate_video_cost",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "media_upload",
+      "group": "connections",
+      "title": "Prepare a media upload",
+      "purpose": "Prepare cloud upload destinations for files produced during a supported processing step.",
+      "inputs": [
+        "The names and file types of cloud-generated outputs to preserve."
+      ],
+      "output": "Prepared upload destinations for up to 20 files.",
+      "nextStep": "Transfer and confirm the actual files before the temporary processing session ends.",
+      "toolSuffix": "media_upload",
+      "tool": "mcp__codex_apps__higgsfield_media_upload",
+      "effect": "Upload preparation mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "media_upload_and_confirm",
+      "group": "connections",
+      "title": "Import an attached reference",
+      "purpose": "Bring an attached reference into Higgsfield for later creative work.",
+      "inputs": [
+        "An attached image, video, audio file or document, within the 20 MiB limit."
+      ],
+      "output": "A confirmed reference in the selected Higgsfield workspace.",
+      "nextStep": "Use it in a supported task; arbitrary desktop-file upload through this helper still needs qualification.",
+      "toolSuffix": "media_upload_and_confirm",
+      "tool": "mcp__codex_apps__higgsfield_media_upload_and_confirm",
+      "effect": "Upload mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "media_confirm",
+      "group": "connections",
+      "title": "Finish a prepared upload",
+      "purpose": "Finish registering files that have already uploaded successfully.",
+      "inputs": [
+        "The completed uploads and their correct media types."
+      ],
+      "output": "Confirmed files ready for supported Higgsfield reference inputs.",
+      "nextStep": "Attach the appropriate image, video or audio to the next task; a general document is not a generation reference.",
+      "toolSuffix": "media_confirm",
+      "tool": "mcp__codex_apps__higgsfield_media_confirm",
+      "effect": "Upload confirmation mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "show_medias",
+      "group": "connections",
+      "title": "Choose existing reference media",
+      "purpose": "Choose references already retained in your Higgsfield workspace.",
+      "inputs": [
+        "The type of reference you want to browse: images, video, audio or files."
+      ],
+      "output": "A selection of existing media of that type.",
+      "nextStep": "Choose the specific references needed for the task; browse more only when needed.",
+      "toolSuffix": "show_medias",
+      "tool": "mcp__codex_apps__higgsfield_show_medias",
+      "effect": "Read with widget",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "show_reference_elements",
+      "group": "cast",
+      "title": "Develop reusable cast, places and props",
+      "purpose": "Build or inspect a reusable character, place or prop reference.",
+      "inputs": [
+        "An existing reusable Element, or confirmed images that define a new one."
+      ],
+      "output": "A reusable visual reference for models that support Elements.",
+      "nextStep": "Wait for it to finish, then check model compatibility; some clip models also require an opening frame.",
+      "toolSuffix": "show_reference_elements",
+      "tool": "mcp__codex_apps__higgsfield_show_reference_elements",
+      "effect": "Mixed: list/get read; create mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "generate_image",
+      "group": "frames",
+      "title": "Create or revise a frame",
+      "purpose": "Create a new frame, visual concept or supported revision from your direction.",
+      "inputs": [
+        "Your look or shot direction, chosen model and output settings.",
+        "Confirmed visual references when the model requires them."
+      ],
+      "output": "A tracked image request, followed by candidate frames when it finishes.",
+      "nextStep": "Check the cost and any changed settings before starting; review and save the returned candidates before selecting one.",
+      "toolSuffix": "generate_image",
+      "tool": "mcp__codex_apps__higgsfield_generate_image",
+      "effect": "Generation; may spend",
+      "executionStatus": "PREPARATION_ONLY",
+      "executable": false,
+      "modelIds": [
+        "nano_banana_pro",
+        "gpt_image_2",
+        "nano_banana_2",
+        "seedream_v4_5",
+        "seedream_v5_lite",
+        "flux_2",
+        "cinematic_studio_2_5",
+        "topaz_image",
+        "image_background_remover",
+        "ms_image"
+      ]
+    },
+    {
+      "id": "generate_image_batch",
+      "group": "frames",
+      "title": "Plan image alternatives",
+      "purpose": "Explore several independent image ideas or variations together.",
+      "inputs": [
+        "Up to six complete image briefs, with one image requested for each."
+      ],
+      "output": "Separately tracked image alternatives in the order you planned them.",
+      "nextStep": "Compare the finished frames and retain your choices; these requests do not depend on one another’s results.",
+      "toolSuffix": "generate_image_batch",
+      "tool": "mcp__codex_apps__higgsfield_generate_image_batch",
+      "effect": "Generation; may spend",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": [
+        "nano_banana_pro",
+        "gpt_image_2",
+        "nano_banana_2",
+        "seedream_v4_5",
+        "seedream_v5_lite",
+        "flux_2",
+        "cinematic_studio_2_5",
+        "topaz_image",
+        "image_background_remover",
+        "ms_image"
+      ]
+    },
+    {
+      "id": "generate_video",
+      "group": "video",
+      "title": "Create or transform a clip",
+      "purpose": "Create a new clip or transform supplied footage with a supported model.",
+      "inputs": [
+        "The action, camera and performance direction, with planned length and output settings.",
+        "The opening frame, footage, sound or other references required by the chosen model."
+      ],
+      "output": "A tracked clip request, followed by a candidate take when it finishes.",
+      "nextStep": "Confirm cost and model limits before starting; review the actual motion, continuity, sound and length before selecting the take.",
+      "toolSuffix": "generate_video",
+      "tool": "mcp__codex_apps__higgsfield_generate_video",
+      "effect": "Generation; may spend",
+      "executionStatus": "PREPARATION_ONLY",
+      "executable": false,
+      "modelIds": [
+        "seedance_2_5",
+        "kling3_0",
+        "minimax_h3",
+        "cinematic_studio_3_0",
+        "hf_mult_motion_control",
+        "hf_mult_replace_object",
+        "cinematic_studio_video_v2",
+        "seedance_2_0",
+        "wan2_6",
+        "minimax_h3_max",
+        "topaz_video",
+        "video_upscale",
+        "video_deflicker",
+        "video_background_remover",
+        "sync_so",
+        "marketing_studio_video"
+      ]
+    },
+    {
+      "id": "generate_video_batch",
+      "group": "video",
+      "title": "Plan video alternatives",
+      "purpose": "Explore several independent takes or clip ideas together.",
+      "inputs": [
+        "Up to six complete clip briefs, each with its own required references."
+      ],
+      "output": "Separately tracked candidate clips in the order you planned them.",
+      "nextStep": "Review each finished take; use a returned result as another clip’s input only after it is available.",
+      "toolSuffix": "generate_video_batch",
+      "tool": "mcp__codex_apps__higgsfield_generate_video_batch",
+      "effect": "Generation; may spend",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": [
+        "seedance_2_5",
+        "kling3_0",
+        "minimax_h3",
+        "cinematic_studio_3_0",
+        "hf_mult_motion_control",
+        "hf_mult_replace_object",
+        "cinematic_studio_video_v2",
+        "seedance_2_0",
+        "wan2_6",
+        "minimax_h3_max",
+        "topaz_video",
+        "video_upscale",
+        "video_deflicker",
+        "video_background_remover",
+        "sync_so",
+        "marketing_studio_video"
+      ]
+    },
+    {
+      "id": "generate_audio",
+      "group": "voice",
+      "title": "Create dialogue or narration",
+      "purpose": "Create spoken dialogue or narration in a selected voice.",
+      "inputs": [
+        "The exact spoken words and a voice chosen from the voice picker.",
+        "The chosen speech model and performance settings."
+      ],
+      "output": "A tracked speech request, followed by an audio candidate when it finishes.",
+      "nextStep": "Check the cost before starting, then review pronunciation, performance and timing; this route does not generate music or sound effects.",
+      "toolSuffix": "generate_audio",
+      "tool": "mcp__codex_apps__higgsfield_generate_audio",
+      "effect": "Generation; cost-only option documented",
+      "executionStatus": "PREPARATION_ONLY",
+      "executable": false,
+      "modelIds": [
+        "seed_audio",
+        "qwen_audio_tts",
+        "text2speech_v2"
+      ]
+    },
+    {
+      "id": "generate_audio_batch",
+      "group": "voice",
+      "title": "Plan speech alternatives",
+      "purpose": "Compare independent dialogue or narration performances.",
+      "inputs": [
+        "Up to six speech briefs, each with exact words and a selected voice."
+      ],
+      "output": "Separately tracked speech alternatives for comparison.",
+      "nextStep": "Listen to each result and retain the preferred performance; this route is for speech, not music or sound effects.",
+      "toolSuffix": "generate_audio_batch",
+      "tool": "mcp__codex_apps__higgsfield_generate_audio_batch",
+      "effect": "Generation; may spend",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": [
+        "seed_audio",
+        "qwen_audio_tts",
+        "text2speech_v2"
+      ]
+    },
+    {
+      "id": "list_voices",
+      "group": "voice",
+      "title": "Choose a speaking voice",
+      "purpose": "Audition and choose a voice for dialogue or narration.",
+      "inputs": [
+        "The intention to choose a speaking voice for this task."
+      ],
+      "output": "Available voices with sample previews.",
+      "nextStep": "Make a selection in the voice picker and retain that exact choice for the speech request.",
+      "toolSuffix": "list_voices",
+      "tool": "mcp__codex_apps__higgsfield_list_voices",
+      "effect": "Read with selection widget",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "voice_change",
+      "group": "voice",
+      "title": "Change a clip’s voice",
+      "purpose": "Replace the voice in an existing clip while keeping its visual sequence.",
+      "inputs": [
+        "A confirmed or completed video and the replacement voice you selected."
+      ],
+      "output": "A processed video using the chosen voice.",
+      "nextStep": "Review intelligibility, performance and synchronization before using it in the edit; confirm the voice’s permitted use separately.",
+      "toolSuffix": "voice_change",
+      "tool": "mcp__codex_apps__higgsfield_voice_change",
+      "effect": "Generation; may spend",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "jobs_wait",
+      "group": "review",
+      "title": "Check work in progress",
+      "purpose": "Check whether requested creative work is still running or ready to review.",
+      "inputs": [
+        "Up to eight tracked requests from this production."
+      ],
+      "output": "Progress, finished results or a reported failure for each request.",
+      "nextStep": "Open finished work for review; if a request cannot be found, resolve that uncertainty before trying again.",
+      "toolSuffix": "jobs_wait",
+      "tool": "mcp__codex_apps__higgsfield_jobs_wait",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "job_display",
+      "group": "review",
+      "title": "Review one returned take",
+      "purpose": "Open one returned frame, clip, sound or 3D result for review.",
+      "inputs": [
+        "One existing generation result you want to inspect."
+      ],
+      "output": "The result with its available production details.",
+      "nextStep": "Inspect and retain it, then record your decision separately from the fact that generation finished.",
+      "toolSuffix": "job_display",
+      "tool": "mcp__codex_apps__higgsfield_job_display",
+      "effect": "Read with widget",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "show_generation_by_ids",
+      "group": "review",
+      "title": "Compare returned alternatives",
+      "purpose": "Compare a set of returned creative alternatives side by side.",
+      "inputs": [
+        "The tracked results you want to compare, in your intended order."
+      ],
+      "output": "An ordered gallery of up to 24 results, shown across pages when needed.",
+      "nextStep": "Compare the candidates and record your selections; arrival order does not change the planned order.",
+      "toolSuffix": "show_generation_by_ids",
+      "tool": "mcp__codex_apps__higgsfield_show_generation_by_ids",
+      "effect": "Read with widget",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "show_generations",
+      "group": "review",
+      "title": "Browse previous creative work",
+      "purpose": "Find earlier image or video work in your Higgsfield history.",
+      "inputs": [
+        "The kind of previous work you want to review."
+      ],
+      "output": "Previous generations outside Marketing Studio.",
+      "nextStep": "Open the relevant result and confirm its suitability before reusing it.",
+      "toolSuffix": "show_generations",
+      "tool": "mcp__codex_apps__higgsfield_show_generations",
+      "effect": "Read with widget",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "show_marketing_studio_generations",
+      "group": "marketing",
+      "title": "Review previous campaign work",
+      "purpose": "Find previous image and video work from Marketing Studio.",
+      "inputs": [
+        "The campaign work you want to review."
+      ],
+      "output": "Previous marketing results in their own history.",
+      "nextStep": "Compare the work, retain useful candidates and review suitability for the current campaign.",
+      "toolSuffix": "show_marketing_studio_generations",
+      "tool": "mcp__codex_apps__higgsfield_show_marketing_studio_generations",
+      "effect": "Read with widget",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "video_analysis_create",
+      "group": "review",
+      "title": "Break down a reference video",
+      "purpose": "Request a scene breakdown of a reference video.",
+      "inputs": [
+        "One confirmed uploaded video or a YouTube link."
+      ],
+      "output": "A tracked analysis request for later scene observations.",
+      "nextStep": "Wait for the breakdown, then check its observations against the video before using them in planning.",
+      "toolSuffix": "video_analysis_create",
+      "tool": "mcp__codex_apps__higgsfield_video_analysis_create",
+      "effect": "Remote compute job mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "video_analysis_jobs",
+      "group": "review",
+      "title": "Find earlier video breakdowns",
+      "purpose": "Find a video breakdown that was requested earlier.",
+      "inputs": [
+        "The connected workspace and the earlier analysis you want to locate."
+      ],
+      "output": "Recent video analyses and their progress.",
+      "nextStep": "Open the relevant breakdown when it is complete.",
+      "toolSuffix": "video_analysis_jobs",
+      "tool": "mcp__codex_apps__higgsfield_video_analysis_jobs",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "video_analysis_status",
+      "group": "review",
+      "title": "Read a video breakdown",
+      "purpose": "Read the available scene observations from a video analysis.",
+      "inputs": [
+        "An analysis selected from a submitted request or earlier breakdowns."
+      ],
+      "output": "Analysis progress, completed scene observations or a failure explanation.",
+      "nextStep": "Compare completed observations with the original video; they do not replace your screenplay or creative decisions.",
+      "toolSuffix": "video_analysis_status",
+      "tool": "mcp__codex_apps__higgsfield_video_analysis_status",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "sandbox_exec",
+      "group": "review",
+      "title": "Prepare remote media processing",
+      "purpose": "Process media with prepared editing, transcription or conversion instructions in a temporary cloud workspace.",
+      "inputs": [
+        "The exact processing instructions, accessible input media and outputs to preserve."
+      ],
+      "output": "Processed files and execution details; files must be transferred to survive the temporary session.",
+      "nextStep": "Preserve all required outputs before the cloud session ends, then inspect them locally; this does not run on your desktop.",
+      "toolSuffix": "sandbox_exec",
+      "tool": "mcp__codex_apps__higgsfield_sandbox_exec",
+      "effect": "Remote compute with possible filesystem/network effects",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "get_faceless_channel_presets",
+      "group": "marketing",
+      "title": "Choose a narrator-video look",
+      "purpose": "Browse visual styles for narrator-led videos.",
+      "inputs": [
+        "The visual direction you want to explore."
+      ],
+      "output": "Available style presets and previews.",
+      "nextStep": "Choose a style before retaining its reference for scene preparation.",
+      "toolSuffix": "get_faceless_channel_presets",
+      "tool": "mcp__codex_apps__higgsfield_get_faceless_channel_presets",
+      "effect": "Read with widget",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "resolve_faceless_channel_preset",
+      "group": "marketing",
+      "title": "Retain a selected style reference",
+      "purpose": "Retain the visual reference for a style you have chosen.",
+      "inputs": [
+        "One style selected from the current narrator-video presets."
+      ],
+      "output": "A style reference saved into your Higgsfield media.",
+      "nextStep": "Use the retained reference in compatible scene requests; this step adds media to the provider workspace.",
+      "toolSuffix": "resolve_faceless_channel_preset",
+      "tool": "mcp__codex_apps__higgsfield_resolve_faceless_channel_preset",
+      "effect": "Media import mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_create_brand_kit",
+      "group": "marketing",
+      "title": "Build a brand kit",
+      "purpose": "Gather supplied brand direction into a reusable campaign kit.",
+      "inputs": [
+        "Your brand name, messaging and the other brand details you want retained."
+      ],
+      "output": "A saved brand kit in Higgsfield.",
+      "nextStep": "Review the retained details before using them in campaign work; this does not collect material from a website.",
+      "toolSuffix": "marketing_create_brand_kit",
+      "tool": "mcp__codex_apps__higgsfield_marketing_create_brand_kit",
+      "effect": "Mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_create_product_from_media",
+      "group": "marketing",
+      "title": "Build a product reference",
+      "purpose": "Turn supplied product images into a reusable marketing reference.",
+      "inputs": [
+        "A product name, confirmed product images and an optional description."
+      ],
+      "output": "A saved product reference for later campaign images or videos.",
+      "nextStep": "Review the product reference and its permitted use before preparing a campaign.",
+      "toolSuffix": "marketing_create_product_from_media",
+      "tool": "mcp__codex_apps__higgsfield_marketing_create_product_from_media",
+      "effect": "Mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_delete_brand_kit",
+      "group": "marketing",
+      "title": "Remove a brand kit",
+      "purpose": "Permanently delete a selected brand kit from Higgsfield.",
+      "inputs": [
+        "The exact brand kit and an explicit decision to delete it permanently."
+      ],
+      "output": "Confirmation of the deletion.",
+      "nextStep": "Check the result and choose a remaining kit for future work; do not use this as automatic cleanup.",
+      "toolSuffix": "marketing_delete_brand_kit",
+      "tool": "mcp__codex_apps__higgsfield_marketing_delete_brand_kit",
+      "effect": "Destructive mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_get_brand_kit",
+      "group": "marketing",
+      "title": "Review a brand kit",
+      "purpose": "Inspect the details of a selected brand kit.",
+      "inputs": [
+        "The brand kit you want to review."
+      ],
+      "output": "Its retained brand direction and available status.",
+      "nextStep": "Confirm the details are suitable before using or deliberately revising the kit.",
+      "toolSuffix": "marketing_get_brand_kit",
+      "tool": "mcp__codex_apps__higgsfield_marketing_get_brand_kit",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_ad_formats",
+      "group": "marketing",
+      "title": "Choose an image-ad layout",
+      "purpose": "Explore layout and style options for campaign images.",
+      "inputs": [
+        "The kind of image campaign you want to make."
+      ],
+      "output": "Available image-ad styles to choose from.",
+      "nextStep": "Select a supported style, then pair it with your own brand and product references.",
+      "toolSuffix": "marketing_list_ad_formats",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_ad_formats",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_avatars",
+      "group": "marketing",
+      "title": "Choose a campaign presenter",
+      "purpose": "Browse presenters available for campaign videos.",
+      "inputs": [
+        "Your presenter preferences, with an optional search."
+      ],
+      "output": "Available personal and preset presenters.",
+      "nextStep": "Choose at most one presenter for a compatible video format; browsing does not create a new presenter.",
+      "toolSuffix": "marketing_list_avatars",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_avatars",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_brand_kits",
+      "group": "marketing",
+      "title": "Find brand kits",
+      "purpose": "Find the brand kit for a campaign.",
+      "inputs": [
+        "The connected marketing workspace."
+      ],
+      "output": "Available brand kits with their summary details.",
+      "nextStep": "Open the relevant kit and review it before using or changing it.",
+      "toolSuffix": "marketing_list_brand_kits",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_brand_kits",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_hooks",
+      "group": "marketing",
+      "title": "Choose an attention hook",
+      "purpose": "Find an opening hook for a compatible campaign video.",
+      "inputs": [
+        "The kind of opening you want, with an optional search."
+      ],
+      "output": "Available attention hooks to choose from.",
+      "nextStep": "Check the video format supports your choice; a separate ad reference may replace hook and setting choices.",
+      "toolSuffix": "marketing_list_hooks",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_hooks",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_products",
+      "group": "marketing",
+      "title": "Choose a product reference",
+      "purpose": "Find a retained product reference for campaign work.",
+      "inputs": [
+        "The product you want to feature."
+      ],
+      "output": "Available product references in the marketing workspace.",
+      "nextStep": "Choose your actual product reference; example products shown elsewhere are not automatically yours to use.",
+      "toolSuffix": "marketing_list_products",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_products",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_settings",
+      "group": "marketing",
+      "title": "Choose a campaign setting",
+      "purpose": "Browse settings for a compatible campaign video.",
+      "inputs": [
+        "The environment or situation you want, with an optional search."
+      ],
+      "output": "Available campaign settings to choose from.",
+      "nextStep": "Check the chosen format and other references allow the setting before preparing the video.",
+      "toolSuffix": "marketing_list_settings",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_settings",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_video_presets",
+      "group": "marketing",
+      "title": "Choose a campaign video format",
+      "purpose": "Explore campaign video formats and their creative examples.",
+      "inputs": [
+        "The type of campaign video you want to make."
+      ],
+      "output": "Available formats, previews and stated length limits.",
+      "nextStep": "Choose a format and validate its current limits using your own references; example videos do not establish valid settings.",
+      "toolSuffix": "marketing_list_video_presets",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_video_presets",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_list_webproducts",
+      "group": "marketing",
+      "title": "Browse retained web products",
+      "purpose": "Find website-related product records already retained in Higgsfield.",
+      "inputs": [
+        "The retained product you want to locate."
+      ],
+      "output": "Available web-product records.",
+      "nextStep": "Inspect and choose a relevant record; this does not visit websites or create new product records.",
+      "toolSuffix": "marketing_list_webproducts",
+      "tool": "mcp__codex_apps__higgsfield_marketing_list_webproducts",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "marketing_update_brand_kit",
+      "group": "marketing",
+      "title": "Revise a brand kit",
+      "purpose": "Replace a brand kit with a reviewed, complete revision.",
+      "inputs": [
+        "The selected brand kit and the complete new set of brand details."
+      ],
+      "output": "The revised brand kit stored in Higgsfield.",
+      "nextStep": "Include every detail you want to keep: this replaces the whole kit rather than updating only changed fields.",
+      "toolSuffix": "marketing_update_brand_kit",
+      "tool": "mcp__codex_apps__higgsfield_marketing_update_brand_kit",
+      "effect": "Overwrite mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_create_project",
+      "group": "sets",
+      "title": "Start an editable 3D set",
+      "purpose": "Create a named, editable set in Higgsfield’s cloud Blender workspace.",
+      "inputs": [
+        "A descriptive set name and the decision to create a new cloud project."
+      ],
+      "output": "A new cloud 3D project for later scene work.",
+      "nextStep": "Inspect the created project before editing; if creation is uncertain, locate it before retrying. Local Blender is separate.",
+      "toolSuffix": "scene_builder_3d_create_project",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_create_project",
+      "effect": "Mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_get_artifact",
+      "group": "sets",
+      "title": "Review a scene render",
+      "purpose": "Retrieve an existing render or other output from a cloud scene edit.",
+      "inputs": [
+        "The selected cloud set and an output recorded by a specific scene edit."
+      ],
+      "output": "A temporary download of the existing output.",
+      "nextStep": "Retain the file before the link expires, then inspect it; retrieving an output does not create a new render.",
+      "toolSuffix": "scene_builder_3d_get_artifact",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_get_artifact",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_get_blend",
+      "group": "sets",
+      "title": "Prepare editable Blender delivery",
+      "purpose": "Retrieve an editable Blender file from a committed cloud scene revision.",
+      "inputs": [
+        "The selected cloud set and the committed revision you want."
+      ],
+      "output": "A temporary download of the editable Blender file.",
+      "nextStep": "Save it before the link expires and open it in Blender; finish any active cloud edit first.",
+      "toolSuffix": "scene_builder_3d_get_blend",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_get_blend",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_get_glb",
+      "group": "sets",
+      "title": "Prepare portable scene delivery",
+      "purpose": "Retrieve a portable 3D file from a committed cloud scene revision.",
+      "inputs": [
+        "The selected cloud set and the committed revision you want."
+      ],
+      "output": "A temporary download of the portable 3D scene.",
+      "nextStep": "Save and inspect it in the destination app; lighting and procedural materials may differ from the Blender scene.",
+      "toolSuffix": "scene_builder_3d_get_glb",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_get_glb",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_get_operation",
+      "group": "sets",
+      "title": "Check a scene edit",
+      "purpose": "Check the outcome of a specific cloud scene edit.",
+      "inputs": [
+        "The cloud set and the edit already submitted to it."
+      ],
+      "output": "Edit progress, a committed revision and available outputs, or a failure state.",
+      "nextStep": "Wait for the edit to settle before changing the scene again; resolve uncertainty before retrying.",
+      "toolSuffix": "scene_builder_3d_get_operation",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_get_operation",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_get_project",
+      "group": "sets",
+      "title": "Inspect the selected set",
+      "purpose": "Review the state of a selected cloud 3D set.",
+      "inputs": [
+        "The cloud set you want to inspect."
+      ],
+      "output": "Its current revision, active edit and available outputs.",
+      "nextStep": "Confirm the intended revision before further work; the current connection does not expose every geometry-inspection helper.",
+      "toolSuffix": "scene_builder_3d_get_project",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_get_project",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_import_asset",
+      "group": "sets",
+      "title": "Place a catalog prop or model",
+      "purpose": "Place a selected catalog prop or model into a cloud set.",
+      "inputs": [
+        "The chosen cloud set, an asset returned by catalog search and its placement."
+      ],
+      "output": "A tracked import that adds the asset when it finishes.",
+      "nextStep": "Wait for the import and inspect the placement before another edit; check an uncertain result instead of importing a duplicate.",
+      "toolSuffix": "scene_builder_3d_import_asset",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_import_asset",
+      "effect": "Scene mutation",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_list_projects",
+      "group": "sets",
+      "title": "Choose an existing 3D set",
+      "purpose": "Find an existing editable set in your cloud 3D workspace.",
+      "inputs": [
+        "The set you want to continue working on."
+      ],
+      "output": "Accessible cloud sets with summary details.",
+      "nextStep": "Choose the exact set for each scene action; this does not switch or open local Blender projects.",
+      "toolSuffix": "scene_builder_3d_list_projects",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_list_projects",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_run_python",
+      "group": "sets",
+      "title": "Direct an editable scene change",
+      "purpose": "Apply a prepared scene change inside cloud Blender.",
+      "inputs": [
+        "The chosen cloud set, its exact current revision and the complete editing instructions."
+      ],
+      "output": "A tracked edit, then a committed revision and any outputs the instructions publish.",
+      "nextStep": "Run one scene edit at a time, inspect the result and preserve needed files; some scene-display helpers are not available through this connection.",
+      "toolSuffix": "scene_builder_3d_run_python",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_run_python",
+      "effect": "Scene mutation and remote compute",
+      "executionStatus": "NOT_CONNECTED",
+      "executable": false,
+      "modelIds": []
+    },
+    {
+      "id": "scene_builder_3d_search_assets",
+      "group": "sets",
+      "title": "Find a prop or set asset",
+      "purpose": "Find catalog props and models suitable for a cloud set.",
+      "inputs": [
+        "The chosen cloud set and a description of the asset you need."
+      ],
+      "output": "Available catalog assets with the details needed to import them.",
+      "nextStep": "Choose an asset, then place it deliberately; search results are not objects already present in your scene.",
+      "toolSuffix": "scene_builder_3d_search_assets",
+      "tool": "mcp__codex_apps__higgsfield_scene_builder_3d_search_assets",
+      "effect": "Read",
+      "executionStatus": "DISCOVERY_ONLY",
+      "executable": false,
+      "modelIds": []
+    }
+  ],
+  "modelPresets": [
+    {
+      "id": "opening-frame",
+      "taskId": "generate_image",
+      "title": "Create an opening frame",
+      "purpose": "Generate the still needed to begin a shot; an existing video opening is not a prerequisite.",
+      "modelId": "nano_banana_pro",
+      "settings": {
+        "resolution": "1k"
+      },
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "character-sheet",
+      "taskId": "generate_image",
+      "title": "Explore a character or costume",
+      "purpose": "Create reference candidates for casting and look development; preserve source text when linked.",
+      "modelId": "gpt_image_2",
+      "settings": {
+        "resolution": "1k",
+        "quality": "low"
+      },
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "world-concept",
+      "taskId": "generate_image",
+      "title": "Design a place or prop",
+      "purpose": "Build world, location and prop concepts for any project.",
+      "modelId": "cinematic_studio_2_5",
+      "settings": {
+        "resolution": "1k"
+      },
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "edit-still",
+      "taskId": "generate_image",
+      "title": "Revise a reference image",
+      "purpose": "Prepare an instruction-based still revision without a mask route.",
+      "modelId": "seedream_v5_lite",
+      "settings": {
+        "quality": "basic"
+      },
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "enhance-still",
+      "taskId": "generate_image",
+      "title": "Enhance a still image",
+      "purpose": "Supply one original and choose actual output dimensions; facial changes remain reviewable.",
+      "modelId": "topaz_image",
+      "settings": {},
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "remove-image-background",
+      "taskId": "generate_image",
+      "title": "Isolate a still subject",
+      "purpose": "Prepare one source image for background removal.",
+      "modelId": "image_background_remover",
+      "settings": {},
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "prompt-video",
+      "taskId": "generate_video",
+      "title": "Create a clip from directions",
+      "purpose": "Prepare a prompt-only clip without inventing a starting image.",
+      "modelId": "seedance_2_5",
+      "settings": {
+        "mode": "t2v",
+        "duration": 5,
+        "resolution": "720p"
+      },
+      "mediaRoles": [],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "animate-opening",
+      "taskId": "generate_video",
+      "title": "Animate an opening frame",
+      "purpose": "Use the actual selected opening and ordered shot directions.",
+      "modelId": "seedance_2_5",
+      "settings": {
+        "mode": "omni_reference",
+        "duration": 5,
+        "resolution": "720p"
+      },
+      "mediaRoles": [
+        "start_image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "cinema-direction",
+      "taskId": "generate_video",
+      "title": "Direct camera and genre",
+      "purpose": "Prepare observed cinema controls; custom multishot schema is not exposed.",
+      "modelId": "cinematic_studio_video_v2",
+      "settings": {
+        "duration": 5,
+        "multi_shots": false,
+        "cfg_scale": 0.5
+      },
+      "mediaRoles": [
+        "image",
+        "start_image",
+        "end_image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "edit-source-video",
+      "taskId": "generate_video",
+      "title": "Revise an existing clip",
+      "purpose": "Source runtime drives video-edit duration; no invented target duration or aspect ratio.",
+      "modelId": "seedance_2_5",
+      "settings": {
+        "mode": "video_edit",
+        "resolution": "720p"
+      },
+      "mediaRoles": [
+        "video"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "extend-source-video",
+      "taskId": "generate_video",
+      "title": "Continue an existing clip",
+      "purpose": "Prepare a forward extension from exactly one selected source video.",
+      "modelId": "seedance_2_5",
+      "settings": {
+        "mode": "video_extension",
+        "extension_mode": "forward",
+        "duration": 5
+      },
+      "mediaRoles": [
+        "video"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "transfer-motion",
+      "taskId": "generate_video",
+      "title": "Transfer a performance or camera move",
+      "purpose": "One driving video plus one or more reference images.",
+      "modelId": "hf_mult_motion_control",
+      "settings": {
+        "resolution": "720p"
+      },
+      "mediaRoles": [
+        "video",
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "replace-subject",
+      "taskId": "generate_video",
+      "title": "Replace a subject in a clip",
+      "purpose": "One source video and replacement reference images; inspect actual output for continuity.",
+      "modelId": "hf_mult_replace_object",
+      "settings": {
+        "resolution": "720p"
+      },
+      "mediaRoles": [
+        "video",
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "sync-dialogue",
+      "taskId": "generate_video",
+      "title": "Synchronize dialogue to picture",
+      "purpose": "Choose a mismatch-handling sync mode deliberately; source video and audio are both required.",
+      "modelId": "sync_so",
+      "settings": {},
+      "mediaRoles": [
+        "video",
+        "audio"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "upscale-video",
+      "taskId": "generate_video",
+      "title": "Enhance video resolution",
+      "purpose": "Prepare a measured source clip and enhancement settings.",
+      "modelId": "topaz_video",
+      "settings": {
+        "resolution": "1080p"
+      },
+      "mediaRoles": [
+        "video"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "deflicker-video",
+      "taskId": "generate_video",
+      "title": "Reduce clip flicker",
+      "purpose": "Prepare one existing clip; source duration and output quality remain measured evidence.",
+      "modelId": "video_deflicker",
+      "settings": {},
+      "mediaRoles": [
+        "video"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "remove-video-background",
+      "taskId": "generate_video",
+      "title": "Isolate a moving subject",
+      "purpose": "Prepare one source clip for background removal; no mask input is fabricated.",
+      "modelId": "video_background_remover",
+      "settings": {},
+      "mediaRoles": [
+        "video"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "speak-dialogue",
+      "taskId": "generate_audio",
+      "title": "Create dialogue or narration",
+      "purpose": "Choose an exact voice ID/type pair; keep exact approved spoken text.",
+      "modelId": "seed_audio",
+      "settings": {},
+      "mediaRoles": [],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "expressive-speech",
+      "taskId": "generate_audio",
+      "title": "Direct expressive speech",
+      "purpose": "Choose a provider voice and style instruction; this is cloud Qwen speech, not local assistance.",
+      "modelId": "qwen_audio_tts",
+      "settings": {},
+      "mediaRoles": [],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "engine-speech",
+      "taskId": "generate_audio",
+      "title": "Choose a speech engine",
+      "purpose": "Select an engine variant and real voice ID/type pair.",
+      "modelId": "text2speech_v2",
+      "settings": {},
+      "mediaRoles": [],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "campaign-still",
+      "taskId": "generate_image",
+      "title": "Create a campaign image",
+      "purpose": "Choose an actual ad style and brand/product references; no style default or user-asset IDs are invented.",
+      "modelId": "ms_image",
+      "settings": {},
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "campaign-video",
+      "taskId": "generate_video",
+      "title": "Create a promotional video",
+      "purpose": "Choose a format and actual marketing assets for a title, brand or product.",
+      "modelId": "marketing_studio_video",
+      "settings": {},
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "PREPARATION_ONLY"
+    },
+    {
+      "id": "editable-set",
+      "taskId": "models_get",
+      "title": "Explore 3D asset generation",
+      "purpose": "Discovery only: this model catalog is separate from remote scene editing; no generate_3d function is callable.",
+      "modelId": "meshy_v7_image_to_3d",
+      "settings": {},
+      "mediaRoles": [
+        "image"
+      ],
+      "executionStatus": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "music-discovery",
+      "taskId": "models_get",
+      "title": "Explore music and sound models",
+      "purpose": "Discovery only: installed speech generation does not support music or sound effects.",
+      "modelId": "sonilo_music",
+      "settings": {},
+      "mediaRoles": [],
+      "executionStatus": "DISCOVERY_ONLY"
+    }
+  ],
+  "marketingFormats": [
+    {
+      "slug": "ugc",
+      "title": "UGC",
+      "description": "Realistic social media videos",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_gadget_saved_me",
+      "title": "This Gadget Saved Me",
+      "description": "Turn product features into a creator-led recommendation",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_giant_figure",
+      "title": "Giant Figure",
+      "description": "Oversized, scroll-stopping product moments",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_unboxing_virtual_try_on",
+      "title": "Unboxing Virtual Try-On",
+      "description": "Unbox and try on in one take",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_unboxing_asmr",
+      "title": "Unboxing ASMR",
+      "description": "Satisfying ASMR unboxing experiences",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_virtual_try_on_sneakers",
+      "title": "Virtual Try-On Sneakers",
+      "description": "Virtual sneaker try-on videos",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "couple_sharing_home",
+      "title": "Couple Sharing At Home",
+      "description": "A couple sharing the product at home",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_selfie_testimonial",
+      "title": "Selfie Testimonial",
+      "description": "Authentic selfie-style testimonials",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_direct_to_camera",
+      "title": "Direct-to-Camera",
+      "description": "Creator speaking straight to camera",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_secret_hack_reveal",
+      "title": "Secret Hack Reveal",
+      "description": "Reveal a clever product hack",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "crush_test",
+      "title": "Crush Test",
+      "description": "Satisfying crush and durability tests",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "hypermotion_oj",
+      "title": "Hyper Motion",
+      "description": "High-energy product motion bursts",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "camera_pov",
+      "title": "Camera POV",
+      "description": "Immersive point-of-view product moments",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "classic_meets_modern",
+      "title": "Classic Meets Modern",
+      "description": "Blend timeless and contemporary styles",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "mess_to_fresh",
+      "title": "Mess to Fresh",
+      "description": "From messy to fresh transformations",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "mystery_box",
+      "title": "Mystery Box",
+      "description": "Suspenseful mystery box reveals",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "product_showcase",
+      "title": "Product Showcase",
+      "description": "Highlight your product",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "reboxing",
+      "title": "Reboxing",
+      "description": "Repackaging and reboxing reveals",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "tv_spot",
+      "title": "TV Spot",
+      "description": "Authentic stories, amplified",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_addiction",
+      "title": "UGC Addiction",
+      "description": "Can't-put-it-down product obsession",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_before_and_after",
+      "title": "Before and After",
+      "description": "Showcase transformations and results",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_how_to",
+      "title": "Tutorial",
+      "description": "Step-by-step tutorials",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_unboxing",
+      "title": "Unboxing",
+      "description": "High-quality unboxing",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "ugc_virtual_try_on",
+      "title": "UGC Virtual Try On",
+      "description": "Try before you buy",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "virtual_try_on",
+      "title": "Pro Virtual Try On",
+      "description": "Advanced virtual try-on",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    },
+    {
+      "slug": "wild_card",
+      "title": "Wild Card",
+      "description": "Unique and creative video mode for custom ideas",
+      "minDurationSeconds": 12,
+      "maxDurationSeconds": 15
+    }
+  ],
+  "marketingStyles": [
+    {
+      "id": "18e9f327-b667-40f1-84d1-f234c67a4929",
+      "title": "Headline",
+      "category": "headline"
+    },
+    {
+      "id": "c4c9ee3e-c161-4cc6-b401-77f122cd3c3c",
+      "title": "Special Offer",
+      "category": "headline"
+    },
+    {
+      "id": "e961f13c-c96d-4504-bb70-77abeeaa9027",
+      "title": "Customer Quote",
+      "category": "headline"
+    },
+    {
+      "id": "4b71d6d0-4a79-4241-8f3a-60bb766d1945",
+      "title": "Key Features",
+      "category": "headline"
+    },
+    {
+      "id": "fd9b886c-8b4d-4e9a-aa4d-11b4a67456a5",
+      "title": "Benefits",
+      "category": "headline"
+    },
+    {
+      "id": "30ab1615-9b6f-4d73-bf84-9436b0861cb4",
+      "title": "Social Proof",
+      "category": "headline"
+    },
+    {
+      "id": "3f222376-f468-4ba7-a7b8-f76102c9af5f",
+      "title": "Why We're Different",
+      "category": "headline"
+    },
+    {
+      "id": "ad65db31-3e4f-4aa9-99a4-0e00b994580e",
+      "title": "Then vs Now",
+      "category": "headline"
+    },
+    {
+      "id": "80e37aad-f80d-468d-ab6f-b32562aaccc1",
+      "title": "Unexpected Twist",
+      "category": "headline"
+    },
+    {
+      "id": "302922f4-8415-45af-affe-406b3fd0ebb3",
+      "title": "Media Mentions",
+      "category": "headline"
+    },
+    {
+      "id": "c3884bf7-5d3b-460b-8815-81f82e5bc0fb",
+      "title": "Star Review",
+      "category": "headline"
+    },
+    {
+      "id": "c7932132-dbe5-4806-a7cc-ee9bc5094367",
+      "title": "Product in Action",
+      "category": "headline"
+    },
+    {
+      "id": "1a4cf715-4e32-4a26-ba66-bdfe1573cbaf",
+      "title": "Stat Surround",
+      "category": "headline"
+    },
+    {
+      "id": "7a5f4059-e019-4862-ae82-c639fda59655",
+      "title": "Bundle Deal",
+      "category": "headline"
+    },
+    {
+      "id": "9ba08f5b-5646-4735-8832-bd12c79de8c8",
+      "title": "Social Comment",
+      "category": "headline"
+    },
+    {
+      "id": "c5012751-8b86-4e28-8b31-f86f36c62085",
+      "title": "Mystery Hook",
+      "category": "headline"
+    },
+    {
+      "id": "eb75ceef-f0fc-416c-aea4-85ceed38b97c",
+      "title": "Trusted Review",
+      "category": "headline"
+    },
+    {
+      "id": "3c2fee96-41f6-4fb0-bdbd-6a66e5b464b2",
+      "title": "Stat Surround",
+      "category": "headline"
+    },
+    {
+      "id": "6cfbeb24-0fa1-4739-99dd-ba1fc14afd15",
+      "title": "Highlighted Hook",
+      "category": "headline"
+    },
+    {
+      "id": "9f83c485-959d-4ea1-a2ff-7a4e7370dd62",
+      "title": "Magazine Style",
+      "category": "headline"
+    },
+    {
+      "id": "a9f3b512-35e2-42c2-8981-3c57f0853ddd",
+      "title": "Reaction Quote",
+      "category": "headline"
+    },
+    {
+      "id": "8050ddd7-60e6-45d6-9a33-50f6530f2a79",
+      "title": "Behind the Product",
+      "category": "headline"
+    },
+    {
+      "id": "16edbd6e-453b-4dc6-9c02-740406a47083",
+      "title": "Personal Note",
+      "category": "headline"
+    },
+    {
+      "id": "95026fac-f6d8-473c-bceb-4ff70325a16e",
+      "title": "Highlighted Comment",
+      "category": "headline"
+    },
+    {
+      "id": "92710076-a082-489d-9976-74a30fbf0cbf",
+      "title": "Color Block",
+      "category": "headline"
+    },
+    {
+      "id": "f100144f-e015-49f5-ac88-7641e29731d9",
+      "title": "Lifestyle with Numbers",
+      "category": "headline"
+    },
+    {
+      "id": "cb2da9cc-f477-4fd3-b9d6-aa9cbfa14dcd",
+      "title": "Benefits Checklist",
+      "category": "headline"
+    },
+    {
+      "id": "821b881b-b9c2-40ab-8364-0ee90c23eb90",
+      "title": "Callout Notes",
+      "category": "headline"
+    },
+    {
+      "id": "7c3a2785-08e8-406f-b47a-35307276f1ab",
+      "title": "Trending Post",
+      "category": "headline"
+    },
+    {
+      "id": "bccb652b-2352-4d91-b640-99cb19d61895",
+      "title": "Bold Statement",
+      "category": "headline"
+    },
+    {
+      "id": "4ac40ba6-79a7-4004-a9e4-95012f8737d5",
+      "title": "Comparison Table",
+      "category": "headline"
+    },
+    {
+      "id": "6d1aef3b-c814-474c-bb62-29bb40643aee",
+      "title": "Customer Story",
+      "category": "headline"
+    },
+    {
+      "id": "ac333ce6-f86e-4ce1-9ffe-e75f48b3df53",
+      "title": "Press Screenshot",
+      "category": "headline"
+    },
+    {
+      "id": "3462be30-d918-4602-992c-81298d0f31ab",
+      "title": "App Screenshot",
+      "category": "headline"
+    },
+    {
+      "id": "b5fbe451-ef9b-494d-8460-df16dc31f9a9",
+      "title": "Product Spotlight",
+      "category": "headline"
+    },
+    {
+      "id": "0e20e37e-6a34-4a36-bbd9-4d3cc79e8d50",
+      "title": "Whiteboard Explainer",
+      "category": "headline"
+    },
+    {
+      "id": "cfb067f6-735a-46d8-a2f0-22e5a47b122e",
+      "title": "Hero Statement",
+      "category": "headline"
+    },
+    {
+      "id": "50fa82ca-8a7e-4c8d-99dd-e1c3692a5787",
+      "title": "UGC Side-by-Side",
+      "category": "headline"
+    },
+    {
+      "id": "01de1013-d33a-4c67-b658-799eac3aa11f",
+      "title": "Scroll Break",
+      "category": "headline"
+    },
+    {
+      "id": "7200218e-d78e-492c-ae9b-a3a08af2b923",
+      "title": "Organic Post",
+      "category": "headline"
+    },
+    {
+      "id": "0c20621b-b90a-42ca-a7dc-5217a94b3beb",
+      "title": "librarian",
+      "category": "headline"
+    },
+    {
+      "id": "200cb3a0-6220-4d0c-b353-51443dae7e90",
+      "title": "picker",
+      "category": "headline"
+    }
+  ]
+}

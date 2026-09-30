@@ -1,0 +1,21 @@
+.resolve-connection { display: grid; gap: 12px; padding: 18px 0; border-block: 1px solid var(--border, #35414a); }
+.resolve-title, .resolve-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.resolve-actions { justify-content: flex-start; }
+.resolve-connection h3, .resolve-connection h4, .resolve-connection p { margin: 0; }
+.resolve-title h3 { font-size: 17px; margin-bottom: 5px; }
+.resolve-state { font-size: 12px; color: var(--muted, #abb5bf); }
+.resolve-state[data-connected="true"] { color: var(--accent, #d4ba7d); }
+.resolve-connection p, .resolve-connection table { font-size: 13px; line-height: 1.5; }
+.resolve-observation, .resolve-project, .resolve-timeline, .resolve-scope { display: grid; gap: 8px; }
+.resolve-setup, .resolve-scope span, .resolve-connection small { color: var(--muted, #abb5bf); font-size: 12px; line-height: 1.5; }
+.resolve-project fieldset { display: flex; gap: 8px 18px; flex-wrap: wrap; border: 0; padding: 4px 0; margin: 0; }
+.resolve-project legend { padding: 0 0 6px; font-size: 12px; font-weight: 600; }
+.resolve-project label { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.resolve-project input { width: auto; }
+.resolve-project button { justify-self: start; }
+.resolve-timeline { overflow-x: auto; }
+.resolve-timeline table { border-collapse: collapse; text-align: left; width: 100%; }
+.resolve-timeline :is(td, th) { padding: 7px; border-bottom: 1px solid var(--border, #35414a); font-weight: 400; overflow-wrap: anywhere; }
+.resolve-timeline thead th { color: var(--muted, #abb5bf); }
+.resolve-scope { padding-top: 6px; font-size: 12px; }
+.resolve-connection [role="alert"] { color: #edbaaa; }

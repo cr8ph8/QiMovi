@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.4/shot-taxonomy-registry.schema.json",
+  "title": "FilmStack Shot Taxonomy Registry v1",
+  "description": "A generated registry that binds the validated taxonomy to both its exact source bytes and canonical semantic identity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "taxonomy",
+    "provenance",
+    "counts",
+    "taxonomy_hash",
+    "registry_hash"
+  ],
+  "properties": {
+    "schema_version": { "const": "filmstack-shot-taxonomy-registry/v1" },
+    "taxonomy": { "$ref": "shot-taxonomy.schema.json" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_file", "source_sha256"],
+      "properties": {
+        "source_file": { "const": "02_Production_Planning/SHOT_TAXONOMY.json" },
+        "source_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["categories", "entries", "supplied_references", "sources"],
+      "properties": {
+        "categories": { "const": 8 },
+        "entries": { "type": "integer", "minimum": 8, "maximum": 2048 },
+        "supplied_references": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "sources": { "type": "integer", "minimum": 1, "maximum": 128 }
+      }
+    },
+    "taxonomy_hash": { "$ref": "#/$defs/sha256" },
+    "registry_hash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

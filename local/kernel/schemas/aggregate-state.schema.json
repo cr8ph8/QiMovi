@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.4/aggregate-state.schema.json",
+  "title": "Hampton Aggregate State v0.4",
+  "description": "A hash-sealed authoritative FilmStack title projection.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "aggregate_id",
+    "version",
+    "previous_state_hash",
+    "state_hash",
+    "state"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "hampton-aggregate-state/v1"
+    },
+    "aggregate_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "version": {
+      "$ref": "#/$defs/version"
+    },
+    "previous_state_hash": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "state": {
+      "$ref": "#/$defs/title_state"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "version": {
+            "const": 0
+          }
+        },
+        "required": [
+          "version"
+        ]
+      },
+      "then": {
+        "properties": {
+          "previous_state_hash": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "previous_state_hash": {
+            "$ref": "#/$defs/sha256"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "fact_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._:-]{0,127}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "json_value": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/json_value"
+          }
+        },
+        {
+          "type": "object",
+          "patternProperties": {
+            "^.*$": {
+              "$ref": "#/$defs/json_value"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "facts": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z][a-z0-9._:-]{0,127}$": {
+          "$ref": "#/$defs/json_value"
+        }
+      },
+      "additionalProperties": false
+    },
+    "json_map": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "$ref": "#/$defs/json_value"
+        }
+      },
+      "additionalProperties": false
+    },
+    "invalidations": {
+      "type": "object",
+      "patternProperties": {
+        "^(lifecycle|fact:[a-z][a-z0-9._:-]{0,127}|evidence:[A-Za-z0-9][A-Za-z0-9._:-]{0,127}|gate:production|artifact:[A-Z][A-Z0-9_]{0,127})$": {
+          "enum": ["NEEDS_REVIEW", "STALE", "INVALID"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "title_state": {
+      "oneOf": [
+        {"$ref": "#/$defs/title_state_v2"},
+        {"$ref": "#/$defs/title_state_v3"}
+      ]
+    },
+    "title_state_v2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "title_id",
+        "lifecycle",
+        "facts",
+        "evidence_refs",
+        "evidence_dispositions",
+        "invalidated_gate_approval_hashes",
+        "gates",
+        "invalidations"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "filmstack-title-state/v2"
+        },
+        "title_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "lifecycle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "facts": {
+          "$ref": "#/$defs/facts"
+        },
+        "evidence_refs": {
+          "description": "Canonical implementations additionally require lexical sort order.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "evidence_dispositions": {
+          "type": "object",
+          "patternProperties": {
+            "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$": {
+              "$ref": "evidence-disposition.schema.json"
+            }
+          },
+          "additionalProperties": false
+        },
+        "invalidated_gate_approval_hashes": {
+          "description": "Persistent set of production approval envelope hashes invalidated by required-evidence changes. Canonical implementations require lexical ordering.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "gates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["production"],
+          "properties": {
+            "production": {
+              "$ref": "proposal.schema.json#/$defs/production_gate_evaluation"
+            }
+          }
+        },
+        "invalidations": {
+          "$ref": "#/$defs/invalidations"
+        }
+      }
+    },
+    "title_state_v3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "title_id",
+        "lifecycle",
+        "facts",
+        "evidence_refs",
+        "evidence_dispositions",
+        "invalidated_gate_approval_hashes",
+        "gates",
+        "invalidations",
+        "artifact_instances",
+        "artifact_heads",
+        "artifact_instance_impacts"
+      ],
+      "properties": {
+        "schema_version": {"const": "filmstack-title-state/v3"},
+        "title_id": {"$ref": "#/$defs/identifier"},
+        "lifecycle": {"type": "string", "minLength": 1, "maxLength": 64},
+        "facts": {"$ref": "#/$defs/facts"},
+        "evidence_refs": {
+          "description": "Canonical implementations additionally require lexical sort order.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "evidence_dispositions": {
+          "type": "object",
+          "patternProperties": {
+            "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$": {"$ref": "evidence-disposition.schema.json"}
+          },
+          "additionalProperties": false
+        },
+        "invalidated_gate_approval_hashes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "gates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["production"],
+          "properties": {
+            "production": {"$ref": "proposal.schema.json#/$defs/production_gate_evaluation"}
+          }
+        },
+        "invalidations": {"$ref": "#/$defs/invalidations"},
+        "artifact_instances": {
+          "type": "object",
+          "maxProperties": 256,
+          "patternProperties": {
+            "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$": {"$ref": "artifact-instance.schema.json"}
+          },
+          "additionalProperties": false
+        },
+        "artifact_heads": {
+          "type": "object",
+          "patternProperties": {
+            "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$": {"$ref": "#/$defs/identifier"}
+          },
+          "additionalProperties": false
+        },
+        "artifact_instance_impacts": {
+          "type": "object",
+          "patternProperties": {
+            "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$": {"enum": ["NEEDS_REVIEW", "STALE", "INVALID"]}
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  }
+}

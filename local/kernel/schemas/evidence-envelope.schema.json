@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.1/evidence-envelope.schema.json",
+  "title": "Hampton Evidence Envelope v0.1",
+  "description": "Immutable evidence metadata. A blob digest identifies bytes; evidence_id identifies the scoped evidentiary event.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_id",
+    "blob_sha256",
+    "evidence_class",
+    "issuer_id",
+    "scope_aggregate_id",
+    "state",
+    "observed_at_ms",
+    "verified_at_ms",
+    "expires_at_ms",
+    "evidence_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "hampton-evidence-envelope/v1"
+    },
+    "evidence_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "blob_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "evidence_class": {
+      "$ref": "#/$defs/identifier"
+    },
+    "issuer_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "scope_aggregate_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "state": {
+      "enum": [
+        "OBSERVED",
+        "VERIFICATION_REQUIRED",
+        "VERIFIED_CURRENT",
+        "REJECTED",
+        "SUPERSEDED",
+        "REVOKED",
+        "EXPIRED"
+      ]
+    },
+    "observed_at_ms": {
+      "$ref": "#/$defs/timestamp_ms"
+    },
+    "verified_at_ms": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/timestamp_ms"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expires_at_ms": {
+      "description": "When non-null, runtime validation requires expiry after observed_at_ms.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/timestamp_ms"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evidence_hash": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "VERIFIED_CURRENT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "verified_at_ms": {
+            "$ref": "#/$defs/timestamp_ms"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "timestamp_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "com.caniscreenwrite.director",
+  "version": "0.4.0",
+  "displayName": "CanIScreenwrite Director",
+  "description": "Source-bound selected-shot directing, blocking, reversible camera rehearsal and built-in-pipeline preview returns for QiMovi. No automatic saving, approval or provider execution.",
+  "unity": "2021.3",
+  "author": { "name": "CanIScreenwrite" },
+  "keywords": ["film", "storyboard", "previsualization"]
+}

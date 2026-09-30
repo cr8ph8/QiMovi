@@ -1,0 +1,21 @@
+.movie-take-selection { padding:14px 16px; border-top:1px solid #585245; color:inherit; min-width:0; }
+.movie-take-selection header { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+.movie-take-selection header p { margin:3px 0 12px; font-size:12px; }
+.movie-take-selection header>span,.movie-take-selection small { font-size:11px; color:#b3b8aa; }
+.movie-take-selection label { display:grid; gap:5px; font-size:12px; font-weight:600; }
+.movie-take-selection select,.movie-take-selection input:not([type=range]) { width:100%; min-width:0; padding:8px; border:1px solid #585245; background:#191b19; color:#eee4d5; border-radius:4px; }
+.movie-take-range { display:grid; grid-template-columns:1fr 1fr auto; align-items:end; gap:12px; margin:12px 0; }
+.movie-take-range>span { font-size:12px; padding-bottom:8px; }
+.movie-take-actions,.movie-take-transport { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:10px 0; }
+.movie-take-selection button { padding:7px 11px; cursor:pointer; border:1px solid #585245; border-radius:4px; background:transparent; color:#eee4d5; font-size:12px; }
+.movie-take-selection button.primary { background:#d7ab72; color:#211c16; }
+.movie-take-selection button:disabled { opacity:.45; cursor:default; }
+.movie-take-selection :is(button,input,select):focus-visible { outline:2px solid #916225; outline-offset:3px; }
+.movie-take-selection [role=alert] { color:#f0ad93; }
+.movie-take-selection [role=status] { color:#bbd5a3; }
+.movie-take-preview { margin:14px 0; padding:10px; background:#151915; color:#e5dfd2; border-radius:5px; }
+.movie-take-preview video { display:block; background:#0d100e; width:100%; max-height:220px; object-fit:contain; }
+.movie-take-preview small { color:#b5bdac; }
+.movie-take-preview input[type=range] { flex:1; min-width:70px; accent-color:#d7ab72; }
+.movie-take-preview output { font:11px ui-monospace,monospace; }
+@media(max-width:650px) { .movie-take-range { grid-template-columns:1fr 1fr; } .movie-take-range>span { grid-column:1/-1; } }

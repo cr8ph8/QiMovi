@@ -1,0 +1,485 @@
+{
+  "registryHash": "3550a35c28759a586c359178d597cfa26e2fe2358a47b242f587fce9e4cfaec4",
+  "baselineCount": 30,
+  "overlayCount": 23,
+  "artifacts": [
+    {
+      "id": "B-001",
+      "typeId": "CALL_SHEET",
+      "name": "Call sheet",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-002",
+      "typeId": "PRODUCTION_SCHEDULE",
+      "name": "Production schedule",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-003",
+      "typeId": "STRIPBOARD",
+      "name": "Stripboard",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-004",
+      "typeId": "DAY_OUT_OF_DAYS",
+      "name": "Day out of days",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-005",
+      "typeId": "ONE_LINER",
+      "name": "One liner",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-006",
+      "typeId": "SCRIPT_BREAKDOWN",
+      "name": "Script breakdown",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-007",
+      "typeId": "SHOT_LIST",
+      "name": "Shot list",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-008",
+      "typeId": "STORYBOARDS",
+      "name": "Storyboards",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-009",
+      "typeId": "TREATMENT",
+      "name": "Treatment",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-010",
+      "typeId": "MOOD_BOARD",
+      "name": "Mood board",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-011",
+      "typeId": "LOOK_BOOK",
+      "name": "Look book",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-012",
+      "typeId": "COLOUR_PALETTE",
+      "name": "Colour palette",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-013",
+      "typeId": "TALENT_RELEASE",
+      "name": "Talent release forms",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-014",
+      "typeId": "LOCATION_AGREEMENT",
+      "name": "Location agreement",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-015",
+      "typeId": "CREW_DEAL_MEMO",
+      "name": "Crew deal memos",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-016",
+      "typeId": "INSURANCE_CERTIFICATE",
+      "name": "Insurance certificate",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-017",
+      "typeId": "FILMING_PERMIT",
+      "name": "Filming permits",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-018",
+      "typeId": "PRODUCTION_BUDGET",
+      "name": "Production budget",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-019",
+      "typeId": "PURCHASE_ORDER",
+      "name": "Purchase orders",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-020",
+      "typeId": "INVOICE_TRACKER",
+      "name": "Invoice trackers",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-021",
+      "typeId": "EQUIPMENT_LIST",
+      "name": "Equipment list",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-022",
+      "typeId": "WARDROBE_LIST",
+      "name": "Wardrobe list",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-023",
+      "typeId": "PROPS_LIST",
+      "name": "Props list",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-024",
+      "typeId": "HMU_REFERENCE",
+      "name": "H/MU reference sheet",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-025",
+      "typeId": "ART_DEPARTMENT_BREAKDOWN",
+      "name": "Art department breakdown",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-026",
+      "typeId": "CATER_CRAFT_ORDER",
+      "name": "Cater/craft orders",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-027",
+      "typeId": "WEATHER_CONTINGENCY",
+      "name": "Weather contingency",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-028",
+      "typeId": "TRAVEL_ACCOMMODATION",
+      "name": "Travel/accommodation",
+      "kind": "BASELINE",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-029",
+      "typeId": "POST_PRODUCTION_SCHEDULE",
+      "name": "Post production schedule",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "B-030",
+      "typeId": "FINAL_DELIVERABLE",
+      "name": "Final deliverables",
+      "kind": "BASELINE",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-001",
+      "typeId": "CANON_LOCK",
+      "name": "Canon lock and approval",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-002",
+      "typeId": "CHANGE_IMPACT_REVIEW",
+      "name": "Change impact review",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-003",
+      "typeId": "SAFETY_EMERGENCY_PLAN",
+      "name": "Safety and emergency plan",
+      "kind": "POLICY_OVERLAY",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-004",
+      "typeId": "INCIDENT_STOP_WORK",
+      "name": "Incident and stop-work record",
+      "kind": "POLICY_OVERLAY",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-005",
+      "typeId": "AI_PROVENANCE",
+      "name": "AI and synthetic disclosure and provenance",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-006",
+      "typeId": "MUSIC_CUE_SHEET",
+      "name": "Music cue sheet",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-007",
+      "typeId": "CAPTIONS_ACCESSIBILITY",
+      "name": "Captions and accessibility plan",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-008",
+      "typeId": "QC_REPORT",
+      "name": "QC report",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-009",
+      "typeId": "LEGAL_DELIVERY_CLEARANCE",
+      "name": "Legal and delivery clearance",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-010",
+      "typeId": "ASSET_MANIFEST",
+      "name": "Asset manifest",
+      "kind": "POLICY_OVERLAY",
+      "classification": "REQUIRED",
+      "reason": "Required private-film planning, evidence or delivery",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-011",
+      "typeId": "DAILY_PRODUCTION_REPORT",
+      "name": "Daily production report",
+      "kind": "POLICY_OVERLAY",
+      "classification": "CONDITIONAL_OWNER_REVIEW",
+      "reason": "Applicability depends on actual filmed/supplied production plan; no inferred exemption",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-012",
+      "typeId": "INTERNATIONAL_JURISDICTION_PROFILE",
+      "name": "International production and jurisdiction profile",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-013",
+      "typeId": "FUNDING_PROGRAM_ROUTE",
+      "name": "Funding opportunity and program route register",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-014",
+      "typeId": "APPLICANT_CORPORATE_ELIGIBILITY",
+      "name": "Applicant and corporate eligibility evidence",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-015",
+      "typeId": "CMF_APPLICATION_PACKAGE",
+      "name": "CMF application working package",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-016",
+      "typeId": "TELEFILM_APPLICATION_PACKAGE",
+      "name": "Telefilm application working package",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-017",
+      "typeId": "CANADIAN_CONTENT_CAVCO",
+      "name": "Canadian content and CAVCO certification tracker",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-018",
+      "typeId": "TAX_CREDIT_INCENTIVE_TRACKER",
+      "name": "Federal and provincial tax credit and incentive tracker",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-019",
+      "typeId": "TREATY_COPRODUCTION_CERTIFICATION",
+      "name": "Treaty coproduction assessment and certification",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-020",
+      "typeId": "FUNDING_RIGHTS_MARKET_EVIDENCE",
+      "name": "Chain of title market and financing evidence",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-021",
+      "typeId": "FINANCING_SOURCES_USES_CASHFLOW",
+      "name": "Financing plan sources and uses and cashflow",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-022",
+      "typeId": "RECOUPMENT_REPAYMENT_WATERFALL",
+      "name": "Recoupment and repayment waterfall",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    },
+    {
+      "id": "O-023",
+      "typeId": "FUNDING_SUBMISSION_REPORTING_COVENANTS",
+      "name": "Application submissions draw conditions reporting and covenants",
+      "kind": "POLICY_OVERLAY",
+      "classification": "DEFERRED_FUNDING",
+      "reason": "International/funding application expansion outside pilot",
+      "owner": "Owner"
+    }
+  ],
+  "statusSource": "RECORDS_DERIVED_AT_AUDIT"
+}

@@ -1,0 +1,26 @@
+.studio-reference { margin-top: 20px; padding-top: 16px; border-top: 1px solid #504632; color: #e8e2d6; font-size: 12px; }
+.studio-reference > header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.studio-reference header > div, .studio-reference-phase { display: grid; gap: 5px; }
+.studio-reference small { display: block; color: #aaa89f; font-size: 11px; line-height: 1.5; }
+.studio-reference button, .studio-reference input, .studio-reference select { border: 1px solid #4a4841; border-radius: 5px; background: #202326; color: #e8e2d6; padding: 8px 10px; font: inherit; }
+.studio-reference button, .studio-reference summary { cursor: pointer; }
+.studio-reference button:disabled { opacity: .48; cursor: default; }
+.studio-reference :is(button,input,select,summary):focus-visible { outline: 2px solid #d5b36f; outline-offset: 3px; }
+.studio-reference .studio-reference-primary { color: #181710; background: #d3b277; border-color: #d3b277; font-weight: 600; }
+.studio-reference p { line-height: 1.5; overflow-wrap: anywhere; }
+.studio-reference-note { color: #aaa89f; font-size: 11px; }
+.studio-reference-error { color: #e5b2a1; }
+.studio-reference-preparation, .studio-reference-attempt, .studio-reference-history { margin-top: 16px; }
+.studio-reference-workspaces, .studio-reference-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-block: 12px; }
+.studio-reference label { display: grid; gap: 6px; }
+.studio-reference .studio-reference-confirm { display: flex; align-items: flex-start; gap: 8px; margin-block: 12px; line-height: 1.5; }
+.studio-reference-confirm input { margin: 2px 0 0; }
+.studio-reference-inputs { display: flex; gap: 24px; flex-wrap: wrap; margin-block: 16px; }
+.studio-reference-inputs dt { color: #aaa89f; font-size: 11px; }
+.studio-reference-inputs dd { margin: 5px 0 0; overflow-wrap: anywhere; }
+.studio-reference-element { border-block: 1px solid #343536; padding-block: 12px; margin-block: 16px; }
+.studio-reference-element button { margin-right: 8px; margin-bottom: 8px; }
+.studio-reference-receipt { margin-top: 14px; color: #aaa89f; font-size: 11px; }
+.studio-reference-receipt summary { color: #c7b289; }
+.studio-reference-receipt code { overflow-wrap: anywhere; }
+@media (max-width: 600px) { .studio-reference > header, .studio-reference-workspaces { align-items: flex-start; flex-direction: column; } }

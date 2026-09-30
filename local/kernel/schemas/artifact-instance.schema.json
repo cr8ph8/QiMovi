@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hampton.local/v0.4/artifact-instance.schema.json",
+  "title": "FilmStack Prospective Artifact Instance v1",
+  "description": "An immutable prospective artifact revision. It cannot represent submission, eligibility, funding, payment, external approval, or production authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "instance_id",
+    "series_id",
+    "revision",
+    "supersedes_instance_id",
+    "title_id",
+    "artifact_key",
+    "registry_hash",
+    "scope",
+    "applicability",
+    "document_state",
+    "authority_state",
+    "responsibility",
+    "materialization",
+    "dependency_snapshot",
+    "instance_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "filmstack-artifact-instance/v1"},
+    "instance_id": {"$ref": "#/$defs/identifier"},
+    "series_id": {"$ref": "#/$defs/identifier"},
+    "revision": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "supersedes_instance_id": {
+      "anyOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]
+    },
+    "title_id": {"$ref": "#/$defs/identifier"},
+    "artifact_key": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,127}$"},
+    "registry_hash": {"$ref": "#/$defs/sha256"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "scope_id", "scope_hash"],
+      "properties": {
+        "kind": {"const": "TITLE"},
+        "scope_id": {"$ref": "#/$defs/identifier"},
+        "scope_hash": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "applicability": {"enum": ["REQUIRED", "ASSESSMENT_REQUIRED"]},
+    "document_state": {"const": "PROSPECTIVE_DRAFT"},
+    "authority_state": {"const": "NO_EXTERNAL_AUTHORITY"},
+    "responsibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner_actor_id", "reviewer_actor_ids", "approver_actor_ids"],
+      "properties": {
+        "owner_actor_id": {"$ref": "#/$defs/identifier"},
+        "reviewer_actor_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "approver_actor_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}}
+      }
+    },
+    "materialization": {
+      "anyOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidate_blob_sha256", "media_type", "storage_ref", "watermark"],
+          "properties": {
+            "candidate_blob_sha256": {"$ref": "#/$defs/sha256"},
+            "media_type": {"type": "string", "minLength": 1, "maxLength": 255},
+            "storage_ref": {"type": "string", "minLength": 1, "maxLength": 2048},
+            "watermark": {"const": "PROSPECTIVE_NOT_AUTHORIZED"}
+          }
+        }
+      ]
+    },
+    "dependency_snapshot": {"$ref": "artifact-dependency-snapshot.schema.json"},
+    "instance_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^(?!(?:__proto__|constructor|prototype|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$)[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

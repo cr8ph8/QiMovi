@@ -1,0 +1,29 @@
+.qimovi-brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 7px;
+  height: 40px;
+  color: #eee3ce;
+  white-space: nowrap;
+  user-select: none;
+}
+.qimovi-brand > img {
+  display: block;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  flex: 0 0 38px;
+  border-radius: 9px;
+}
+.qimovi-brand > span {
+  display: block;
+  margin-top: -2px;
+  font: 500 29px/1 Georgia, 'Times New Roman', serif;
+  letter-spacing: -.045em;
+}
+@media (max-width: 680px) {
+  .qimovi-brand { height: 34px; }
+  .qimovi-brand > img { width: 30px; height: 30px; flex-basis: 30px; }
+  .qimovi-brand > span { font-size: 25px; }
+}

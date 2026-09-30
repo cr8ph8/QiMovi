@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "scope": "PUBLIC_SOURCE_RELEASE",
+  "localQualification": "NOT_SUPPLIED",
+  "note": "Machine-specific private production receipts are excluded. Qualify the local tools and authored project on your own workstation.",
+  "productionApproved": false,
+  "finalMedia": false
+}

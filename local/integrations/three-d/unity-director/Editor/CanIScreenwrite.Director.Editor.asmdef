@@ -1,0 +1,1 @@
+{"name":"CanIScreenwrite.Director.Editor","rootNamespace":"CanIScreenwrite.Director.Editor","references":["CanIScreenwrite.Director.Runtime"],"includePlatforms":["Editor"],"autoReferenced":true}

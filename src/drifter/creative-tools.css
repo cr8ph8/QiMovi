@@ -1,0 +1,36 @@
+.creative-tools{color:var(--text,#dddccd);padding:28px 0 40px;min-width:0}
+.creative-tools[hidden]{display:none!important}
+.creative-tools-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--border,#3a4133)}
+.creative-tools h2{font-family:Georgia,serif;font-size:clamp(26px,3vw,38px);font-weight:400;margin:8px 0 12px;letter-spacing:-.025em}
+.creative-tools p{font-size:12px;line-height:1.8;color:var(--muted,#a4ae95)}
+.creative-tools .eyebrow{font-size:9px;letter-spacing:.15em;color:var(--accent,#d5bc91)}
+.creative-tools-boundary{margin:15px 0 25px}
+.creative-tools-operations{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-bottom:1px solid var(--border,#3a4133);margin-bottom:28px}
+.creative-tools-operations button{border:0;border-bottom:2px solid transparent;border-radius:0;padding:15px 12px 18px;text-align:left;background:transparent;color:var(--muted,#a4ae95)}
+.creative-tools-operations button[aria-pressed=true]{border-bottom-color:var(--accent,#d5bc91);color:var(--text,#dddccd);background:#d5bc9107}
+.creative-tools-operations strong{display:block;font-size:12px;font-weight:500;margin-bottom:9px}
+.creative-tools-operations span{display:block;font-size:10px;line-height:1.8;color:var(--muted,#a4ae95)}
+.creative-tools-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
+.creative-tools-grid>section{min-width:0}
+.creative-tools h3{font-size:15px;font-weight:500;margin:0 0 21px;color:var(--text,#dddccd)}
+.creative-tools-return h3:not(:first-child){padding-top:28px;margin-top:28px;border-top:1px solid var(--border,#3a4133)}
+.creative-tools label{display:block;font-size:10px;line-height:1.7;color:var(--muted,#a4ae95);margin:18px 0}
+.creative-tools label input,.creative-tools label select,.creative-tools label textarea{display:block;width:100%;box-sizing:border-box;margin-top:8px;background:var(--surface,#20221c);color:var(--text,#dddccd);border:1px solid var(--border,#424b35);border-radius:3px;padding:11px 12px;font:12px/1.7 system-ui,sans-serif}
+.creative-tools label textarea{resize:vertical;min-height:85px;font-family:'SFMono-Regular',Consolas,monospace}
+.creative-tools input[type=file]{font-size:10px}
+.creative-tools button{font-size:11px;line-height:1.5}
+.creative-tools button:disabled{opacity:.4;cursor:not-allowed}
+.creative-tools button:focus-visible,.creative-tools input:focus-visible,.creative-tools select:focus-visible,.creative-tools textarea:focus-visible{outline:2px solid var(--accent,#d5bc91);outline-offset:3px}
+.creative-tools-actions{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.creative-tools-actions button,.creative-tools-header>button,.creative-tools-history button{border:1px solid var(--border,#424b35);padding:9px 12px;border-radius:3px;background:transparent;color:var(--text,#dddccd)}
+.creative-tools .primary{margin-top:8px;padding:12px 18px;color:#202219;background:var(--accent,#d5bc91);border:0;border-radius:3px}
+.creative-tools-selection{margin:20px 0;padding:12px 14px;border-left:2px solid var(--accent,#d5bc91);background:#d5bc9106}
+.creative-tools pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.8 'SFMono-Regular',Consolas,monospace;max-height:280px;overflow:auto;color:var(--text,#dddccd);margin:12px 0}
+.creative-tools summary{cursor:pointer;color:var(--accent,#d5bc91);font-size:12px;line-height:1.8}
+.creative-tools-proposal{border-left:2px solid var(--accent,#d5bc91);padding-left:13px}
+.creative-tools [role=alert]{padding:15px;border:1px solid #ad745b;color:#e4ad92;white-space:pre-wrap;overflow-wrap:anywhere}
+.creative-tools [role=status]{padding:14px 0;color:var(--accent,#d5bc91)}
+.creative-tools-history{border-top:1px solid var(--border,#3a4133);margin-top:30px;padding-top:20px}
+.creative-tools-history>div{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+@media(max-width:850px){.creative-tools-operations{grid-template-columns:repeat(3,minmax(0,1fr))}.creative-tools-grid{grid-template-columns:1fr}.creative-tools-return{border-top:1px solid var(--border,#3a4133);padding-top:26px}}
+@media(max-width:480px){.creative-tools-header{flex-direction:column}.creative-tools-operations{grid-template-columns:repeat(2,minmax(0,1fr))}.creative-tools-actions{flex-direction:column;align-items:flex-start}}

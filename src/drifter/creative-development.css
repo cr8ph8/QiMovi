@@ -1,0 +1,23 @@
+.creative-development { color: var(--text, #eee8dd); }
+.creative-development > header, .creative-development-editor > footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:20px; }
+.creative-development h2, .creative-development h3 { margin:0 0 8px; }
+.creative-development p { line-height:1.55; }
+.creative-development > nav { display:flex; gap:8px; margin:18px 0 24px; flex-wrap:wrap; }
+.creative-development button { border:1px solid #ffffff24; background:#242829; color:inherit; padding:10px 14px; border-radius:5px; cursor:pointer; }
+.creative-development button[aria-pressed=true] { border-color:#d2ad70; background:#403723; }
+.creative-development button:disabled { opacity:.45; cursor:default; }
+.creative-development button small { display:block; margin-top:5px; opacity:.7; }
+.creative-development-layout { display:grid; grid-template-columns:minmax(0,1fr); gap:12px; }
+.development-draft-choices { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.development-draft-choices button { text-align:left; }
+.creative-development-editor { min-width:0; }
+.creative-development-editor footer { border-top:1px solid #ffffff20; padding-top:18px; margin-top:18px; }
+.creative-development-editor nav { display:flex; gap:8px; flex-wrap:wrap; }
+.development-source { border-left:2px solid #b89c73; padding:4px 18px; margin-bottom:24px; }
+.development-source p { white-space:pre-wrap; max-height:220px; overflow:auto; }
+.development-empty { padding:28px 0; }
+@media(max-width:850px) { .creative-development-layout { grid-template-columns:1fr; } .creative-development-layout > aside { border-right:0; border-bottom:1px solid #ffffff20; padding-bottom:16px; } }
+.creative-development .canis-form { display:grid; gap:18px; border:0; padding:0; margin:0; min-width:0; }
+.creative-development .canis-form label { display:grid; gap:6px; color:#d4cbbc; font-size:13px; }
+.creative-development .canis-form :is(input,textarea,select) { display:block; width:100%; box-sizing:border-box; background:#181b20; border:1px solid #4a4c4e; color:#ece7de; border-radius:4px; padding:10px 12px; font:inherit; }
+.creative-development .canis-form textarea { line-height:1.6; resize:vertical; }

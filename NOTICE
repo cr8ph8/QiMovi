@@ -1,0 +1,17 @@
+Scope of the QiMovi source release
+
+Original software code and original software documentation: MIT (LICENSE).
+Third-party dependencies and referenced sources retain their own terms.
+
+Excluded from MIT: QiMovi, QiCanIScreenwrite and Quotient Intelligent names,
+logos, icons, and branding, including artwork in desktop/Resources,
+iphone/QiMovi/Resources (image files and asset catalogs), src/drifter/brand,
+and other branding artwork. These remain reserved. No trademark rights are
+granted. Replace branding with your own cleared assets for derivative products.
+
+Film materials, screenplays, story worlds, characters, performances, private
+production documents and private project data are not distributed or licensed
+by this source release. Synthetic examples identified as such are included
+under MIT. Links to outside educational works are references, not relicensing
+of those works. No credentials, account entitlement, or paid service access
+are included.

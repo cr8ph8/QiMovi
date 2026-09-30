@@ -1,0 +1,8 @@
+.frame-extraction { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; padding:12px 0; border-block:1px solid var(--line,#3a4438); margin:10px 0; }
+.frame-extraction>div { flex:1 1 150px; display:grid; gap:4px; }
+.frame-extraction strong { font-size:12px; font-weight:600; }
+.frame-extraction span,.frame-extraction p { color:var(--muted,#abb2a5); font-size:11px; line-height:1.5; }
+.frame-extraction p { flex:1 0 100%; margin:0; }
+.frame-extraction button { min-height:36px; padding:8px 12px; color:var(--gold,#e5bc80); white-space:nowrap; }
+.frame-extraction button:not(:disabled):hover { background:#dcb37712; }
+.frame-extraction .error-text { color:#efbdad; }

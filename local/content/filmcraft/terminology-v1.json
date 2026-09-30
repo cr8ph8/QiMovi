@@ -1,0 +1,535 @@
+{
+  "schema": "qimovi-filmcraft-terminology/v1",
+  "version": 1,
+  "reviewedOn": "2026-09-25",
+  "scope": "Shared filmmaking language for QiMovi. Statements are concise reference definitions; appUse is authored application guidance. Conventions and research are not project canon, automatic quality scores or production approvals.",
+  "entries": [
+    {
+      "id": "term:scene",
+      "title": "Scene",
+      "topic": "story",
+      "kind": "terminology",
+      "statement": "A scene is a unit of dramatic action, usually continuous in time and place; it can contain several shots.",
+      "appUse": "Keep the screenplay scene identity attached to its shot plans, storyboard panels, footage and editorial notes. A new camera angle alone does not create a new screenplay scene.",
+      "aliases": [
+        "screenplay scene",
+        "dramatic scene"
+      ],
+      "assumptions": [
+        "Intercut scenes can alternate locations. Naming conventions vary between writing and animation."
+      ],
+      "sources": [
+        {
+          "title": "Kellogg Community College — A Glossary of Film Terms",
+          "url": "https://academic.kellogg.edu/marklinl/Film/FilmHandouts/GlossaryOfFilmTerms.htm",
+          "locator": "NARRATIVE: scene"
+        }
+      ]
+    },
+    {
+      "id": "term:sequence",
+      "title": "Story sequence",
+      "topic": "story",
+      "kind": "terminology",
+      "statement": "A story sequence groups related shots or scenes into a larger dramatic passage.",
+      "appUse": "Use a sequence to describe an event or passage across scenes. Qualify an editor timeline as an editorial sequence so it is not mistaken for a screenplay scene.",
+      "aliases": [
+        "narrative sequence",
+        "story sequence",
+        "editorial sequence"
+      ],
+      "assumptions": [
+        "A sequence need not have a fixed length or scene count. Editorial software also uses sequence for a timeline container."
+      ],
+      "sources": [
+        {
+          "title": "Kellogg Community College — A Glossary of Film Terms",
+          "url": "https://academic.kellogg.edu/marklinl/Film/FilmHandouts/GlossaryOfFilmTerms.htm",
+          "locator": "NARRATIVE: sequence"
+        },
+        {
+          "title": "Apple — Professional Video Applications: clip",
+          "url": "https://developer.apple.com/documentation/professional-video-applications/clip",
+          "locator": "See Also: sequence"
+        }
+      ]
+    },
+    {
+      "id": "term:shot",
+      "title": "Shot",
+      "topic": "framing",
+      "kind": "terminology",
+      "statement": "In an edited film, a shot is a continuous image between edits. During planning, it describes the intended camera view and action.",
+      "appUse": "Plan framing, action and movement under a shot identifier. Preserve that identity when comparing storyboard alternatives and recorded or generated versions.",
+      "aliases": [
+        "camera shot",
+        "planned shot"
+      ],
+      "assumptions": [
+        "A shot can move or reframe. A planning record is not evidence that footage has been captured."
+      ],
+      "sources": [
+        {
+          "title": "Kellogg Community College — A Glossary of Film Terms",
+          "url": "https://academic.kellogg.edu/marklinl/Film/FilmHandouts/GlossaryOfFilmTerms.htm",
+          "locator": "CINEMATOGRAPHY: shot"
+        }
+      ]
+    },
+    {
+      "id": "term:setup",
+      "title": "Camera setup",
+      "topic": "camera",
+      "kind": "terminology",
+      "statement": "A setup combines camera placement, framing, movement, lighting and performer blocking for a shot.",
+      "appUse": "Use setup for the arrangement needed to capture the shot. Keep repeated attempts linked to that arrangement, and describe a production preparation screen as project preparation when it covers more than a camera setup.",
+      "aliases": [
+        "set-up",
+        "camera setup"
+      ],
+      "assumptions": [
+        "Crews can group several planned shots under one setup; the production should state its numbering convention."
+      ],
+      "sources": [
+        {
+          "title": "IATSE Local 476 — Glossary of Terms",
+          "url": "https://www.iatse476.org/glossary-of-terms/",
+          "locator": "Set Up; Block Shooting Setup"
+        }
+      ]
+    },
+    {
+      "id": "term:take",
+      "title": "Take and generated variation",
+      "topic": "edit",
+      "kind": "terminology",
+      "statement": "A take is one recorded attempt at a shot or setup; repeated takes offer alternatives for selection.",
+      "appUse": "Keep live-action takes, rendered previews and generated variations visibly identified by origin. A chosen version needs usable media before it can supply a timeline clip.",
+      "aliases": [
+        "take",
+        "recorded take",
+        "generated variation",
+        "selected take"
+      ],
+      "assumptions": [
+        "Calling an AI output a take is an app convention. It does not imply an on-set performance, continuity approval or rights clearance."
+      ],
+      "sources": [
+        {
+          "title": "IATSE Local 476 — Glossary of Terms",
+          "url": "https://www.iatse476.org/glossary-of-terms/",
+          "locator": "Take"
+        }
+      ]
+    },
+    {
+      "id": "term:storyboard-panel",
+      "title": "Storyboard panel",
+      "topic": "framing",
+      "kind": "terminology",
+      "statement": "A storyboard panel is a still visual plan accompanied by descriptions of action, sound or camera intent.",
+      "appUse": "Label drawings and reference images as storyboard panels. Use multiple panels when one shot needs to show a change in action or framing. Keep alternatives distinguishable from successive moments.",
+      "aliases": [
+        "storyboard frame",
+        "board",
+        "panel",
+        "cell"
+      ],
+      "assumptions": [
+        "A panel is not necessarily one shot or one video frame. A still image does not demonstrate motion."
+      ],
+      "sources": [
+        {
+          "title": "Adobe — What Are Animatics?",
+          "url": "https://www.adobe.com/uk/creativecloud/animation/discover/animatics.html",
+          "locator": "Animatics vs storyboards; How to make traditional animatics"
+        }
+      ]
+    },
+    {
+      "id": "term:timeline-clip",
+      "title": "Timeline clip",
+      "topic": "edit",
+      "kind": "terminology",
+      "statement": "A clip is an editorial item representing media in a browser or timeline, with timing that determines how it is used.",
+      "appUse": "Show the clip’s source, selected range and placement. Label a planned slot or storyboard still honestly when no recorded or generated video has been selected.",
+      "aliases": [
+        "clip",
+        "media clip",
+        "timeline item"
+      ],
+      "assumptions": [
+        "A clip and its source file are different records. One take may supply several clip ranges."
+      ],
+      "sources": [
+        {
+          "title": "Apple — Professional Video Applications: clip",
+          "url": "https://developer.apple.com/documentation/professional-video-applications/clip",
+          "locator": "Overview; Timing Attributes"
+        }
+      ]
+    },
+    {
+      "id": "term:animatic",
+      "title": "Animatic",
+      "topic": "edit",
+      "kind": "terminology",
+      "statement": "An animatic puts storyboard images into timed playback, often with temporary sound, to explore pace and meaning.",
+      "appUse": "Use animatic for the timed storyboard preview. Identify temporary dialogue, music, durations and missing images so a planning playback cannot be mistaken for a finished cut.",
+      "aliases": [
+        "timed storyboard",
+        "story reel"
+      ],
+      "assumptions": [
+        "An animatic may use still panels or limited motion; it does not require finished animation."
+      ],
+      "sources": [
+        {
+          "title": "Adobe — What Are Animatics?",
+          "url": "https://www.adobe.com/uk/creativecloud/animation/discover/animatics.html",
+          "locator": "What is the definition of animatics?; Why are animatics used?"
+        }
+      ]
+    },
+    {
+      "id": "term:previsualization",
+      "title": "Previsualization",
+      "topic": "camera",
+      "kind": "terminology",
+      "statement": "Previsualization explores how a film passage could look and play before final production; animatics are one planning form.",
+      "appUse": "Describe Blender or Unity blockouts as 3D previs when they rehearse staging, camera position, movement or timing. Track which elements remain proxies and what the preview is intended to resolve.",
+      "aliases": [
+        "previs",
+        "previz",
+        "previsuals",
+        "pre-visualization",
+        "blockout"
+      ],
+      "assumptions": [
+        "A preview is planning evidence. It does not by itself verify the final render, physical rig or shoot."
+      ],
+      "sources": [
+        {
+          "title": "Adobe — What Are Animatics?",
+          "url": "https://www.adobe.com/uk/creativecloud/animation/discover/animatics.html",
+          "locator": "Introduction; Animatics vs animation; The Phantom Menace example"
+        }
+      ]
+    },
+    {
+      "id": "term:coverage",
+      "title": "Shot coverage",
+      "topic": "framing",
+      "kind": "terminology",
+      "statement": "Coverage is the collection of views recorded for a scene so the editor has material to assemble it.",
+      "appUse": "Separate planned coverage from available coverage. Name the purpose of each view, such as a master, single, reaction or detail, and show whether usable media exists.",
+      "aliases": [
+        "camera coverage",
+        "scene coverage",
+        "master shot"
+      ],
+      "assumptions": [
+        "There is no mandatory shot count. Script coverage is a different activity: a written screenplay assessment."
+      ],
+      "sources": [
+        {
+          "title": "IATSE Local 476 — Glossary of Terms",
+          "url": "https://www.iatse476.org/glossary-of-terms/",
+          "locator": "Coverage"
+        }
+      ]
+    },
+    {
+      "id": "term:shot-size",
+      "title": "Shot size and focal length",
+      "topic": "framing",
+      "kind": "terminology",
+      "statement": "Shot size describes the subject’s scale in the frame, such as wide, medium or close-up. Focal length is a lens setting.",
+      "appUse": "Choose the intended framing, then use the camera plan to work out lens and position. Do not substitute “50 mm” for a framing description.",
+      "aliases": [
+        "shot scale",
+        "framing",
+        "wide shot",
+        "medium shot",
+        "close-up",
+        "lens"
+      ],
+      "assumptions": [
+        "A focal-length value alone does not specify the shot size; the imaging format and camera-to-subject arrangement also matter."
+      ],
+      "sources": [
+        {
+          "title": "Yale Film Analysis — Cinematography",
+          "url": "https://filmanalysis.yale.edu/cinematography/",
+          "locator": "Section 2 — Framing: Scale; Zoom Shot"
+        }
+      ]
+    },
+    {
+      "id": "term:blocking",
+      "title": "Blocking and camera movement",
+      "topic": "camera",
+      "kind": "terminology",
+      "statement": "Blocking describes performers’ positions and movements within a scene; camera movement describes the camera’s own path or rotation.",
+      "appUse": "Record what the performer does and how the camera responds separately. For example, a character crosses the room while the camera remains locked off, or the camera follows that action.",
+      "aliases": [
+        "staging",
+        "actor blocking",
+        "performer blocking"
+      ],
+      "assumptions": [
+        "Blocking and camera choreography are coordinated but are not interchangeable descriptions."
+      ],
+      "sources": [
+        {
+          "title": "IATSE Local 476 — Glossary of Terms",
+          "url": "https://www.iatse476.org/glossary-of-terms/",
+          "locator": "Blocking; Set Up"
+        }
+      ]
+    },
+    {
+      "id": "term:dolly-zoom",
+      "title": "Dolly, tracking move and zoom",
+      "topic": "camera",
+      "kind": "terminology",
+      "statement": "A dolly or tracking move changes camera position. A zoom changes lens focal length. A dolly zoom combines them.",
+      "appUse": "Specify physical or virtual camera travel separately from lens changes. Describe both when requesting a combined effect; do not label every move closer to a subject as a zoom.",
+      "aliases": [
+        "dolly",
+        "tracking",
+        "push in",
+        "pull back",
+        "zoom",
+        "dolly zoom"
+      ],
+      "assumptions": [
+        "Changing position alters viewpoint. A fixed-position zoom does not reproduce that camera path."
+      ],
+      "sources": [
+        {
+          "title": "Yale Film Analysis — Cinematography",
+          "url": "https://filmanalysis.yale.edu/cinematography/",
+          "locator": "Tracking Shot; Zoom Shot"
+        }
+      ]
+    },
+    {
+      "id": "term:pan-tilt",
+      "title": "Pan and tilt",
+      "topic": "camera",
+      "kind": "terminology",
+      "statement": "A pan turns the camera left or right; a tilt turns it up or down.",
+      "appUse": "Use pan and tilt for rotation, and describe sideways or vertical camera travel separately. When the subject moves, state whether the camera turns to follow or travels with it.",
+      "aliases": [
+        "pan",
+        "tilt",
+        "truck",
+        "pedestal"
+      ],
+      "assumptions": [
+        "A compound move can rotate and travel simultaneously; name both components."
+      ],
+      "sources": [
+        {
+          "title": "Yale Film Analysis — Cinematography",
+          "url": "https://filmanalysis.yale.edu/cinematography/",
+          "locator": "Pan; Tilt; Tracking Shot"
+        }
+      ]
+    },
+    {
+      "id": "term:rack-focus",
+      "title": "Rack focus",
+      "topic": "camera",
+      "kind": "terminology",
+      "statement": "A rack focus shifts sharp focus from one distance plane to another during a shot.",
+      "appUse": "Name the starting target, ending target and the moment that motivates the focus change. Keep this instruction separate from a zoom or a camera move.",
+      "aliases": [
+        "focus pull",
+        "racking focus",
+        "focus shift"
+      ],
+      "assumptions": [
+        "A focus change can accompany movement, but does not require it."
+      ],
+      "sources": [
+        {
+          "title": "Yale Film Analysis — Cinematography",
+          "url": "https://filmanalysis.yale.edu/cinematography/",
+          "locator": "Racking Focus"
+        }
+      ]
+    },
+    {
+      "id": "term:continuity-axis",
+      "title": "Continuity and the 180-degree guideline",
+      "topic": "edit",
+      "kind": "craft-convention",
+      "statement": "Continuity editing supports readable time and space. Staying on one side of the action axis helps preserve screen direction.",
+      "appUse": "Record the axis, eyelines and screen direction across adjacent shot plans. If crossing the line is intentional, note how the audience will be reoriented or why disorientation serves the scene.",
+      "aliases": [
+        "180-degree rule",
+        "axis of action",
+        "screen direction",
+        "eyeline"
+      ],
+      "assumptions": [
+        "This is a continuity convention, not a universal artistic requirement. It is unrelated to a 180-degree shutter angle."
+      ],
+      "sources": [
+        {
+          "title": "Kellogg Community College — A Glossary of Film Terms",
+          "url": "https://academic.kellogg.edu/marklinl/Film/FilmHandouts/GlossaryOfFilmTerms.htm",
+          "locator": "EDITING: axis of action; continuity editing; eyeline match"
+        }
+      ]
+    },
+    {
+      "id": "term:shutter-angle",
+      "title": "Shutter angle",
+      "topic": "camera",
+      "kind": "terminology",
+      "statement": "Shutter angle describes exposure duration relative to a frame interval. At 24 fps, a 180-degree exposure lasts 1/48 second.",
+      "appUse": "Treat shutter angle as an exposure and motion-blur setting when the camera or renderer supports it. Keep it separate from the scene’s action-axis continuity notes.",
+      "aliases": [
+        "180-degree shutter",
+        "exposure time",
+        "motion blur"
+      ],
+      "assumptions": [
+        "A 180-degree setting is a common choice, not a requirement or a guarantee of smooth motion."
+      ],
+      "sources": [
+        {
+          "title": "ARRI — ALEXA Studio Electronic and Mirror Shutter White Paper",
+          "url": "https://www.arri.com/resource/blob/178016/ad23969317dafff402f0902d47bb4ab7/alexa-studio-electronic-and-mirror-shutter-white-paper-data.pdf",
+          "locator": "Motion Portrayal; Strobing; Strobing and Safe Panning Speeds"
+        }
+      ]
+    },
+    {
+      "id": "term:insert-cutaway",
+      "title": "Insert and cutaway",
+      "topic": "edit",
+      "kind": "terminology",
+      "statement": "An insert isolates a detail; a cutaway leaves the main action to show related material, often before returning.",
+      "appUse": "Describe whether the planned view reveals a detail in the action or turns attention elsewhere. Name the detail and editorial purpose rather than using “filler” as the shot’s only explanation.",
+      "aliases": [
+        "insert",
+        "detail shot",
+        "cutaway",
+        "environmental coverage",
+        "filler shot"
+      ],
+      "assumptions": [
+        "Usage can overlap across crews. Specify the subject and its relationship to the main action."
+      ],
+      "sources": [
+        {
+          "title": "Filmmakers Academy — Glossary",
+          "url": "https://www.filmmakersacademy.com/glossary/",
+          "locator": "Insert Shots; Cutaway (shot)"
+        }
+      ],
+      "supersedesCraftIds": [
+        "craft:environment-insert"
+      ]
+    },
+    {
+      "id": "term:montage",
+      "title": "Montage",
+      "topic": "edit",
+      "kind": "craft-convention",
+      "statement": "Montage can mean editing generally, idea-making through juxtaposition, or a compressed passage assembled from several images.",
+      "appUse": "State which meaning applies. For a montage passage, identify the changing information, passage of time or contrast that connects the shots, then review the resulting rhythm.",
+      "aliases": [
+        "montage sequence",
+        "Soviet montage",
+        "juxtaposition"
+      ],
+      "assumptions": [
+        "Montage does not prescribe one transition type, pace or audience response."
+      ],
+      "sources": [
+        {
+          "title": "Kellogg Community College — A Glossary of Film Terms",
+          "url": "https://academic.kellogg.edu/marklinl/Film/FilmHandouts/GlossaryOfFilmTerms.htm",
+          "locator": "EDITING: montage; montage sequence"
+        }
+      ]
+    },
+    {
+      "id": "term:kuleshov",
+      "title": "Kuleshov effect: context and inference",
+      "topic": "edit",
+      "kind": "research-theory",
+      "statement": "Adjacent images can influence how viewers interpret a face. Experimental effects vary with the context, task and measure.",
+      "appUse": "Compare alternative neighboring shots in the animatic and ask viewers what they inferred. Record the intended reading as a creative hypothesis rather than claiming the edit guarantees an emotion.",
+      "aliases": [
+        "Kuleshov effect",
+        "contextual framing",
+        "audience inference"
+      ],
+      "assumptions": [
+        "The cited behavioral study found different patterns across emotional conditions and rating measures; it does not validate every editing claim."
+      ],
+      "sources": [
+        {
+          "title": "Calbi et al. (2017) — A Behavioral Study on the Kuleshov Effect",
+          "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2017.01684/full",
+          "locator": "Materials and Methods; Discussion"
+        }
+      ]
+    },
+    {
+      "id": "term:story-beat",
+      "title": "Story beat",
+      "topic": "story",
+      "kind": "terminology",
+      "statement": "A story beat is a meaningful event or change used to organize narrative development.",
+      "appUse": "Describe what changes in a character’s action, knowledge, relationship or situation. Connect it to the scene and shot plan without assuming that every beat needs its own shot or fixed duration.",
+      "aliases": [
+        "beat",
+        "story moment",
+        "turning point",
+        "beat sheet"
+      ],
+      "assumptions": [
+        "This entry uses the story-structure sense of beat. Performance pauses and musical beats are separate uses of the word."
+      ],
+      "sources": [
+        {
+          "title": "Final Draft — Building Screenplay Structure",
+          "url": "https://www.finaldraft.com/learn/building-screenplay-structure/",
+          "locator": "Organizing Your Story Beats; Cause and Effect Structuring; Character Arcs"
+        }
+      ]
+    },
+    {
+      "id": "term:three-act",
+      "title": "Three-act structure",
+      "topic": "story",
+      "kind": "craft-convention",
+      "statement": "The three-act model organizes a story around setup, confrontation and resolution.",
+      "appUse": "Offer it as an optional outline lens. Use it to discuss choices and consequences, while allowing the writer to use other structures, omit act labels or revise the framework to serve the work.",
+      "aliases": [
+        "three-act structure",
+        "act one",
+        "act two",
+        "act three",
+        "setup confrontation resolution"
+      ],
+      "assumptions": [
+        "Final Draft teaches a mainstream three-act approach. QiMovi treats it as guidance, not a universal rule or a mandatory page-count test."
+      ],
+      "sources": [
+        {
+          "title": "Final Draft — Building Screenplay Structure",
+          "url": "https://www.finaldraft.com/learn/building-screenplay-structure/",
+          "locator": "Three-Act Structure; Final Draft Screenplay Templates"
+        }
+      ]
+    }
+  ]
+}

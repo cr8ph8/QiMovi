@@ -1,0 +1,40 @@
+.screenplay-writing-surface { min-width: 0; }
+.screenplay-writing-surface .screenplay-writing-toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; min-height: 42px; padding: 0 0 12px; }
+.screenplay-writing-surface .screenplay-writing-toolbar button { border: 0; border-radius: 3px; background: transparent; color: #bdb5a8; padding: 6px 9px; font: 11px/1.4 system-ui,sans-serif; cursor: pointer; }
+.screenplay-writing-surface .screenplay-writing-toolbar button:disabled { opacity: .35; cursor: default; }
+.screenplay-writing-surface .screenplay-writing-modes { display: flex; padding: 2px; border: 1px solid #4b483f; border-radius: 5px; }
+.screenplay-writing-surface .screenplay-writing-modes button[aria-pressed=true] { color: #211e18; background: #d7bd8e; }
+.screenplay-writing-surface .screenplay-writing-toolbar label { display: flex; align-items: center; gap: 7px; margin: 0; font: 10px/1.4 system-ui,sans-serif; color: #bdb5a8; }
+.screenplay-writing-surface .screenplay-writing-toolbar select { width: auto; margin: 0; padding: 6px; border: 1px solid #4b483f; border-radius: 3px; color: #e5ddce; background: #23231f; font: 11px/1.4 system-ui,sans-serif; }
+.screenplay-writing-surface .screenplay-history-controls { display: flex; gap: 1px; }
+.screenplay-writing-surface .screenplay-insert-tools { display: flex; align-items: baseline; gap: 8px; flex-basis: 100%; padding-top: 7px; border-top: 1px solid #4b483f; font-size: 10px; }
+.screenplay-writing-surface .screenplay-insert-tools > span { color: #cbbb9e; }
+.screenplay-writing-surface .screenplay-insert-tools > div { display: flex; flex-wrap: wrap; gap: 3px; min-width: 0; }
+.screenplay-writing-surface .screenplay-insert-tools > div button { padding: 4px 7px; border: 1px solid #4b483f; text-align: left; }
+.screenplay-writing-surface .screenplay-writing-toolbar button:focus-visible,.screenplay-writing-surface summary:focus-visible,.screenplay-writing-surface select:focus-visible { outline: 2px solid #d7bd8e; outline-offset: 2px; }
+.screenplay-writing-surface .screenplay-source-editor { background: #1c1d19; color: #e6dfd0; }
+.screenplay-writing-surface .screenplay-source-editor>textarea { height: clamp(440px,calc(100dvh - 330px),820px); caret-color: #e6dfd0; }
+.screenplay-writing-surface .screenplay-source-editor>pre,.screenplay-writing-surface .screenplay-source-editor>textarea { padding: 20px; font: 13px/24px 'Courier New',monospace; }
+.screenplay-writing-surface .screenplay-writing-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; color: #b2a998; font: 10px/1.6 system-ui,sans-serif; }
+.screenplay-writing-surface .screenplay-writing-footer b { font-weight: normal; color: #6f6b60; padding: 0 4px; }
+.screenplay-writing-surface .screenplay-writing-footer details { max-width: 290px; text-align: right; }
+.screenplay-writing-surface .screenplay-writing-footer details p { text-align: left; margin-top: 8px; }
+.screenplay-writing-surface .screenplay-writing-feedback { font-size: 11px; color: #e6c594; }
+.screenplay-sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+@media(max-width:650px) { .screenplay-writing-surface .screenplay-writing-toolbar { gap: 7px; } .screenplay-writing-surface .screenplay-element-control>span { display: none; } .screenplay-writing-surface .screenplay-writing-footer>span { max-width: 220px; } }
+/* Instructions stay available to assistive technology and in Writing help. */
+.screenplay-writing-surface .screenplay-page-help { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.screenplay-find { border: 1px solid #4b483f; border-radius: 6px; background: #24241f; padding: 12px; margin-bottom: 12px; color: #e6dfd0; font: 12px/1.5 system-ui,sans-serif; }
+.screenplay-find-fields,.screenplay-find-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.screenplay-find-fields>label { display: grid; gap: 4px; flex: 1 1 150px; margin: 0; color: #cbbb9e; font-size: 11px; }
+.screenplay-find-fields input:not([type=checkbox]) { width: 100%; border: 1px solid #5f5a50; background: #191c18; color: #f5eee0; border-radius: 4px; padding: 7px 8px; margin: 0; font-size: 13px; }
+.screenplay-find-fields>label.screenplay-find-option { display: flex; flex: 0 0 auto; align-items: center; gap: 5px; padding-top: 18px; }
+.screenplay-find-option input[type=checkbox] { width: 14px; height: 14px; margin: 0; accent-color: #d7bd8e; }
+.screenplay-find-actions { margin-top: 10px; }
+.screenplay-find-actions>span { margin-right: auto; min-width: 90px; color: #cbbb9e; }
+.screenplay-find button { border: 1px solid #5f5a50; background: transparent; color: #e6dfd0; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+.screenplay-find button:disabled { opacity: .4; cursor: default; }
+.screenplay-find button:focus-visible,.screenplay-find input:focus-visible { outline: 2px solid #d7bd8e; outline-offset: 2px; }
+.screenplay-find-context { overflow-wrap: anywhere; white-space: pre-wrap; margin: 10px 0 0; color: #ada79b; }
+.screenplay-find-context mark { background: #d7bd8e; color: #211e18; }
+.screenplay-find [role=status] { color: #d7bd8e; margin: 8px 0 0; }

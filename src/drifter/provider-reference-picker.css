@@ -1,0 +1,24 @@
+.provider-reference-picker { margin-block: 12px; padding-block: 12px; border-block: 1px solid #343536; color: #e2ded5; font-size: 12px; }
+.provider-reference-heading { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.provider-reference-picker button, .provider-reference-picker input { padding: 8px 10px; border: 1px solid #5c503a; border-radius: 5px; background: #232423; color: #e8d2a9; font: inherit; }
+.provider-reference-picker button, .provider-reference-picker summary { cursor: pointer; }
+.provider-reference-picker button:disabled { cursor: default; opacity: .5; }
+.provider-reference-picker button:focus-visible, .provider-reference-picker input:focus-visible, .provider-reference-picker summary:focus-visible, .provider-reference-picker a:focus-visible { outline: 2px solid #d4b273; outline-offset: 3px; }
+.provider-reference-picker small, .provider-reference-scope { color: #aaa89f; font-size: 11px; line-height: 1.5; }
+.provider-reference-picker p { line-height: 1.5; overflow-wrap: anywhere; }
+.provider-reference-results { margin-top: 12px; }
+.provider-reference-picker summary, .provider-reference-picker a { color: #d5bb8d; }
+.provider-reference-results > label { display: grid; gap: 5px; margin-block: 12px; }
+.provider-reference-body { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(180px, 1fr); gap: 18px; }
+.provider-reference-list { list-style: none; max-height: 260px; overflow: auto; margin: 0; padding: 0 8px 0 0; }
+.provider-reference-list li { margin-bottom: 3px; }
+.provider-reference-list button { width: 100%; text-align: left; display: grid; gap: 4px; border-color: transparent; background: transparent; color: #e2ded5; overflow-wrap: anywhere; }
+.provider-reference-list button[aria-pressed="true"] { border-color: #7d6945; background: #2b2822; }
+.provider-reference-list strong { font-size: 12px; font-weight: 500; }
+.provider-reference-inspector { min-width: 0; padding-inline-start: 16px; border-left: 1px solid #343536; }
+.provider-reference-inspector > p:first-child { margin-top: 0; color: #aaa89f; }
+.provider-reference-inspector a { display: block; margin-block: 12px; line-height: 1.5; }
+.provider-reference-inspector details { margin-top: 12px; font-size: 11px; }
+.provider-reference-inspector dd { margin: 4px 0 10px; overflow-wrap: anywhere; }
+.provider-reference-error { color: #e3b09d; }
+@media (max-width: 600px) { .provider-reference-body { grid-template-columns: 1fr; gap: 12px; } .provider-reference-inspector { border-left: 0; border-top: 1px solid #343536; padding: 12px 0 0; } .provider-reference-list { max-height: 220px; } }

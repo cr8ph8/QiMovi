@@ -1,0 +1,96 @@
+{
+  "schema": "qimovi-filmcraft-science-foundations/v1",
+  "version": "science-foundations-v1",
+  "reviewedOn": "2026-09-25",
+  "status": "reviewed-reference-data",
+  "scope": "Shared filmmaking knowledge; never project canon or permission to execute",
+  "principles": [
+    {
+      "id": "science:field-of-view",
+      "kind": "physical-model",
+      "title": "Sensor size and focal length determine angular coverage",
+      "statement": "For an ideal rectilinear camera, a larger active sensor dimension widens the corresponding angle of view at fixed focal length. A longer focal length narrows it.",
+      "formula": "fovDegrees = 2 * atan(sensorDimensionMm / (2 * focalLengthMm)) * 180 / pi",
+      "requiredInputs": ["sensorDimensionMm > 0", "focalLengthMm > 0", "horizontal or vertical axis"],
+      "assumptions": ["Rectilinear projection", "Matching sensor axis and active crop", "Ignores lens distortion, close-focus extension and focus breathing", "Anamorphic and VR cameras require their own models"],
+      "example": "A 36 mm active width with a 50 mm lens gives about 39.6 degrees horizontal coverage under these assumptions.",
+      "appUse": "Explain framing in camera rehearsal; do not infer sensor size from the words wide shot.",
+      "sources": [{"title": "Edmund Optics: Understanding Focal Length and Field of View", "url": "https://www.edmundoptics.com/knowledge-center/application-notes/imaging/understanding-focal-length-and-field-of-view", "locator": "Angular field of view, Equation 1"}]
+    },
+    {
+      "id": "science:shutter-time",
+      "kind": "physical-model",
+      "title": "Frame rate and shutter angle determine exposure duration",
+      "statement": "Exposure duration changes when capture rate changes at fixed shutter angle. The intended blur still depends on movement and camera behavior.",
+      "formula": "exposureSeconds = shutterAngleDegrees / (360 * captureFramesPerSecond)",
+      "requiredInputs": ["captureFramesPerSecond > 0", "0 < shutterAngleDegrees <= 360"],
+      "assumptions": ["Camera-specific supported settings must also be checked", "Capture rate is distinct from playback rate", "This equation alone does not predict flicker, rolling shutter or final motion quality"],
+      "example": "At 24 fps and 180 degrees, each exposure is 1/48 second. 180 degrees is a choice, not a mandatory creative rule.",
+      "appUse": "Show exposure duration beside camera timing; keep unsupported provider settings as intentions only.",
+      "sources": [{"title": "ARRI ALEXA 35 SUP 6.0.0 User Manual", "url": "https://www.arri.com/resource/blob/403596/9bca057cb6a962cff63484fd092e4b33/alexa-35-sup-6-0-0-user-manual-en-data.pdf", "locator": "Printed page 26, SHUTTER; page 43, section 8.4"}]
+    },
+    {
+      "id": "science:focus-and-aperture",
+      "kind": "technical-model",
+      "title": "Focus target and aperture are separate controls",
+      "statement": "A camera can focus at an explicit distance or on an object. Aperture affects the rendered blur around that focus. Naming a prime or zoom lens does not by itself specify depth of field.",
+      "requiredInputs": ["focus target or distance", "focal length", "aperture", "sensor and scene scale"],
+      "assumptions": ["Simulator output depends on its camera and render model", "A quantitative depth-of-field calculation also needs a chosen circle of confusion and viewing assumptions"],
+      "appUse": "Represent focus start/end targets separately from movement and shot size; keep a focus pull distinct from a dolly.",
+      "sources": [{"title": "Blender 4.4 Manual: Cameras", "url": "https://docs.blender.org/manual/en/4.4/render/cameras.html", "locator": "Depth of Field and Aperture sections; retrieved indexed documentation"}]
+    },
+    {
+      "id": "science:sound-distance",
+      "kind": "physical-model",
+      "title": "Distance affects direct sound level",
+      "statement": "In a free field with point-source spreading, doubling source distance reduces sound pressure level by about 6 dB.",
+      "formula": "levelChangeDb = -20 * log10(distance2 / distance1)",
+      "requiredInputs": ["distance1 > 0", "distance2 > 0", "same source output"],
+      "assumptions": ["Free field and point-source approximation", "Reflections, directional radiation, occlusion and microphone proximity effects are excluded", "This predicts relative level, not intelligibility or recording quality"],
+      "appUse": "Help flag distant dialogue recording and motivate boom/lavalier planning; require actual sound review.",
+      "sources": [{"title": "DPA Microphones: Inverse Square Law", "url": "https://www.dpamicrophones.com/dictionary/i/inverse-square-law/", "locator": "Definition"}]
+    },
+    {
+      "id": "science:media-time",
+      "kind": "technical-representation",
+      "title": "Media time requires a value and a rate",
+      "statement": "Store the rate alongside media positions and durations, and declare whether a range end is inclusive or exclusive. Frame counts without rates are ambiguous.",
+      "formula": "seconds = value / rate",
+      "requiredInputs": ["finite value", "finite rate > 0", "range boundary convention"],
+      "assumptions": ["Variable-frame-rate media needs measured timestamps", "Timecode labels and sample positions are different representations", "OpenTimelineIO RationalTime stores a value and rate as doubles; exact rational arithmetic is not implied"],
+      "example": "The half-open range [10, 15) contains frames 10, 11, 12, 13 and 14: five frames of duration. At 24 fps, 48 frames represent two seconds.",
+      "appUse": "Preserve clip rate, source trims and audio overlaps through the movie timeline and editor handoff.",
+      "sources": [{"title": "OpenTimelineIO 0.17: opentime API", "url": "https://opentimelineio.readthedocs.io/en/v0.17.0/api/python/opentimelineio.opentime.html", "locator": "RationalTime and duration_from_start_end_time"}]
+    },
+    {
+      "id": "science:color-pipeline",
+      "kind": "technical-standard",
+      "title": "Input, working and display color transforms have different jobs",
+      "statement": "ACES describes an explicit path from source encoding through working representations and creative looks to output transforms. Record the chosen configuration instead of treating a look name as complete color metadata.",
+      "requiredInputs": ["source encoding", "working space", "configuration version", "output target"],
+      "assumptions": ["ACES is an available workflow, not a forced choice for every film", "Unknown source color encoding stays unknown", "Named transforms do not prove a file was processed or a display calibrated"],
+      "appUse": "Retain color metadata with media through Blender, generation returns and editorial delivery.",
+      "sources": [{"title": "Academy ACES Documentation: ACES System", "url": "https://docs.acescentral.com/background/overview/", "locator": "System overview"}]
+    },
+    {
+      "id": "research:continuity-attention",
+      "kind": "research-theory",
+      "title": "Attention helps explain perceived continuity across cuts",
+      "statement": "Smith's Attentional Theory of Cinematic Continuity relates continuity techniques to attention and perceptual expectations. It offers a way to reason about what the viewer follows across an edit.",
+      "requiredInputs": ["outgoing point of interest", "incoming point of interest", "intended action or eyeline relationship"],
+      "assumptions": ["A theoretical account is not a universal response predictor", "Spatial disorientation may be intentional", "A continuity suggestion can be overridden by the filmmaker"],
+      "appUse": "Ask what carries across a cut and explain a possible continuity mismatch; do not grade artistic quality from a rule violation.",
+      "sources": [{"title": "Tim J. Smith: The Attentional Theory of Cinematic Continuity", "url": "https://ualresearchonline.arts.ac.uk/id/eprint/21187/", "locator": "2012 publication record; repository manuscript dated 2011, abstract and continuity discussion"}]
+    },
+    {
+      "id": "research:attention-is-not-comprehension",
+      "kind": "empirical-finding",
+      "title": "Shared gaze does not establish shared understanding",
+      "statement": "In the reported experiments, prior narrative context improved comprehension while producing only subtle eye-movement differences against strong attentional synchrony.",
+      "requiredInputs": ["specific review question", "viewer response", "context shown to the viewer"],
+      "assumptions": ["Results concern the studied film material and conditions", "Do not infer a viewer's emotion, understanding or enjoyment solely from gaze or a model score"],
+      "appUse": "Evaluate whether viewers understand the intended beat with a direct review question, separately from visual attention or aesthetic preference.",
+      "sources": [{"title": "Loschky et al. (2015): What Would Jaws Do?", "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0142474", "locator": "Abstract, three experiments and discussion"}]
+    }
+  ]
+}

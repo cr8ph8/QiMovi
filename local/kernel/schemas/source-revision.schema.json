@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "filmstack-source-revision/v1",
+  "title": "FilmStack Canonical Source Revision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "revision_id",
+    "source_title",
+    "declared_format",
+    "blob_sha256",
+    "byte_length",
+    "evidence_id",
+    "evidence_hash",
+    "admission_candidate_id",
+    "admission_record_id",
+    "admission_record_hash",
+    "admitted_at_ms"
+  ],
+  "properties": {
+    "schema_version": { "const": "filmstack-source-revision/v1" },
+    "revision_id": { "$ref": "#/$defs/id" },
+    "source_title": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "declared_format": { "enum": ["FDX", "FOUNTAIN", "PDF", "DOCX", "TXT", "RTF", "OTHER"] },
+    "blob_sha256": { "$ref": "#/$defs/sha256" },
+    "byte_length": { "type": "integer", "minimum": 1, "maximum": 268435456 },
+    "evidence_id": { "$ref": "#/$defs/id" },
+    "evidence_hash": { "$ref": "#/$defs/sha256" },
+    "admission_candidate_id": { "$ref": "#/$defs/id" },
+    "admission_record_id": { "$ref": "#/$defs/id" },
+    "admission_record_hash": { "$ref": "#/$defs/sha256" },
+    "admitted_at_ms": { "$ref": "#/$defs/time" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "time": { "type": "integer", "minimum": 0 }
+  }
+}

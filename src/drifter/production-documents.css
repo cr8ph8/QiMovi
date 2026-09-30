@@ -1,0 +1,20 @@
+.document-drawer { width: min(1080px, 100vw); }
+.document-review-tabs { display:flex; flex-wrap:wrap; gap:6px; margin:16px 0; }
+.document-review-tabs button { padding:9px 12px; border:1px solid #46463f; background:transparent; color:inherit; border-radius:5px; }
+.document-review-tabs button[aria-pressed="true"] { background:#cfb576; color:#151916; border-color:#cfb576; }
+.document-review-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0; }
+.document-review-toolbar .scope-note { margin-left:auto; }
+.document-review-workspace { border-top:1px solid #46463f; margin-top:16px; padding-top:16px; }
+.production-document-body { background:#f3f1e8; color:#222720; padding:24px; max-height:52vh; overflow:auto; line-height:1.5; border-radius:3px; }
+.production-document-body h4 { font-size:17px; line-height:1.3; margin:22px 0 10px; }
+.production-document-body h4:first-child { margin-top:0; }
+.production-document-body h5 { font-size:14px; margin:18px 0 6px; }
+.production-document-body p { font-size:12px; white-space:pre-wrap; overflow-wrap:anywhere; margin:6px 0; }
+.production-document-table { overflow-x:auto; margin:12px 0 22px; }
+.production-document-table table { width:100%; border-collapse:collapse; font-size:12px; }
+.production-document-table th,.production-document-table td { padding:10px; border-bottom:1px solid #d2d3c8; vertical-align:top; text-align:left; min-width:100px; overflow-wrap:anywhere; }
+.production-document-table th { background:#e1e2d7; font-weight:650; }
+.document-draft-editor { width:100%; min-height:360px; max-height:55vh; resize:vertical; padding:18px; font:13px/1.65 ui-monospace,monospace; tab-size:2; }
+.document-close-warning { padding:12px; margin:12px 0; border-left:3px solid #cfb576; background:#292d27; }
+.document-close-warning button { margin-right:8px; }
+.document-drawer button:focus-visible { outline:2px solid #cfb576; outline-offset:3px; }

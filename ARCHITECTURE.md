@@ -15,7 +15,10 @@ flowchart TB
   R --> S
   CM[Core Motion] --> T[Phone rotation rehearsal JSON]
   P --> T
-  T -. Calibration and review required .-> A
+  P --> CLOG[Phone clapper JSON]
+  T -. Manual file review .-> PV[Desktop PreViz reference archive]
+  CLOG -. Manual file review .-> PV
+  S --> PV
 ```
 
 Dashed edges are handoff boundaries. They do not imply automatic synchronization or a qualified external execution.
@@ -31,7 +34,7 @@ Dashed edges are handoff boundaries. They do not imply automatic synchronization
 | `local/integrations/` | DCC/editor exchange code and integration guidance. External applications remain separate. |
 | `desktop/` | Swift AppKit/WebKit host and native media probe. |
 | `script/` | Desktop packaging, runtime staging, icons, and dependency notices. |
-| `iphone/QiMovi/` | SwiftUI production companion, local planning store, and Core Motion rehearsal. |
+| `iphone/QiMovi/` | SwiftUI production companion, local planning store, Core Motion rehearsal, and shot-linked clapper log. |
 | `iphone/scripts/` | Standalone iOS Xcode-project generator and explicit local slate exporter. |
 | `src/` and `supabase/` | Also retain inherited web/hosted code. The local entry uses `drifter.html` and `vite.local.config.ts`; it does not establish a hosted release. |
 
@@ -57,13 +60,14 @@ This design is for a local owner. Exposing the service over a network or deployi
 |---|---|---|
 | `qimovi-phone-production/v1` | Into phone | A slate snapshot of projects, ordered shots, and tasks; desktop HUD exports include retained review baselines. |
 | `qimovi-production-review/v1` | Out of phone | One project's planning proposal; `desktopApplied: false`, `productionApproval: false`. |
-| `qimovi-phone-rotation/v1` | Out of phone | Timestamped orientation samples bound to a shot; `desktopPlaybackReady: false`. |
+| `qimovi-phone-rotation/v1` | Out of phone | Timestamped orientation samples bound to a shot, with optional clapper markers; `desktopPlaybackReady: false`. |
+| `qimovi-clapper/v1` | Out of phone | A shot-linked slate mark using device wall-clock time; `classification: SLATE_MARK_ONLY`. |
 
 The Swift `Codable` models define the current fields. The generic phone importer accepts up to 20 MB, 100 projects, and 5,000 shots and 5,000 tasks per project. The UI holds an import preview until confirmation. Changed content for an existing project ID requires **Archive old plan and import**: the previous phone slate is written to `Import Archives/` before replacement. If the phone plan changes while review is open, confirmation fails and requires a fresh review. The phone does not merge the two plans.
 
 The desktop HUD round trip uses smaller bounds: one selected project, 400 shots, 50 tasks, and 2 MiB JSON requests. A provided hash is a source reference, not a digital signature, proof of ownership, or independent rights verification.
 
-Phone state is stored under Application Support at `QiMoviAlpha/Production`: `production-library.json`, `Camera/`, `Exports/`, and `Import Archives/`. Atomic library writes and camera saves use iOS file protection until first user authentication after boot. A failed camera save retains its pending take during the current process for retry. This is not a backup system.
+Phone state is stored under Application Support at `QiMoviAlpha/Production`: `production-library.json`, `Camera/`, `Clapper/`, `Exports/`, and `Import Archives/`. Atomic library, camera and clapper saves use iOS file protection until first user authentication after boot. A failed camera or clapper save retains its pending value during the current process for retry. This is not a backup system.
 
 Snapshot JSON does not transport image files. Optional thumbnail paths refer to resources already bundled under `Thumbnails/`. Public examples must use synthetic, cleared content.
 
@@ -93,6 +97,55 @@ Core Motion samples relative attitude from the start of a take, using `xArbitrar
 
 No position, lens calibration, scene geometry, or video is recorded. A DCC adapter must resolve the shot, calibrate device axes and the chosen camera, apply movement reversibly, read the result back, and obtain review evidence. A raw phone rehearsal must not enter the desktop as a verified camera observation.
 
+## Clapper timing and phone PreViz retention
+
+The clapper stores the project/source/scene/shot binding, optional shot revision
+hash, take number, roll, camera, rational frame rate, sound/slate/purpose choices,
+notes, and a unique mark ID. `markedAt` uses the phone wall clock and
+`clock: DEVICE_WALL_CLOCK_NOT_TIMECODE`. It is not a jam-synced clock, a generated
+SMPTE timecode stream, or evidence that the sound cue reached an external
+recorder. `SYNC`, `MOS` and `PRODUCTION` describe the operator's intent.
+
+For a matching active rotation recording, a mark may include `recordingId` and
+`recordingTimeSeconds` from the latest available sensor sample. The movement
+file can retain up to 100 marker IDs with elapsed seconds and take numbers.
+There is no shared camera/audio timebase, frame-accurate synchronization claim,
+video recording, or automatic cross-file import.
+
+Version `0.6.0-alpha.1` adds `local/contracts/phone-previz.mjs`,
+`local/server/phone-previz.mjs`, and the **Phone rehearsals & clapper** section in
+**3D & cameras**. The owner-authenticated loopback routes are:
+
+| Route | Operation |
+|---|---|
+| `GET /api/phone-previz?sceneId=…&shotId=…` | Verify and list references for the current shot revision. |
+| `POST /api/phone-previz/preview` | Validate a phone rotation/slate artifact and compare its source binding without writing. |
+| `POST /api/phone-previz/retain` | Recompute the preview and retain an explicitly reviewed, matching artifact. |
+
+The source binding includes project, screenplay hash, scene, shot and current
+shot hash. A mismatching provided hash prevents retention; a missing optional
+shot hash produces a warning rather than claiming revision verification.
+Source-free or unassigned phone records cannot be matched to an attached
+production shot. A change after preview invalidates its digest.
+
+Rotation validation checks finite normalized XYZW quaternions, strictly ordered
+sample times, duration/sample bounds and optional clapper markers. Floating-point
+sensor values use their own bounded canonical serialization, separate from the
+integer-only authoritative record format. Requests are bounded to 2 MiB.
+
+Artifacts and receipts are stored under the private workspace's
+`integrations/phone-previz/<receipt-id>/`, using a temporary directory and an
+atomic directory rename. Receipt identity binds source and content. Reads
+verify file hashes and reject symbolic links; an identical retention returns
+the existing receipt. New retention stops at 200 workspace entries without
+automatic eviction. Historical entries remain on disk when the selected shot
+revision changes; the UI lists only matching current references.
+
+Receipts explicitly retain `approvalGranted: false`, `desktopPlaybackReady:
+false`, and `finalMedia: false`. Retention does not write a shot direction,
+canonical state, accepted media take or executable DCC camera. Calibrated
+replay and any resulting render require a separate adapter and review.
+
 ## Integration maturity
 
 | Available in source | Still requires configuration or further work |
@@ -100,7 +153,7 @@ No position, lens calibration, scene geometry, or video is recorded. A DCC adapt
 | Local development-to-production workflows | Acceptance of a complete real production and final delivery |
 | Desktop editor, DCC, model, and generation adapters | Compatible installations, account access, configuration, and successful job/readback evidence |
 | Manual desktop Phone HUD export, reviewed iPhone import with archive, and per-record desktop preview/apply | Automatic refresh, conflict merging, live sync, new source-shot reconciliation, and media transfer/acceptance |
-| Phone rotation rehearsal | Positional tracking, live camera control, and calibrated DCC playback |
+| Phone rotation rehearsal, digital clapper and reviewed desktop reference retention | Positional tracking, live camera control, calibrated DCC playback, synchronized timecode and physical-device timing qualification |
 | Source references, version history, and review boundaries | Independent rights verification and authorized business decisions |
 | Native local applications | Notarized desktop distribution, iPhone distribution, and hosted multi-user release |
 
@@ -112,3 +165,5 @@ with your own source-bound scene and assets. Hosted seed/demo operations and
 account-specific database migrations are also omitted; inherited hosted code
 is retained for development, not a ready deployment. Configure your own service
 endpoints and email sender domain before using that code.
+
+See [the PreViz integration guide](local/integrations/three-d/README.md) for the existing Blender and Unity routes and their separate acceptance requirements.

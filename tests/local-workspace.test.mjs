@@ -78,5 +78,27 @@ test('local owner session protects project data and rejects foreign origins', as
     const bridgeCookie = bridge.headers.get('set-cookie').split(';')[0];
     assert.equal((await fetch(`${server.origin}/api/phone/export`, { headers: { cookie: bridgeCookie } })).status, 403);
 
+    const phonePrevizFolder = path.join(directory, 'integrations', 'phone-previz');
+    assert.equal(fs.existsSync(phonePrevizFolder), false);
+    for (const [method, route] of [
+      ['GET', '/api/phone-previz?sceneId=synthetic-scene&shotId=synthetic-shot'],
+      ['POST', '/api/phone-previz/preview'],
+      ['POST', '/api/phone-previz/retain'],
+    ]) {
+      // Auth must reject before parsing artifact data or looking up a shot.
+      const request = { method, headers: { origin: server.origin, 'content-type': 'application/json' },
+        ...(method === 'POST' ? { body: '{}' } : {}) };
+      const anonymous = await fetch(`${server.origin}${route}`, request);
+      assert.equal(anonymous.status, 401, `${method} ${route} requires the owner session`);
+      assert.equal((await anonymous.json()).error, 'OWNER_SESSION_REQUIRED');
+      const writer = await fetch(`${server.origin}${route}`, { ...request, headers: { ...request.headers, cookie: bridgeCookie } });
+      assert.equal(writer.status, 403, `${method} ${route} rejects the scoped writer session`);
+      assert.equal((await writer.json()).error, 'CANISCREENWRITE_SCOPE_REJECTED');
+    }
+    assert.equal(fs.existsSync(phonePrevizFolder), false, 'rejected clients must not retain phone artifacts');
+    const ownerPreviz = await fetch(`${server.origin}/api/phone-previz?sceneId=synthetic-scene&shotId=synthetic-shot`, { headers: { cookie } });
+    assert.equal(ownerPreviz.status, 409, 'the owner reaches source/shot validation in this empty film');
+    assert.equal((await ownerPreviz.json()).error, 'PHONE_PREVIZ_SHOT_UNAVAILABLE');
+
   } finally { await server.close(); }
 });

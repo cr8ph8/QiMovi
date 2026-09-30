@@ -1,3 +1,4 @@
+import { createPhonePrevizService, PHONE_PREVIZ_MAX_BYTES } from './phone-previz.mjs';
 import { createPhoneHandoffService } from './phone-handoff.mjs';
 import { createProjectLibraryUploadService } from './project-library-upload.mjs';
 import { createAssetTokenPreparationService } from './asset-token-preparation.mjs';
@@ -94,6 +95,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const storyboardFrames = createStoryboardFrameService(store);
     const writingRecovery = createWritingRecoveryService(store);
     const phoneHandoff = createPhoneHandoffService(store);
+    const phonePreviz = createPhonePrevizService(store);
     const nodeConnectors = createNodeConnectorService(nodeConnectorOptions);
     const resolveMcp = createResolveMcpBridge(resolveMcpOptions);
     const openCreator = createOpenCreatorService(store, openCreatorOptions);
@@ -191,6 +193,16 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
               || noQuery && req.method === 'POST' && url.pathname === '/api/project-library/upload'
               || noQuery && req.method === 'GET' && assetMatch && /^project-asset:[a-f0-9]{64}$/.test(assetId);
             check(allowed, 'CANISCREENWRITE_SCOPE_REJECTED', 403);
+          }
+          if (url.pathname === '/api/phone-previz' || url.pathname.startsWith('/api/phone-previz/')) {
+            if (url.pathname === '/api/phone-previz' && req.method === 'GET') {
+              check([...url.searchParams.keys()].every(key => ['sceneId', 'shotId'].includes(key)) && [...url.searchParams.keys()].length === 2, 'PHONE_PREVIZ_QUERY_INVALID', 422);
+              return json(res, 200, phonePreviz.list({ sceneId: url.searchParams.get('sceneId'), shotId: url.searchParams.get('shotId') }));
+            }
+            check([...url.searchParams].length === 0, 'PHONE_PREVIZ_QUERY_INVALID', 422);
+            if (url.pathname === '/api/phone-previz/preview' && req.method === 'POST') return json(res, 200, phonePreviz.preview(await body(req, PHONE_PREVIZ_MAX_BYTES)));
+            if (url.pathname === '/api/phone-previz/retain' && req.method === 'POST') return json(res, 200, phonePreviz.retain(await body(req, PHONE_PREVIZ_MAX_BYTES)));
+            throw new PilotError('PHONE_PREVIZ_ROUTE_NOT_FOUND', 404);
           }
           if (url.pathname.startsWith('/api/phone/')) {
             check([...url.searchParams].length === 0, 'PHONE_HANDOFF_QUERY_REJECTED', 422);

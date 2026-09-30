@@ -38,6 +38,7 @@ export default function ShotSequenceCanvas({ project, records, sceneId, open = t
   const sequence = useMemo(() => deriveStoryboardSequence(project, records), [project, records]);
   const scope = `${project.id}:${project.sourceHash}`;
   const [view, setView] = useState<'graph' | 'sheet' | 'coverage'>('graph');
+  const [sheetMode, setSheetMode] = useState<'frames' | 'shots'>('frames');
   const [workStep, setWorkStep] = useState<ShotWorkflowStep>('frames');
   const [query, setQuery] = useState('');
   const [imageFilter, setImageFilter] = useState<'all' | 'missing' | 'present'>('all');
@@ -70,19 +71,22 @@ export default function ShotSequenceCanvas({ project, records, sceneId, open = t
     const zoom = clampZoom(Math.min((size.current.width - 32) / graphWidth, (size.current.height - 32) / graphHeight));
     setViewport({ zoom, x: (size.current.width - graphWidth * zoom) / 2, y: (size.current.height - graphHeight * zoom) / 2 }); fitted.current = true;
   }
-  function reveal(shot: StoryboardSequenceShot, zoom = Math.max(.72, viewportRef.current.zoom)) {
+  function reveal(shot: StoryboardSequenceShot, zoom = Math.max(.72, viewportRef.current.zoom), cellId?: string) {
     const point = positions.get(nodeKey(shot.sceneId, shot.id)); if (!point) return;
     const scale = clampZoom(zoom);
     setViewport({ zoom: scale, x: size.current.width / 2 - (point.x + NODE_WIDTH / 2) * scale, y: Math.min(size.current.height / 2, 185) - (point.y + NODE_HEIGHT / 2) * scale }); fitted.current = false;
-    const tile = [...(sheet.current?.querySelectorAll<HTMLButtonElement>('[data-shot-id]') ?? [])].find(element => element.dataset.sceneId === shot.sceneId && element.dataset.shotId === shot.id);
+    const tiles = [...(sheet.current?.querySelectorAll<HTMLButtonElement>('[data-shot-id]') ?? [])].filter(element => element.dataset.sceneId === shot.sceneId && element.dataset.shotId === shot.id);
+    const activeCellId = cellId ?? selectedShot?.cellId ?? (cellSelection?.scope === scope ? cellSelection.cellId : undefined);
+    const tile = tiles.find(element => element.dataset.cellId === activeCellId) ?? tiles[0];
     tile?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
   }
   function clearFilters() { setQuery(''); setImageFilter('all'); }
-  function inspect(shot: StoryboardSequenceShot, bringIntoView = false) {
-    onSelectionChange?.(shot.sceneId, shot.id);
+  function inspect(shot: StoryboardSequenceShot, bringIntoView = false, cellId?: string) {
+    onSelectionChange?.(shot.sceneId, shot.id, cellId);
+    setCellSelection(cellId ? { scope, cellId } : null);
     setSelection({ scope, key: nodeKey(shot.sceneId, shot.id) });
     if (shot.sceneId !== sceneId) onScene(shot.sceneId);
-    if (bringIntoView) reveal(shot);
+    if (bringIntoView) reveal(shot, undefined, cellId);
   }
   function move(delta: number) {
     if (!selected) return;
@@ -129,6 +133,7 @@ export default function ShotSequenceCanvas({ project, records, sceneId, open = t
     <header className="ss-toolbar"><div><h2>Storyboard sequence</h2><p>{sequence.summary.sceneCount} scenes · {sequence.summary.shotCount} shots · {sequence.summary.cellCount} frames<span>Planning order</span></p></div><div className="ss-toolbar-actions"><label>Scene<select aria-label="Jump to storyboard scene" value={selected?.sceneId ?? sceneId} onChange={event => { const row = sequence.scenes.find(item => item.scene.id === event.target.value); if (row?.shots[0]) inspect(row.shots[0], true); else if (row) onScene(row.scene.id); }}>{sequence.scenes.map(row => <option key={row.scene.id} value={row.scene.id}>{String(row.scene.index).padStart(2, '0')} · {row.scene.heading}</option>)}</select></label>{view === 'graph' && <button onClick={fitFilm}><Maximize size={14} aria-hidden="true"/>Fit film</button>}{view !== 'coverage' && <button disabled={!selected || !visibleKeys.has(nodeKey(selected.sceneId, selected.id))} onClick={() => { if (selected) reveal(selected, .9); }}>Focus shot</button>}</div></header>
     <div className="ss-browser-toolbar">
       <div className="ss-view-switch" role="group" aria-label="Storyboard view"><button aria-pressed={view === 'graph'} onClick={() => setView('graph')}><Workflow size={14} aria-hidden="true"/>Shot graph</button><button aria-pressed={view === 'sheet'} onClick={() => setView('sheet')}><Grid2X2 size={14} aria-hidden="true"/>Contact sheet</button><button aria-pressed={view === 'coverage'} onClick={() => setView('coverage')}>Coverage review</button></div>
+      {view === 'sheet' && <div className="ss-sheet-mode" role="group" aria-label="Contact sheet layout"><button type="button" aria-pressed={sheetMode === 'frames'} onClick={() => setSheetMode('frames')}>All frames</button><button type="button" aria-pressed={sheetMode === 'shots'} onClick={() => setSheetMode('shots')}>Shot overview</button></div>}
       <div className="ss-image-filters" hidden={view === 'coverage'}><label className="ss-search"><Search size={14} aria-hidden="true"/><input aria-label="Search storyboard" placeholder="Search shots, scenes or frames" value={query} onChange={event => setQuery(event.target.value)}/></label>
       <select aria-label="Storyboard image filter" value={imageFilter} onChange={event => setImageFilter(event.target.value as typeof imageFilter)}><option value="all">All planned shots</option><option value="missing">Needs image · {sequence.summary.shotsWithoutImages}</option><option value="present">Has image · {sequence.summary.shotsWithImages}</option></select>
       {hasFilters && <button className="ss-clear-filters" onClick={clearFilters}>Clear filters</button>}</div>
@@ -155,17 +160,23 @@ export default function ShotSequenceCanvas({ project, records, sceneId, open = t
     {hasFilters && !visibleShots.length && <div className="ss-filter-empty"><Search size={24} aria-hidden="true"/><h3>No matching planned shots</h3><p>Try a scene, shot label or frame description, or clear the image filter.</p><button onClick={clearFilters}>Show all planned shots</button></div>}
     </div><footer className="ss-map-tools"><span>Drag space to pan · ← → select shots · Ctrl/⌘ scroll to zoom</span><div><button aria-label="Zoom out storyboard" onClick={() => zoomAt(1 / 1.2)}><Minus size={15}/></button><output aria-label="Storyboard zoom">{Math.round(viewport.zoom * 100)}%</output><button aria-label="Zoom in storyboard" onClick={() => zoomAt(1.2)}><Plus size={15}/></button></div></footer></> : <>
       <div className="ss-contact-sheet" ref={sheet} role="region" aria-label="Storyboard contact sheet" tabIndex={0} onKeyDown={keys}>
+        <p className="ss-sheet-context">{sheetMode === 'frames' ? 'Every retained frame in the matching shots, including alternate openings and missing images.' : 'One image candidate per shot. Use All frames to compare openings, action and endings.'} Image filters apply to shots.</p>
         {sequence.scenes.map(row => { const shots = row.shots.filter(shot => visibleKeys.has(nodeKey(shot.sceneId, shot.id))); if (!shots.length) return null; return <section className="ss-sheet-scene" key={row.scene.id} aria-label={`Scene ${row.scene.index}: ${row.scene.heading}`}>
           <header><span>{String(row.scene.index).padStart(2, '0')}</span><h3>{row.scene.heading}</h3><small>{shots.length} of {row.shots.length} planned shots</small></header>
-          <ol className="ss-sheet-shots">{shots.map(shot => <li key={nodeKey(shot.sceneId, shot.id)}><button className="ss-sheet-shot" aria-label={`Inspect shot ${shot.shot.label}, scene ${shot.sceneIndex}`} aria-pressed={selected === shot} data-shot-id={shot.id} data-scene-id={shot.sceneId} onClick={() => inspect(shot)}>
-            <span className="ss-sheet-image" style={{ '--ss-cell-aspect': shot.thumbnail?.crop ? shot.thumbnail.crop.width / shot.thumbnail.crop.height : 2.39 } as CSSProperties}>{shot.thumbnail ? <CellImage key={`${shot.thumbnail.id}:${shot.thumbnail.imageHash}`} cell={shot.thumbnail} thumbnail/> : <span className="ss-missing-image"><ImageOff size={24} aria-hidden="true"/>Image needed</span>}<span className="ss-sheet-position">{String(shot.position + 1).padStart(2, '0')}</span></span>
-            <span className="ss-sheet-heading"><strong>{shot.shot.label}</strong><small>{shot.plannedDurationMs === null ? 'Untimed' : `${seconds(shot.plannedDurationMs)} planned`}</small></span>
-            <span className="ss-sheet-description">{shot.shot.description || 'No shot description retained.'}</span>
-            <span className="ss-sheet-state">{shot.cells.length} {shot.cells.length === 1 ? 'frame' : 'frames'} · {shot.thumbnail ? STORYBOARD_FRAME_ROLE[shot.thumbnail.role] : 'No image'}{shot.hasImage && shot.shotPosition === 0 && !shot.hasStartingFrame ? ' · opening needed' : ''}</span>
-          </button></li>)}</ol>
+          {row.rolePlanStatus === 'STALE' && <p className="ss-sheet-warning">Saved frame roles need review. Retained roles are shown.</p>}
+          <ol className="ss-sheet-shots">{shots.flatMap(shot => {
+            const frames = sheetMode === 'frames' ? (shot.cells.length ? shot.cells : [null]) : [shot.thumbnail];
+            return frames.map((cell, index) => <li key={`${nodeKey(shot.sceneId, shot.id)}:${cell?.id ?? 'missing'}`}><button className="ss-sheet-shot" aria-label={sheetMode === 'frames' && cell ? `Inspect frame ${cell.id}, shot ${shot.shot.label}, scene ${shot.sceneIndex}` : `Inspect shot ${shot.shot.label}, scene ${shot.sceneIndex}`} aria-pressed={selected === shot && (sheetMode === 'shots' || openingCell?.id === cell?.id)} data-shot-id={shot.id} data-scene-id={shot.sceneId} data-cell-id={cell?.id} onClick={() => inspect(shot, false, cell?.id)}>
+              <span className="ss-sheet-image" style={{ '--ss-cell-aspect': cell?.crop ? cell.crop.width / cell.crop.height : 2.39 } as CSSProperties}>{cell?.hasImage ? <CellImage key={`${cell.id}:${cell.imageHash}`} cell={cell} thumbnail/> : <span className="ss-missing-image"><ImageOff size={24} aria-hidden="true"/>{cell ? 'Frame image needed' : shot.cells.length ? 'Image needed' : 'No storyboard frames'}</span>}<span className="ss-sheet-position">{String(shot.position + 1).padStart(2, '0')}{sheetMode === 'frames' && cell ? `.${index + 1}` : ''}</span></span>
+              <span className="ss-sheet-heading"><strong>{shot.shot.label}{sheetMode === 'frames' && cell && <small>Frame {index + 1} / {shot.cells.length}</small>}</strong><small>{sheetMode === 'frames' && cell ? cell.plannedTimestampMs == null ? 'Untimed frame' : `${seconds(cell.plannedTimestampMs)} planned` : shot.plannedDurationMs === null ? 'Untimed shot' : `${seconds(shot.plannedDurationMs)} planned shot`}</small></span>
+              <span className="ss-sheet-description">{sheetMode === 'frames' && cell ? cell.description || 'No frame description retained.' : shot.shot.description || 'No shot description retained.'}</span>
+              <span className="ss-sheet-state">{sheetMode === 'frames' ? cell ? `${STORYBOARD_FRAME_ROLE[cell.role]} · ${cell.review === 'MISSING' ? 'Missing material' : 'Review pending'}` : 'Add a storyboard frame to this shot' : `${shot.cells.length} ${shot.cells.length === 1 ? 'frame' : 'frames'} · ${cell ? STORYBOARD_FRAME_ROLE[cell.role] + ' candidate' : 'No image'}`}</span>
+              {cell && <span className="ss-frame-identity" title={cell.id}>{cell.id}</span>}
+            </button></li>);
+          })}</ol>
         </section>; })}
         {!visibleShots.length && <div className="ss-filter-empty"><ImageOff size={24} aria-hidden="true"/><h3>{hasFilters ? 'No matching planned shots' : 'No planned shots yet'}</h3><p>{hasFilters ? 'Try another scene, shot label or frame description.' : 'Add planned shots to the screenplay to begin this storyboard.'}</p>{hasFilters && <button onClick={clearFilters}>Show all planned shots</button>}</div>}
-      </div><footer className="ss-map-tools"><span>Select a shot to work on its frames · ← → move through the full story</span><span>Still images for planning</span></footer></>}</div>
+      </div><footer className="ss-map-tools"><span>Select a frame to inspect its shared record · ← → move between shots</span><span>Still images for planning</span></footer></>}</div>
       <aside className="ss-inspector" aria-label="Selected storyboard shot">{selected ? <><div className="ss-selection-heading"><span>Scene {String(selected.sceneIndex).padStart(2, '0')} · shot {selected.position + 1} of {sequence.shots.length}</span><div><h3>{selected.shot.label}</h3><div className="ss-step-controls"><button aria-label="Previous storyboard shot" disabled={selected.position === 0} onClick={() => move(-1)}><ArrowLeft size={16}/></button><button aria-label="Next storyboard shot" disabled={selected.position === sequence.shots.length - 1} onClick={() => move(1)}><ArrowRight size={16}/></button></div></div></div><p className="ss-scene-heading">{selected.sceneHeading}</p><p className="ss-description">{selected.shot.description || 'No shot description retained.'}</p><div className="ss-shot-actions" hidden={Boolean(renderShotWork) && workStep !== 'frames'}>{!renderShotWork && onPrepareShot && <button className="primary" onClick={() => onPrepareShot(selected.sceneId, selected.id)}>Prepare this shot →</button>}{(!renderShotWork || selected.cells.length > 0) && <button className={onPrepareShot ? "secondary" : "primary"} disabled={!onOpenShot} onClick={() => onOpenShot?.(selected.sceneId, selected.id, openingCell?.id)}>{selected.cells.length ? 'Edit selected frame' : 'Add storyboard frame'}</button>}{onOpenSceneWorkflow && <button onClick={() => onOpenSceneWorkflow(selected.sceneId)}>Open scene workflow ↗</button>}</div>
         <p className="ss-plan-status">{selected.plannedDurationMs === null ? 'Shot duration not planned.' : `${seconds(selected.plannedDurationMs)} planned shot duration.`} This is not measured footage.</p>{selected.rolePlanStatus === 'STALE' && <p className="ss-caution">Saved role choices need review. Retained cell roles are shown.</p>}
         {hasFilters && !visibleKeys.has(nodeKey(selected.sceneId, selected.id)) && <p className="ss-selection-outside">This selected shot is outside the current filters. <button onClick={clearFilters}>Show all shots</button></p>}

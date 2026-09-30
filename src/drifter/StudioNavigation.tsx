@@ -130,7 +130,7 @@ export default function StudioNavigation({ mode, movieContext, busy, dirty, onMo
     </button>;
   }
   return <div ref={root} className="canis-navigation studio-phase-navigation" onKeyDown={event => { if (event.key === 'Escape' && (open || query)) { event.preventDefault(); event.stopPropagation(); close(true); } }} onBlur={event => { if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget as Node)) close(); }}>
-    <nav aria-label="CanIScreenwrite workspace modes" className="maker-tool-nav maker-workspace-nav">
+    <nav aria-label="QiMovi production tools" className="maker-tool-nav maker-workspace-nav">
       <div className="studio-phase-tabs" role="tablist" aria-label="Production phases">{PRODUCTION_PHASES.map((item, index) => <button key={item.id} ref={button => { phaseButtons.current[item.id] = button; }} id={`${id}-${item.id}`} type="button" role="tab" disabled={busy} tabIndex={item.id === activePhase ? 0 : -1} aria-selected={item.id === activePhase} aria-expanded={open && item.id === activePhase} aria-controls={panelId} onKeyDown={event => phaseKey(event, item.id)} onClick={() => { setQuery(''); setActivePhase(item.id); setOpen(item.id !== activePhase || !open); }}>
         <small aria-hidden="true">{String(index + 1).padStart(2, '0')}</small><span>{item.label}</span>{item.id === 'development' && dirty && <i aria-label="Unsaved writing"/>}<ChevronDown size={12} aria-hidden="true"/>
       </button>)}</div>

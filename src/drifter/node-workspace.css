@@ -16,3 +16,12 @@
 .nw-branch-comparison>div{padding:10px;background:var(--panel,#202329);border:1px solid var(--border,#34363b);border-radius:6px}
 .nw-branch-comparison h4{margin:0 0 8px;font-size:13px}.nw-action-buttons{display:flex;gap:8px;flex-wrap:wrap}.nw-review-fact{font-size:13px}
 .nw-comparison-text{font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto;padding:8px;background:#15171a;color:#e5e5e7}
+.nw-port-flow{padding:12px 0;border-bottom:1px solid #444a35;display:flex;flex-direction:column;gap:4px}
+.nw-port-flow>strong{font-size:11px;color:#d9d2b6;font-weight:600}
+.nw-port-flow>small{margin:0;font-size:10px}
+.nw-port-flow>p{font-size:11px;line-height:1.6;border:0;margin:4px 0;padding:0}
+.nw-port-flow[data-missing=true]{border-left:2px solid #c4975a;padding-left:10px;background:#2b2a1f}
+.nw-port-flow[data-missing=true]>p{color:#ddc28f}
+.nw-inspector .nw-flow-link{justify-content:space-between;text-align:left;color:#dec68e;min-height:34px;font-size:11px;border:1px solid #555c41;border-radius:5px;padding:6px 8px;margin-top:3px;gap:8px}
+.nw-inspector .nw-flow-link:hover{background:#343828}
+.nw-inspector:focus-visible{outline:2px solid #d5b376;outline-offset:-3px}

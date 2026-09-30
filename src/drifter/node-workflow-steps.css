@@ -1,5 +1,6 @@
 .nw-work-plan{margin:0 0 16px;padding:16px 18px;background:#20231b;border:1px solid #484d37;color:#e5dfd1}
 .nw-work-plan-heading{display:flex;align-items:start;justify-content:space-between;gap:18px}
+.nw-work-plan-actions{display:flex;align-items:flex-start;flex-wrap:wrap;gap:12px}
 .nw-work-plan .eyebrow{font-size:9px;letter-spacing:.14em;color:#bdb294}
 .nw-work-plan h3{font:21px/1.3 Georgia,serif;margin:5px 0 7px}
 .nw-work-plan p{font-size:12px;line-height:1.6;margin:5px 0;color:#bbbba6}
@@ -10,12 +11,18 @@
 .nw-next-step{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:12px;background:#2c3024;border-left:2px solid #d6b27b}
 .nw-next-step strong{font-size:13px;font-weight:600}.nw-next-step p{margin-bottom:0}
 .nw-work-steps{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,260px);gap:9px;overflow-x:auto;padding:12px 0 5px;margin:0;list-style:none;scrollbar-width:thin}
-.nw-work-steps>li{border:1px solid #484d37;padding:10px;min-width:0;background:#191d16}
+.nw-work-steps>li{border:1px solid #484d37;padding:12px;min-width:0;background:#191d16;display:flex;flex-direction:column;gap:4px;border-radius:8px}
 .nw-work-steps>li[data-selected=true]{border-color:#d6b27b;background:#302d22}
 .nw-work-steps>li[data-readiness=WAITING_ON_UPSTREAM]{border-style:dashed}
 .nw-work-steps>li[data-readiness=NEEDS_INPUT] .nw-step-number,.nw-work-steps>li[data-readiness=CONNECTOR_UNAVAILABLE] .nw-step-number{color:#e5b992;border-color:#a17b57}
 .nw-step-inspect{width:100%;align-items:flex-start!important}.nw-step-number{border:1px solid #697156;border-radius:50%;min-width:23px;height:23px;text-align:center;line-height:21px;color:#cbd6b1}
 .nw-step-inspect strong{display:block;font-size:12px}.nw-work-steps small{display:block;font-size:10px;line-height:1.6;color:#aab196;margin-top:4px;overflow-wrap:anywhere}
 .nw-work-steps p{font-size:11px;line-height:1.5}.nw-work-steps .nw-step-blocker{color:#d6b996}
+.nw-step-dependencies{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;margin-top:5px}
+.nw-step-dependencies>small{width:100%;font-size:10px}
+.nw-step-dependencies>button{font-size:11px;min-height:28px;padding:3px 7px;border:1px solid #51563f;border-radius:5px;color:#d4d2b8;background:#262b1f}
+.nw-step-blocker>button{color:#e4c493;border-color:#8b7044;background:#302b1f}
+.nw-work-steps .nw-step-continue{margin-top:auto;padding:12px 0 0;color:#e4c793;font-size:11px;justify-content:space-between;min-height:42px}
+.nw-work-steps .nw-step-continue:disabled{opacity:.45}
 .nw-work-plan .nw-work-save-note{font-size:11px;margin-top:10px;color:#c9b895}
 @media(max-width:820px){.nw-work-plan-heading,.nw-next-step{flex-direction:column;align-items:stretch}.nw-work-plan .primary,.nw-work-plan .secondary{align-self:flex-start}.nw-work-plan{padding:13px}}

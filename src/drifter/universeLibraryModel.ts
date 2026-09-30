@@ -32,31 +32,39 @@ export function filterUniverse(entities: UniverseEntity[], query: string, type: 
     && (!needle || `${entity.name} ${entity.summary} ${entity.citations.map(citation => citation.label).join(' ')}`.toLocaleLowerCase().includes(needle)));
 }
 
-// Adapted from the existing FranchiseCharacterNetwork: deterministic placement,
-// visible-endpoint links and focus/hover selection, without a hosted container.
-// Rows preserve StoryWorldPanel's character/place/story-world categories.
+/** A bounded view over every matching record; paging never changes stored identity. */
+export function universeGraphPage(entities: UniverseEntity[], links: UniverseLink[], focusId: string | null, page = 0, size = 18) {
+  const pageSize = Math.max(2, Math.min(36, Math.floor(size) || 18));
+  const unique = [...new Map(entities.map(entity => [entity.id, entity])).values()];
+  const focus = focusId ? unique.find(entity => entity.id === focusId) : undefined;
+  const neighborIds = new Set(links.flatMap(link => link.fromEntityId === focus?.id ? [link.toEntityId] : link.toEntityId === focus?.id ? [link.fromEntityId] : []));
+  const candidates = focus ? unique.filter(entity => entity.id !== focus.id && neighborIds.has(entity.id)) : unique;
+  const stride = focus ? pageSize - 1 : pageSize;
+  const pages = Math.max(1, Math.ceil(candidates.length / stride));
+  const current = Math.max(0, Math.min(pages - 1, Math.floor(page) || 0));
+  const visible = [...(focus ? [focus] : []), ...candidates.slice(current * stride, (current + 1) * stride)];
+  return { entities: visible, page: current, pages, total: candidates.length + (focus ? 1 : 0), focus };
+}
+
+/** Category bands retain every supplied entry; the caller owns bounded paging. */
 export function universeMapLayout(entities: UniverseEntity[], links: UniverseLink[]) {
-  const width = 900, height = 450;
+  const width = 900;
   type MapNode = { entity: UniverseEntity; x: number; y: number; width: number; height: number; featured: boolean; band: 'character' | 'world' | 'story' };
-  const nodes: MapNode[] = [];
-  const characters = entities.filter(entity => entity.type === 'character').slice(0, 7);
-  const focal = characters.find(entity => /^(the )?drifter$/i.test(entity.name)) ?? characters[0];
-  const otherCharacters = characters.filter(entity => entity !== focal);
-  const characterSlots = [18, 137, 256, 550, 669, 788];
-  otherCharacters.forEach((entity, index) => nodes.push({ entity, x: characterSlots[index], y: 48, width: 96, height: 130, featured: false, band: 'character' }));
-  if (focal) nodes.push({ entity: focal, x: 371, y: 24, width: 158, height: 163, featured: true, band: 'character' });
-  const film = entities.find(entity => entity.type === 'story' && entity.origin === 'SCREENPLAY');
-  const worldEntries = entities.filter(entity => ['location', 'group', 'reference', 'thematic_note', 'world_rule'].includes(entity.type));
-  const worlds = [...worldEntries.slice(0, film ? 2 : 3), ...(film ? [film] : [])];
-  worlds.forEach((entity, index) => nodes.push({ entity, x: 82 + index * 258, y: 226, width: 220, height: 88, featured: false, band: 'world' }));
-  const stories = entities.filter(entity => entity.type === 'story' && entity !== film).slice(0, 7);
-  const storyStep = stories.length > 6 ? 126 : 146;
-  stories.forEach((entity, index) => nodes.push({ entity, x: 18 + index * storyStep, y: 355, width: storyStep - 12, height: 86, featured: false, band: 'story' }));
-  const nodeMap = new Map(nodes.map(node => [node.entity.id, node]));
-  const bands = [
-    ...(characters.length ? [{ title: 'Characters', y: 14 }] : []),
-    ...(worlds.length ? [{ title: 'Places & source anchors', y: 210 }] : []),
-    ...(stories.length ? [{ title: 'Stories', y: 340 }] : []),
+  const nodes: MapNode[] = [], bands: { title: string; y: number }[] = [];
+  let top = 24;
+  const groups = [
+    { title: 'Characters', band: 'character' as const, entries: entities.filter(entity => entity.type === 'character') },
+    { title: 'Places, groups & world rules', band: 'world' as const, entries: entities.filter(entity => !['character', 'story'].includes(entity.type)) },
+    { title: 'Stories', band: 'story' as const, entries: entities.filter(entity => entity.type === 'story') },
   ];
-  return { width, height, bands, nodes, links: links.filter(link => nodeMap.has(link.fromEntityId) && nodeMap.has(link.toEntityId)).map(link => ({ ...link, from: nodeMap.get(link.fromEntityId)!, to: nodeMap.get(link.toEntityId)! })) };
+  for (const group of groups) {
+    if (!group.entries.length) continue;
+    bands.push({ title: group.title, y: top });
+    group.entries.forEach((entity, index) => nodes.push({ entity, x: 20 + (index % 4) * 220, y: top + 20 + Math.floor(index / 4) * 140,
+      width: 200, height: 105, featured: false, band: group.band }));
+    top += Math.ceil(group.entries.length / 4) * 140 + 34;
+  }
+  const nodeMap = new Map(nodes.map(node => [node.entity.id, node]));
+  return { width, height: Math.max(220, top), bands, nodes,
+    links: links.filter(link => nodeMap.has(link.fromEntityId) && nodeMap.has(link.toEntityId)).map(link => ({ ...link, from: nodeMap.get(link.fromEntityId)!, to: nodeMap.get(link.toEntityId)! })) };
 }

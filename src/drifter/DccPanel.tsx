@@ -6,6 +6,7 @@ import WorkflowContextBar from './WorkflowContextBar';
 import CameraReturns from './CameraReturns';
 import DccStageReturns from './DccStageReturns';
 import DccRehearsals from './DccRehearsals';
+import PhonePrevizPanel from './PhonePrevizPanel';
 import BlenderReadinessSummary, { type BlenderReadinessStatus } from './BlenderReadinessSummary';
 import { verifyWorkflowContext, type FlowContextProps } from './workflowApi';
 import type { Project, Scene, WorkspaceApi, WorkspaceRecord } from './types';
@@ -41,7 +42,7 @@ async function validateExchange(value: unknown, project: Project, scene: Scene):
     || !object(value.basis) || !digest(value.basis.sha256) || !object(value.source)
     || value.source.sourceHash !== project.sourceHash || value.source.projectId !== project.id
     || !object(value.scene) || value.scene.id !== scene.id || value.scene.heading !== scene.heading
-    || !Array.isArray(value.scene.shots) || value.scene.shots.length !== scene.shots.length || value.scene.shots.length > 10
+    || !Array.isArray(value.scene.shots) || value.scene.shots.length !== scene.shots.length || value.scene.shots.length > 100
     || !object(value.execution) || value.execution.canExecute !== false) throw invalid();
   const cells = new Set<string>();
   for (const [index, shot] of value.scene.shots.entries()) {
@@ -82,12 +83,14 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
   const [data, setData] = useState<{ scope: string; context: DccContext; exchange: Exchange } | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [preparationReady, setPreparationReady] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [notice, setNotice] = useState('');
   const [refresh, setRefresh] = useState(0);
   const [returnRefresh, setReturnRefresh] = useState(0);
   const [returnRequest, setReturnRequest] = useState<{scope:string;receiptSha256:string;nonce:number}>();
   const [stageDrafts, setStageDrafts] = useState<Record<string, StageDraft>>({});
+  const [selectedShots, setSelectedShots] = useState<Record<string, string>>({});
   const [promptPreview, setPromptPreview] = useState<{ key: string; text: string } | null>(null);
   const [blenderStatus, setBlenderStatus] = useState<{scope:string;status:BlenderReadinessStatus}>();
   const [preparedKitKey, setPreparedKitKey] = useState('');
@@ -105,45 +108,61 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
     || shotRequest.projectId !== project.id || shotRequest.sourceHash !== project.sourceHash || shotRequest.sceneId !== scene.id
     || !scene.shots.some(shot => shot.id === shotRequest.shotId)));
   const requestPending = Boolean(shotRequest && handledShotRequest.current !== requestKey);
-  const retainedDraft: StageDraft = stageDrafts[scope] ?? { shotId: scene.shots[0]?.id ?? '', target: 'BLENDER', lensMm: '50', durationSeconds: '5', motion: 'STATIC', travelMm: '1000', blockingNotes: '' };
-  const draft: StageDraft = requestInvalid ? { ...retainedDraft, shotId: '' } : requestPending ? { ...retainedDraft, shotId: shotRequest!.shotId } : retainedDraft;
-  const updateStage = (patch: Partial<StageDraft>) => setStageDrafts(previous => ({ ...previous, [scope]: { ...draft, ...patch } }));
+  const selectedShot = requestInvalid ? '' : requestPending ? shotRequest!.shotId : selectedShots[scope] ?? scene.shots[0]?.id ?? '';
+  const draftKey = JSON.stringify([scope, selectedShot]);
+  const draft: StageDraft = stageDrafts[draftKey] ?? { shotId: selectedShot, target: 'BLENDER', lensMm: '50', durationSeconds: '5', motion: 'STATIC', travelMm: '1000', blockingNotes: '' };
+  const updateStage = (patch: Partial<StageDraft>) => {
+    if (patch.shotId !== undefined && patch.shotId !== selectedShot) {
+      setSelectedShots(previous => ({ ...previous, [scope]: patch.shotId! }));
+      setNotice('Shot selected. Its own camera settings and blocking notes are shown.');
+      return;
+    }
+    setStageDrafts(previous => ({ ...previous, [draftKey]: { ...draft, ...patch } }));
+  };
   const scenePreset = getDrifterPrevizPreset(project.sourceHash, scene.id);
   const previz: DccPrevizOptions | undefined = draft.target === 'BLENDER' && draft.greybox ? { layout: draft.layout ?? 'OPEN_GROUND', subjectCount: Number(draft.subjectCount ?? '1'), depthLayers: draft.depthLayers ?? true, lookNotes: draft.lookNotes ?? '' } : undefined;
   const previewKey = `${scope}:${visible?.exchange.basis.sha256}:${JSON.stringify(draft)}`;
   const boundedInteger = (value: string, min: number, max: number) => /^\d+$/.test(value) && Number.isSafeInteger(Number(value)) && Number(value) >= min && Number(value) <= max;
   const lensValid = boundedInteger(draft.lensMm, 10, 200);
   const horizontalFieldOfView = lensValid ? horizontalFieldOfViewDegrees(Number(draft.lensMm), STAGE_SENSOR_WIDTH_MM) : null;
-  const stageValid = !requestInvalid && !requestPending && scene.shots.some(shot => shot.id === draft.shotId) && lensValid
-    && boundedInteger(draft.durationSeconds, 1, 180) && boundedInteger(draft.travelMm, 0, 5000) && draft.blockingNotes.length <= 4000
-    && (!previz || (boundedInteger(draft.subjectCount ?? '1', 1, 6) && previz.lookNotes.length <= 4000));
+  const stageIssues = [
+    ...(requestInvalid ? ['Reopen this shot from the current storyboard; its source or scene no longer matches.'] : requestPending ? ['Selecting the requested storyboard shot…'] : []),
+    ...(!requestInvalid && !scene.shots.some(shot => shot.id === draft.shotId) ? ['Choose an available shot from this scene.'] : []),
+    ...(!lensValid ? ['Lens: enter a whole number from 10 to 200 mm.'] : []),
+    ...(!boundedInteger(draft.durationSeconds, 1, 180) ? ['Rehearsal: enter 1 to 180 whole seconds.'] : []),
+    ...(!boundedInteger(draft.travelMm, 0, 5000) ? ['Travel: enter a whole number from 0 to 5,000 mm.'] : []),
+    ...(draft.blockingNotes.length > 4000 ? ['Shorten the blocking direction to 4,000 characters.'] : []),
+    ...(previz && !boundedInteger(draft.subjectCount ?? '1', 1, 6) ? ['Choose 1 to 6 unassigned stand-ins.'] : []),
+    ...(previz && previz.lookNotes.length > 4000 ? ['Shorten the visual treatment to 4,000 characters.'] : []),
+  ];
+  const stageValid = stageIssues.length === 0;
   useEffect(() => {
     if (!open || !shotRequest || handledShotRequest.current === requestKey) return;
     download.current?.abort(); download.current = null; setExporting(false); setPromptPreview(null);
     if (requestInvalid) return;
     handledShotRequest.current = requestKey;
-    setStageDrafts(previous => ({ ...previous, [scope]: { ...(previous[scope] ?? retainedDraft), shotId: shotRequest.shotId } }));
-    setNotice('Requested storyboard shot selected. Existing camera settings and direction notes are retained for review; no rehearsal has started.');
+    setSelectedShots(previous => ({ ...previous, [scope]: shotRequest.shotId }));
+    setNotice('Requested storyboard shot selected. Its own camera settings and blocking notes are shown; no rehearsal has started.');
     // Apply a deliberate navigation request once; typing must not reapply it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, requestKey, requestInvalid, scope]);
   useEffect(() => {
     if (!open) return;
     const controller = new AbortController(); const serial = ++generation.current; let current = true;
-    setLoading(true); setData(null); setError(''); setNotice(''); setExporting(false);
+    setLoading(true); setPreparationReady(false); setError(''); setNotice(''); setExporting(false);
     const read = async (path: string) => {
       const response = await fetch(path, { credentials: 'same-origin', redirect: 'error', signal: controller.signal });
       return readJson(response);
     };
     void Promise.all([read('/api/dcc/context'), read(url)]).then(async ([context, exchange]) => {
       const checkedContext = validateContext(context), checkedExchange = await validateExchange(exchange, project, scene);
-      if (current && generation.current === serial) setData({ scope, context: checkedContext, exchange: checkedExchange });
+      if (current && generation.current === serial) { setData({ scope, context: checkedContext, exchange: checkedExchange }); setPreparationReady(true); }
     }).catch(reason => { if (current) setError(reason instanceof Error ? reason.message : 'Camera preparation failed.'); }).finally(() => { if (current) setLoading(false); });
     return () => { current = false; generation.current = serial + 1; controller.abort(); download.current?.abort(); download.current = null; };
   }, [open, url, project, scene, scope, refresh]);
 
   async function exportExchange() {
-    if (!visible || loading || exporting || requestInvalid || requestPending) return;
+    if (!visible || !preparationReady || loading || exporting || requestInvalid || requestPending) return;
     const serial = generation.current, controller = new AbortController(); download.current = controller;
     setExporting(true); setError(''); setNotice('');
     try {
@@ -157,7 +176,7 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
     finally { if (generation.current === serial) setExporting(false); if (download.current === controller) download.current = null; }
   }
   async function exportStageKit(previewOnly = false) {
-    if (!visible || loading || exporting || !stageValid) return;
+    if (!visible || !preparationReady || loading || exporting || !stageValid) return;
     const serial = generation.current, controller = new AbortController(); download.current = controller;
     const options: DccStageOptions = { sceneId: scene.id, expectedSourceHash: project.sourceHash, expectedBasisHash: visible.exchange.basis.sha256,
       shotId: draft.shotId, target: draft.target, lensMm: Number(draft.lensMm), durationSeconds: Number(draft.durationSeconds),
@@ -176,14 +195,14 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
       if (previewOnly) { setNotice('Source-linked rehearsal and look prompts prepared. Review them before exporting or generating.'); return; }
       const bytes = await dccStageKitZip(kit);
       if (generation.current !== serial || controller.signal.aborted) return;
-      downloadLocalBlob(new Blob([bytes as BlobPart], { type: 'application/zip' }), `caniscreenwrite-${draft.target.toLowerCase()}-${draft.shotId}-${kit.sha256.slice(0, 8)}.zip`);
+      downloadLocalBlob(new Blob([bytes as BlobPart], { type: 'application/zip' }), `qimovi-${draft.target.toLowerCase()}-${draft.shotId}-${kit.sha256.slice(0, 8)}.zip`);
       setNotice(`${draft.target === 'BLENDER' ? 'Blender rehearsal' : 'Unity Director'} kit verified. Choose a destination, then follow README.txt in the kit. No editor has run.`);
     } catch (reason) { if (generation.current === serial && !controller.signal.aborted) setError(reason instanceof Error ? reason.message : 'Directing kit export failed.'); }
     finally { if (generation.current === serial) setExporting(false); if (download.current === controller) download.current = null; }
   }
   async function exportLinkedPlan() {
     const handoff=flow?.context?.handoff.record;
-    if(!visible||loading||exporting||requestInvalid||requestPending||flow?.context?.readiness!=='READY_FOR_PLANNING'||!handoff)return;
+    if(!visible||!preparationReady||loading||exporting||requestInvalid||requestPending||flow?.context?.readiness!=='READY_FOR_PLANNING'||!handoff)return;
     const serial=generation.current,controller=new AbortController();download.current=controller;setExporting(true);setError('');setNotice('');
     try {
       const query=new URLSearchParams({sceneId:scene.id,sourceHash:project.sourceHash,basisHash:visible.exchange.basis.sha256,handoffId:handoff.id,handoffSha256:handoff.sha256});
@@ -200,12 +219,22 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
     }catch(reason){if(generation.current===serial&&!controller.signal.aborted)setError(reason instanceof Error?reason.message:'Writing and camera export failed.');}
     finally{if(generation.current===serial)setExporting(false);if(download.current===controller)download.current=null;}
   }
+  function requestClose() {
+    const pendingReview = panel.current?.querySelector<HTMLElement>('[data-unsaved="true"]');
+    if (pendingReview) {
+      setNotice('Finish or cancel the pending return review before leaving PreViz. Your selected files and frame choices are still here.');
+      pendingReview.scrollIntoView?.({ block: 'start' });
+      pendingReview.querySelector<HTMLElement>('button:not(:disabled),input:not(:disabled),textarea:not(:disabled)')?.focus({ preventScroll: true });
+      return;
+    }
+    onClose();
+  }
   useEffect(() => {
     if (!open || embedded) return;
     const previous = document.activeElement as HTMLElement | null;
     panel.current?.querySelector<HTMLButtonElement>('button')?.focus();
     const keyboard = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { event.preventDefault(); onClose(); }
+      if (event.key === 'Escape') { event.preventDefault(); requestClose(); }
       if (event.key === 'Tab') {
         const items = Array.from(panel.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),select:not(:disabled),textarea:not(:disabled),a[href],summary') ?? []);
         if (event.shiftKey && document.activeElement === items[0]) { event.preventDefault(); items.at(-1)?.focus(); }
@@ -221,8 +250,8 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
   const sourceRefs=new Set(directedShot?.cells.flatMap(cell=>cell.actionRefs)??[]);
   const sourcePassages=(scene.paragraphs??[]).filter(paragraph=>sourceRefs.has(paragraph.id));
   const shotLabel=scene.shots.find(shot=>shot.id===draft.shotId)?.label??draft.shotId;
-  function showSection(selector:string) {
-    const element=panel.current?.querySelector<HTMLElement>(selector);
+  function showSection(selector:string, fallback?:string) {
+    const element=panel.current?.querySelector<HTMLElement>(selector) ?? (fallback ? panel.current?.querySelector<HTMLElement>(fallback) : null);
     element?.scrollIntoView?.({block:'start'});
     element?.querySelector<HTMLElement>('button:not(:disabled),input:not(:disabled),select:not(:disabled),textarea:not(:disabled)')?.focus({preventScroll:true});
   }
@@ -231,22 +260,24 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
     showSection('.dcc-stage-returns');
   }
   const content = <section className={embedded ? 'dcc-panel dcc-panel-embedded' : 'dcc-panel'} role={embedded ? 'region' : 'dialog'} aria-modal={embedded ? undefined : true} aria-label="3D and cameras" ref={panel}>
-    <header><div><span className="eyebrow">CANISCREENWRITE / DIRECTING</span><h2>Stage your scene.</h2><p>Block the action, find the camera and rehearse the move before generating the shot.</p></div>{embedded ? <button type="button" className="secondary dcc-back-to-storyboard" onClick={onClose}>Back to movie</button> : <button aria-label="Close 3D and cameras" onClick={onClose}>×</button>}</header>
+    <header><div><span className="eyebrow">QIMOVI / PREVISUALIZATION</span><h2>Previsualize your scene</h2><p>Block the action, find the camera and rehearse the move before generating the shot.</p></div>{embedded ? <button type="button" className="secondary dcc-back-to-storyboard" onClick={requestClose}>Back to movie</button> : <button aria-label="Close 3D and cameras" onClick={requestClose}>×</button>}</header>
     {flow && <WorkflowContextBar {...flow} stage="cameras"/>}
     {loading && <p role="status">Preparing this scene’s camera exchange…</p>}{error && <p role="alert" className="error-text">{error}</p>}{notice && <p role="status" aria-label="Preparation status">{notice}</p>}
     {requestInvalid && <p role="alert" className="error-text">The requested storyboard shot is unavailable or belongs to a different project source or scene. Reopen its current storyboard target before preparing a camera kit.</p>}
     <button className="secondary" disabled={loading || exporting} onClick={() => setRefresh(value => value + 1)}>Refresh preparation</button>
     {visible && <>
       <section className="dcc-director" aria-label="Scene directing workflow"><div className="dcc-director-heading"><div><span className="eyebrow">SCENE {String(scene.index).padStart(2, '0')}</span><h3>{scene.heading}</h3></div><span className="dcc-proposal-tag">Rehearsal proposal</span></div>
-        <nav aria-label="Rehearsal workflow"><ol className="dcc-workflow-steps"><li><button onClick={()=>showSection('.dcc-stage-fields')}><b>01</b><strong>Plan the shot</strong><span>Camera, blocking and timing</span></button></li><li><button onClick={()=>showSection(draft.target==='BLENDER'?'.dcc-local-rehearsal':'.dcc-stage-export')}><b>02</b><strong>Run or export</strong><span>{draft.target==='BLENDER'?'Local Blender rehearsal':'Unity Director kit'}</span></button></li><li><button onClick={()=>showSection('.dcc-stage-returns')}><b>03</b><strong>Review returned frames</strong><span>Import or choose a return</span></button></li><li><button onClick={()=>showSection('.dcc-stage-return-selected')}><b>04</b><strong>Use in storyboard</strong><span>Add a pending frame candidate</span></button></li></ol></nav>
-        <fieldset disabled={loading || exporting || requestInvalid || requestPending} className="dcc-stage-fields"><legend>Prepare a local directing kit</legend>
+        <nav aria-label="Rehearsal workflow"><ol className="dcc-workflow-steps"><li><button onClick={()=>showSection('.dcc-stage-fields')}><b>01</b><strong>Prepare</strong><span>Camera, blocking and timing</span></button></li><li><button onClick={()=>showSection(draft.target==='BLENDER'?'.dcc-local-rehearsal':'.dcc-stage-export')}><b>02</b><strong>Rehearse</strong><span>{draft.target==='BLENDER'?'Local Blender rehearsal':'Unity Director kit'}</span></button></li><li><button onClick={()=>showSection('.dcc-stage-returns')}><b>03</b><strong>Review</strong><span>Import or choose a return</span></button></li><li><button onClick={()=>showSection('.dcc-stage-return-selected', '.dcc-stage-returns')}><b>04</b><strong>Storyboard</strong><span>Add a pending frame candidate</span></button></li></ol></nav>
+        <p className="dcc-draft-scope">Camera settings stay with each shot in this open workspace. Export a kit or retain a rehearsal to save a version.</p>
+        <p className="dcc-active-source">{project.title} · scene {scene.index} · shot {shotLabel || 'unavailable'} · screenplay revision <code>{project.sourceHash.slice(0,12)}</code></p>
+        <fieldset disabled={!preparationReady || loading || exporting || requestInvalid || requestPending} className="dcc-stage-fields"><legend>Prepare a local directing kit</legend>
           <div className="dcc-application-choices" role="group" aria-label="Application"><span>Application</span><div><button type="button" aria-pressed={draft.target==='BLENDER'} onClick={()=>updateStage({target:'BLENDER'})}>Blender · camera rehearsal</button><button type="button" aria-pressed={draft.target==='UNITY'} onClick={()=>updateStage({target:'UNITY'})}>Unity · scene blocking</button></div></div>
           <label>Shot to direct<select value={draft.shotId} onChange={event => updateStage({ shotId: event.target.value })}>{requestInvalid && <option value="">Requested shot unavailable</option>}{scene.shots.map(shot => <option key={shot.id} value={shot.id}>{shot.label ?? shot.id} · {shot.description ?? ''}</option>)}</select></label>
           {directedShot&&<section className="dcc-shot-context" aria-label="Selected shot context"><div><span className="eyebrow">SHOT {shotLabel}</span><h4>{directedShot.description||'Direction not yet recorded'}</h4><p>{draft.lensMm} mm · {draft.durationSeconds} s planned · {draft.motion==='STATIC'?'Locked off':draft.motion==='DOLLY_IN'?'Dolly in':'Dolly out'} · {directedShot.cells.length} reference frames</p></div>
             {directedShot.cells.length>0&&<div className="dcc-shot-references">{directedShot.cells.map(cell=><article key={cell.id}>{cell.imageHash&&<img src={`/api/blobs/${cell.imageHash}`} alt={`${cell.role==='START'?'Opening':cell.role==='END'?'Ending':'Moment'} reference: ${cell.description}`}/>}<strong>{cell.role==='START'?'Scene opening':cell.role==='END'?'Ending':'Moment'}</strong><p>{cell.description}</p>{onOpenStoryboard&&<button type="button" className="secondary" onClick={()=>onOpenStoryboard(scene.id,directedShot.id,cell.id)}>Open reference in storyboard</button>}</article>)}</div>}
             {sourcePassages.length>0?<div className="dcc-shot-passages"><strong>Source passages linked by these frames</strong>{sourcePassages.map(paragraph=><p key={paragraph.id}><span>{paragraph.type}</span>{paragraph.text}</p>)}</div>:<p>No source passages are linked through this shot’s reference frames. The shot description and camera settings remain planning directions.</p>}
           </section>}
-          {draft.target==='BLENDER'&&directedShot&&<BlenderReadinessSummary shotId={draft.shotId} status={blenderStatus?.scope===scope?blenderStatus.status:undefined} kitPrepared={preparedKitKey===previewKey} disabled={loading||exporting||!stageValid} onRehearsal={()=>showSection('.dcc-local-rehearsal')} onExport={()=>void exportStageKit()} onReview={reviewReturn}/>}
+          {draft.target==='BLENDER'&&directedShot&&<BlenderReadinessSummary shotId={draft.shotId} status={blenderStatus?.scope===scope?blenderStatus.status:undefined} kitPrepared={preparedKitKey===previewKey} disabled={!preparationReady||loading||exporting||!stageValid} onRehearsal={()=>showSection('.dcc-local-rehearsal')} onExport={()=>void exportStageKit()} onReview={reviewReturn}/>}
           <label className="dcc-stage-notes">Blocking direction<textarea rows={3} maxLength={4000} value={draft.blockingNotes} aria-describedby={blockingHelpId} placeholder="Where should the action happen? Add your staging intention without changing the screenplay." onChange={event => updateStage({ blockingNotes: event.target.value })}/></label>
           <p id={blockingHelpId} className="dcc-blocking-help">Blocking means where performers stand and how they move through the scene.</p>
           <div className="dcc-lens-setting">
@@ -275,19 +306,20 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
         <FilmcraftDisclosure context="camera" compact className="dcc-camera-guide" label="Camera, framing & focus guide"/>
         {scenePreset && scenePreset.conflicts.length > 0 && <section className="dcc-phone-workflow"><h4>{scenePreset.conflicts.length} source and shot-plan questions for this scene</h4><ul>{scenePreset.conflicts.map((conflict, index) => <li key={`${conflict.shotId}:${index}`}><strong>{conflict.shotId.replace('drifter-vr-', '').toUpperCase()}</strong> — {conflict.description} <small>Source: {conflict.sourceParagraphIds.join(', ')}</small></li>)}</ul><p>Resolve the intended staging before generation. The current shot plan and screenplay are retained.</p></section>}
         <p className="scope-note">These editable template settings are proposed, not extracted from the screenplay. Preview template: 24 fps, 1920 × 1080, 36 mm sensor. {draft.target==='UNITY' ? 'Frame the camera in Unity Director, then apply the plan from that pose. Add and position your blocking objects in Unity.' : <>Blender starts 6 m back and 2 m high. {previz ? 'Greybox geometry tests framing and depth; it is not your finished set or cast. The kit keeps blocking and visual-treatment prompts separate.' : 'It frames an unassigned stand-in; it does not reconstruct your set or cast.'}</>}</p>
-        {previz && <div className="dcc-previz-prompts"><button disabled={loading || exporting || !stageValid} onClick={() => void exportStageKit(true)}>Preview rehearsal & look prompts</button>{promptPreview?.key === previewKey && <details open><summary>Source-linked prompt pair</summary><pre>{promptPreview.text}</pre></details>}{promptPreview && promptPreview.key !== previewKey && <p>Settings changed. Preview again to refresh the prompt pair.</p>}</div>}
+        {previz && <div className="dcc-previz-prompts"><button disabled={!preparationReady || loading || exporting || !stageValid} onClick={() => void exportStageKit(true)}>Preview rehearsal & look prompts</button>{promptPreview?.key === previewKey && <details open><summary>Source-linked prompt pair</summary><pre>{promptPreview.text}</pre></details>}{promptPreview && promptPreview.key !== previewKey && <p>Settings changed. Preview again to refresh the prompt pair.</p>}</div>}
         {draft.target === 'UNITY' && <section className="dcc-editor-route" aria-label="Unity directing steps"><h4>Continue in your Unity project</h4><ol><li>Export the Director kit, open its README and import it into a separate Unity project.</li><li>Apply the selected-shot plan, adjust blocking, and save the scene.</li><li>Use <strong>Render opening / midpoint / ending return to QiMovi</strong> for three 1920 × 1080 stills, or <strong>Export editable scene return to QiMovi</strong> for the scene alone.</li><li>Import the extracted return files below, then review each frame in the storyboard.</li></ol><p>The render action requires a saved scene and the built-in render pipeline. Unity runs through this exported kit; an interactive Unity MCP connection is not established here.</p></section>}
-        {!stageValid && <p className="error-text">Choose a valid shot, a 10–200 mm lens, 1–180 whole seconds, and 0–5000 mm travel. {previz && 'Use 1–6 stand-ins and keep each note within 4,000 characters.'}</p>}
-        <div className="dcc-stage-export"><button className="primary" disabled={loading || exporting || !stageValid} onClick={() => void exportStageKit()}>{exporting ? 'Checking export…' : draft.target === 'BLENDER' ? 'Export Blender rehearsal kit ↗' : 'Export Unity Director kit ↗'}</button><p>ZIP includes exact source links, editable preparation, instructions and local application files. Exporting does not open an editor.</p></div>
-        {draft.target === 'BLENDER' && <DccRehearsals key={scope} projectId={project.id} options={{sceneId:scene.id,expectedSourceHash:project.sourceHash,expectedBasisHash:visible.exchange.basis.sha256,shotId:draft.shotId,target:'BLENDER',lensMm:Number(draft.lensMm),durationSeconds:Number(draft.durationSeconds),motion:draft.motion,travelMm:Number(draft.travelMm),blockingNotes:draft.blockingNotes,...(previz?{previz}:{})}} disabled={loading||exporting||!stageValid} onRetained={()=>setReturnRefresh(value=>value+1)} onReviewReturn={reviewReturn} onStatusChange={status=>setBlenderStatus({scope,status})}/>}
+        {!stageValid && <div className="dcc-preparation-issues" role="status" aria-label="Before rehearsing"><strong>Before rehearsing</strong><ul>{stageIssues.map(issue => <li key={issue}>{issue}</li>)}</ul></div>}
+        <div className="dcc-stage-export"><button className="primary" disabled={!preparationReady || loading || exporting || !stageValid} onClick={() => void exportStageKit()}>{exporting ? 'Checking export…' : draft.target === 'BLENDER' ? 'Export Blender rehearsal kit ↗' : 'Export Unity Director kit ↗'}</button><p>ZIP includes exact source links, editable preparation, instructions and local application files. Exporting does not open an editor.</p></div>
+        {draft.target === 'BLENDER' && <DccRehearsals key={scope} projectId={project.id} options={{sceneId:scene.id,expectedSourceHash:project.sourceHash,expectedBasisHash:visible.exchange.basis.sha256,shotId:draft.shotId,target:'BLENDER',lensMm:Number(draft.lensMm),durationSeconds:Number(draft.durationSeconds),motion:draft.motion,travelMm:Number(draft.travelMm),blockingNotes:draft.blockingNotes,...(previz?{previz}:{})}} disabled={!preparationReady||loading||exporting||!stageValid} onRetained={()=>setReturnRefresh(value=>value+1)} onReviewReturn={reviewReturn} onStatusChange={status=>setBlenderStatus({scope,status})}/>}
       </section>
-      <DccStageReturns key={`stage-return:${scope}`} project={project} scene={scene} open={open} disabled={loading || exporting} refreshKey={returnRefresh} returnRequest={returnRequest?.scope===scope?returnRequest:undefined} onSaved={onSaved} selectedShotId={draft.shotId} onReviewTake={onReviewTake ? takeId => onReviewTake(scene.id,draft.shotId,takeId) : undefined} onMotionRetained={async takeId => { if (!api) return; const snapshot = await api.bootstrap(); if (snapshot.project.id !== project.id || snapshot.project.sourceHash !== project.sourceHash) return; const take = snapshot.records.find(record => record.id === takeId && record.kind === 'measured-media-take'); if (take) onSaved?.(take); }} onOpenStoryboard={onOpenStoryboard}/>
+      <PhonePrevizPanel project={project} scene={scene} selectedShotId={draft.shotId} open={open} disabled={!preparationReady || loading || exporting || requestInvalid || requestPending}/>
+      <DccStageReturns key={`stage-return:${scope}`} project={project} scene={scene} open={open} disabled={!preparationReady || loading || exporting || requestInvalid || requestPending} refreshKey={returnRefresh} returnRequest={returnRequest?.scope===scope?returnRequest:undefined} onSaved={onSaved} selectedShotId={draft.shotId} onReviewTake={onReviewTake ? takeId => onReviewTake(scene.id,draft.shotId,takeId) : undefined} onMotionRetained={async takeId => { if (!api) return; const snapshot = await api.bootstrap(); if (snapshot.project.id !== project.id || snapshot.project.sourceHash !== project.sourceHash) return; const take = snapshot.records.find(record => record.id === takeId && record.kind === 'measured-media-take'); if (take) onSaved?.(take); }} onOpenStoryboard={onOpenStoryboard}/>
       {previz && <section className="dcc-phone-workflow"><h4>Optional phone-directed camera take</h4><ol><li>Open a copy of the exported Blender rehearsal and select CAM_PHONE.</li><li>Connect a compatible phone bridge in Blender, calibrate scale and record a separate camera take.</li><li>Export a viewport motion clip and matching starting image for generation preparation.</li></ol><p>Phone pairing and capture are not connected in QiMovi yet. Rehearsal stills do not establish continuous footage.</p><a href="https://virtucamera.com/installation-in-blender/" target="_blank" rel="noreferrer">Example phone bridge setup: VirtuCamera ↗</a></section>}
       <section className="dcc-connection-details"><h3>Applications and connection status</h3><div className="dcc-connections"><section><span className="eyebrow">LOCAL UNITY</span><h3>Virtual production</h3><p>{observation?.unityVersions.length ? `Editors found: ${observation.unityVersions.join(', ')}` : 'Installation has not been checked.'}</p><strong>Editor connection unverified</strong></section><section><span className="eyebrow">LOCAL BLENDER</span><h3>Scene and camera design</h3><p>{observation?.blenderInstallation === 'NOT_FOUND_IN_CHECKED_LOCATIONS' ? 'No local installation found in the checked locations.' : observation?.blenderInstallation === 'FOUND' ? 'Local installation found.' : 'Installation has not been checked.'}</p><strong>Editor connection unverified</strong></section><section><span className="eyebrow">DEVICE CAMERA</span><h3>Reference capture</h3><p>Planned for reference and motion workflows.</p><strong>Camera is not active</strong></section></div>
       {observation && <p className="scope-note">Installation check retained {new Date(observation.observedAt).toLocaleString()}. Installed software does not establish a live editor connection.</p>}
       <p>Higgsfield Scene Builder runs in remote Blender. Its projects and cameras are separate from files on this Mac.</p></section>
-      <div className="dcc-scene"><div><h3>Source and reference handoff</h3><p>The original exchange preserves every shot and ordered reference cell. Its source camera measurements remain unknown.</p></div><button className="secondary" disabled={exporting || loading || requestInvalid || requestPending} onClick={() => void exportExchange()}>Export camera exchange ↗</button></div>
-      {flow?.context?.readiness==='READY_FOR_PLANNING' && <button className="primary" disabled={exporting||loading||requestInvalid||requestPending} onClick={()=>void exportLinkedPlan()}>Export writing + camera plan ↗</button>}
+      <div className="dcc-scene"><div><h3>Source and reference handoff</h3><p>The original exchange preserves every shot and ordered reference cell. Its source camera measurements remain unknown.</p></div><button className="secondary" disabled={!preparationReady || exporting || loading || requestInvalid || requestPending} onClick={() => void exportExchange()}>Export camera exchange ↗</button></div>
+      {flow?.context?.readiness==='READY_FOR_PLANNING' && <button className="primary" disabled={!preparationReady||exporting||loading||requestInvalid||requestPending} onClick={()=>void exportLinkedPlan()}>Export writing + camera plan ↗</button>}
       <ol className="dcc-shots">{visible.exchange.scene.shots.map(shot => <li key={shot.id}><strong>{shot.id}</strong><span>{shot.description}</span><small>{shot.cells.length} reference frames</small></li>)}</ol>
       {api && onSaved && <section className="dcc-return-details"><h3>Return earlier Scene 4 Blender proof</h3><p>Use this importer only for the earlier fixed nine-file proof bundle.</p><CameraReturns key={scope} project={project} scene={scene} api={api} flow={flow} onSaved={onSaved}/></section>}
     </>}

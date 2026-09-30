@@ -5,6 +5,7 @@ import os from 'node:os';
 import { spawn } from 'node:child_process';
 import { check, canonical, sha256 } from './storage.mjs';
 import { buildDccStageKit } from '../integrations/three-d/stage-kit.mjs';
+import { buildCameraExchange } from '../integrations/three-d/exchange.mjs';
 import { readDccStageReturnDirectory } from '../integrations/three-d/stage-return.mjs';
 import { retainDccStageKit, importDccStageReturn, listDccStageReturns } from './dcc-stage-returns.mjs';
 import { describeBlenderOperation, qualifyBlenderOperation } from '../integrations/three-d/blender-operation.mjs';
@@ -103,9 +104,20 @@ export function createDccRehearsalService(store, { blenderPath = process.env.CAN
         env: { PATH: '/usr/bin:/bin:/usr/sbin:/sbin', HOME: process.env.HOME ?? '', TMPDIR: process.env.TMPDIR ?? '/private/tmp', LANG: 'en_US.UTF-8' } }); }
       catch { fs.closeSync(log); return reject(fail('DCC_REHEARSAL_PROCESS_FAILED')); }
       owner.child = child;
-      const capture = bytes => { const chunk = Buffer.from(bytes).subarray(0, Math.max(0, 2 * 1024 * 1024 - total)); if (chunk.length) { fs.writeSync(log, chunk); total += chunk.length; } };
-      child.stdout?.on('data', capture); child.stderr?.on('data', capture);
       owner.terminate = () => { if (settled) return; child.kill('SIGTERM'); killTimer ??= setTimeout(() => { if (!settled) child.kill('SIGKILL'); }, 1500); };
+      const capture = bytes => {
+        if (settled || owner.stopReason) return;
+        try {
+          const chunk = Buffer.from(bytes).subarray(0, Math.max(0, 2 * 1024 * 1024 - total));
+          if (chunk.length) { fs.writeSync(log, chunk); total += chunk.length; }
+        } catch {
+          // A full/unavailable log destination must not escape an EventEmitter
+          // callback and terminate the whole local workspace service.
+          owner.stopReason ??= 'DCC_REHEARSAL_LOG_UNAVAILABLE';
+          owner.terminate();
+        }
+      };
+      child.stdout?.on('data', capture); child.stderr?.on('data', capture);
       const timer = setTimeout(() => { owner.stopReason = 'DCC_REHEARSAL_TIMEOUT'; owner.terminate(); }, timeoutMs);
       const finish = (error, code) => {
         if (settled) return; settled = true; clearTimeout(timer); clearTimeout(killTimer); fs.closeSync(log); owner.child = null; owner.terminate = null;
@@ -120,6 +132,11 @@ export function createDccRehearsalService(store, { blenderPath = process.env.CAN
       const runtimeSha256 = await fileHash(blenderPath);
       if (owner.stopReason) throw fail(owner.stopReason);
       check(describeBlenderOperation().implementation.sha256 === owner.implementationSha256, 'DCC_REHEARSAL_IMPLEMENTATION_CHANGED_RESTART_REQUIRED', 409);
+      // Hashing the runtime yields to authoring requests. Recheck the queued
+      // source/shot dependencies before creating or launching a stale rehearsal.
+      buildCameraExchange({ project: store.resolvedProject(), records: store.rawList() }, {
+        sceneId: kit.sceneId, expectedSourceHash: kit.sourceHash, expectedBasisHash: kit.basisSha256,
+      });
       fs.mkdirSync(kitDirectory, { mode: 0o700 });
       for (const file of kit.files) { check(/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(file.path) && sha256(file.content) === file.sha256, 'DCC_REHEARSAL_KIT_INVALID', 422); fs.writeFileSync(path.join(kitDirectory, file.path), file.content, { flag: 'wx', mode: 0o600 }); }
       const reopenScript = fs.readFileSync(new URL('../integrations/three-d/blender-stage-reopen.py', import.meta.url));

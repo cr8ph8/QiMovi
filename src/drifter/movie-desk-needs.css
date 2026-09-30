@@ -1,0 +1,7 @@
+.maker-home .maker-data-needs { margin:0 0 18px; border-bottom:1px solid var(--line,#494032); padding-bottom:8px; }
+.maker-home .maker-data-needs .maker-next-heading { display:flex; align-items:baseline; flex-wrap:wrap; gap:8px 20px; padding-top:8px; }
+.maker-home .maker-data-needs h3 { margin:0; }
+.maker-home .maker-data-needs .maker-next-list>button { background:transparent; color:var(--text,#ece2ce); }
+.maker-home .maker-data-needs .maker-next-list>button:hover { background:color-mix(in srgb,var(--accent,#c69b59) 8%,transparent); }
+.maker-home .maker-data-needs .maker-next-list strong { color:inherit; }
+.maker-home .maker-data-needs-note { margin:10px 0; color:var(--muted,#aaa); font-size:11px; line-height:1.5; }

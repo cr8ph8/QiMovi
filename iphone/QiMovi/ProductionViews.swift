@@ -219,9 +219,9 @@ struct PhoneCameraWorkspace: View {
                     ForEach(project.shots.sorted { $0.order < $1.order }) { shot in Text("\(shot.order). \(shot.title)").tag(shot.id) }
                 }.padding(.horizontal).padding(.vertical, 6)
             }
-            CameraView(projectID: store.selectedProject?.id, projectTitle: store.selectedProject?.title, sourceHash: store.selectedProject?.sourceHash, sceneID: shot?.sceneId, shotID: shot?.id, shotTitle: shot?.title)
-                .id("\(store.selectedProjectID ?? "")/\(selectedShotID ?? "")")
-        }.navigationTitle("Camera rehearsal").navigationBarTitleDisplayMode(.inline).background(QiStyle.background)
+            CameraView(projectID: store.selectedProject?.id, projectTitle: store.selectedProject?.title, sourceHash: store.selectedProject?.sourceHash, sceneID: shot?.sceneId, shotID: shot?.id, shotTitle: shot?.title, project: store.selectedProject, shot: shot)
+                .id("\(store.selectedProjectID ?? "")/\(store.selectedProject?.sourceHash ?? "")/\(selectedShotID ?? "")")
+        }.navigationTitle("Camera & clapper").navigationBarTitleDisplayMode(.inline).background(QiStyle.background)
         .onChange(of: store.selectedProjectID) { _, _ in selectedShotID = nil }
     }
 }
@@ -267,7 +267,7 @@ struct ConnectionsView: View {
                         Text("Record phone rotation against a selected shot. Share the take with its timing and source links. Live camera control and conversion to a 3D camera path still need the desktop adapter.").font(.subheadline).foregroundStyle(.secondary)
                     }
                 }
-                Text("QiMovi Alpha · 0.5.0\nFilmmaking and production tracking").font(.caption).foregroundStyle(.secondary)
+                Text("QiMovi Alpha · 0.6.0\nFilmmaking and production tracking").font(.caption).foregroundStyle(.secondary)
             }.padding(20)
         }.background(QiStyle.background).navigationTitle("Connected workflow")
         .fileImporter(isPresented: $importing, allowedContentTypes: [.json, UTType(filenameExtension: "qimovi") ?? .json]) { result in

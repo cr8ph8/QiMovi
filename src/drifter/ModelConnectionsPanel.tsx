@@ -35,7 +35,7 @@ export default function ModelConnectionsPanel({ open, project, sceneId, onClose,
   const comfy = connectors.find(row => row.id === 'comfyui');
   const localModels = (comfy as (ConnectorDescriptor & { observation?: { models?: { kind: string; name: string }[] } }) | undefined)?.observation?.models ?? [];
   return <section className={`assistant-panel model-connections${higgsfieldOpen ? ' models-higgsfield-open' : ''}`} aria-label="Models and connections" hidden={!open}>
-    <header><div><span className="eyebrow">CANISCREENWRITE</span><h2>Models & connections</h2></div><button aria-label="Close model connections" onClick={onClose}>×</button></header>
+    <header><div><span className="eyebrow">QIMOVI</span><h2>Models & connections</h2></div><button aria-label="Close model connections" onClick={onClose}>×</button></header>
     <div className="model-area-switch" aria-label="Model connection areas"><div><button aria-pressed={higgsfieldOpen} onClick={() => setArea('higgsfield')}>Higgsfield tools</button><button aria-pressed={area === 'connections'} onClick={() => setArea('connections')}>Other connections</button><button aria-pressed={area === 'usage'} onClick={() => setArea('usage')}>Usage & cost</button></div>{higgsfieldOpen && <button className="model-open-clip" onClick={onGeneration}>Open saved clip</button>}</div>
     <HiggsfieldTools open={open && higgsfieldOpen} project={project} records={records} workspaceApi={workspaceApi} onSaved={onSaved} onOpenDcc={onOpenDcc}/>
     <UsageAccountingPanel key={`${project.id}:${project.sourceHash}`} open={open && area === 'usage'} project={project} onSaved={onSaved}/>

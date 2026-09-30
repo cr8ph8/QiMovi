@@ -9,6 +9,12 @@ struct PhoneRotationSample: Codable, Sendable {
     let quaternionXYZW: [Double]
 }
 
+struct RotationClapperMark: Codable, Sendable {
+    let clapperId: String
+    let timeSeconds: Double
+    let takeNumber: Int
+}
+
 struct PhoneRotationTake: Codable, Identifiable, Sendable {
     let schemaVersion: String
     let id: String
@@ -32,6 +38,8 @@ struct PhoneRotationTake: Codable, Identifiable, Sendable {
     let classification: String
     let desktopPlaybackReady: Bool
     let samples: [PhoneRotationSample]
+    var shotSourceHash: String? = nil
+    var clapperMarks: [RotationClapperMark]? = nil
 }
 
 struct SavedRotationTake: Identifiable {
@@ -78,6 +86,7 @@ final class CameraCapture: ObservableObject {
     private var originTimestamp: TimeInterval?
     private var lastTimestamp: TimeInterval?
     private var samples: [PhoneRotationSample] = []
+    private var clapperMarks: [RotationClapperMark] = []
     private var context: RecordingContext?
     private var unsavedTake: PhoneRotationTake?
     private var monitorBeganAt = Date()
@@ -91,6 +100,7 @@ final class CameraCapture: ObservableObject {
         let sceneId: String?
         let shotId: String
         let shotTitle: String?
+        let shotSourceHash: String?
         let recordedAt: Date
         let orientation: String
         let referenceQuaternion: [Double]
@@ -136,7 +146,7 @@ final class CameraCapture: ObservableObject {
     }
 
     func start(projectID: String?, projectTitle: String?, sourceHash: String?,
-               sceneID: String?, shotID: String?, shotTitle: String?) {
+               sceneID: String?, shotID: String?, shotTitle: String?, shotSourceHash: String? = nil) {
         guard !isRecording, !hasUnsavedTake else { return }
         guard let projectID, !projectID.isEmpty, let shotID, !shotID.isEmpty else {
             message = "Select a project and shot before recording a movement."
@@ -151,13 +161,27 @@ final class CameraCapture: ObservableObject {
         reference = referenceCopy
         originTimestamp = reading.timestamp
         samples = [PhoneRotationSample(timeSeconds: 0, quaternionXYZW: [0, 0, 0, 1])]
+        clapperMarks = []
         context = RecordingContext(id: UUID().uuidString.lowercased(), projectId: projectID,
             projectTitle: projectTitle, sourceHash: sourceHash, sceneId: sceneID, shotId: shotID,
-            shotTitle: shotTitle, recordedAt: Date(), orientation: Self.orientationName,
+            shotTitle: shotTitle, shotSourceHash: shotSourceHash, recordedAt: Date(), orientation: Self.orientationName,
             referenceQuaternion: Self.components(referenceCopy.quaternion))
         elapsed = 0; sampleCount = 1
         message = nil
         isRecording = true
+    }
+
+    func clapperContext(projectID: String, sourceHash: String?, sceneID: String, shotID: String) -> (id: String, seconds: Double)? {
+        guard isRecording, let context, context.projectId == projectID, context.sourceHash == sourceHash,
+              context.sceneId == sceneID, context.shotId == shotID, samples.count >= 2 else { return nil }
+        return (context.id, elapsed)
+    }
+
+    func addClapperMark(_ mark: ClapperMark) {
+        guard isRecording, let context, mark.recordingId == context.id,
+              let seconds = mark.recordingTimeSeconds, seconds >= 0, seconds <= elapsed,
+              clapperMarks.count < 100, !clapperMarks.contains(where: { $0.clapperId == mark.id }) else { return }
+        clapperMarks.append(RotationClapperMark(clapperId: mark.id, timeSeconds: seconds, takeNumber: mark.takeNumber))
     }
 
     func stop(reason: String = "USER_STOPPED") {
@@ -178,7 +202,7 @@ final class CameraCapture: ObservableObject {
             relativeAttitudeMethod: "CMAttitude.multiply(byInverseOf: startAttitude)", quaternionOrder: "XYZW",
             screenOrientationAtStart: context.orientation, referenceQuaternionXYZW: context.referenceQuaternion,
             stopReason: reason, classification: "ROTATION_REHEARSAL_PENDING_REVIEW",
-            desktopPlaybackReady: false, samples: samples)
+            desktopPlaybackReady: false, samples: samples, shotSourceHash: context.shotSourceHash, clapperMarks: clapperMarks)
         unsavedTake = take
         hasUnsavedTake = true
         self.context = nil

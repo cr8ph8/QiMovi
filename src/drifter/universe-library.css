@@ -51,7 +51,7 @@
 .uni-guides-filter>span { font-size:8px; padding:1px 4px; border:1px solid #6e6343; border-radius:3px; color:#b7a67c; }
 .uni-map-scroll { max-height:590px; overflow:auto; border-block:1px solid #2b312a; scrollbar-width:thin; scrollbar-color:#4c4d3d #151a17; }
 .uni-map-canvas { position:relative; transition:width .2s ease,min-width .2s ease; }
-.uni-map-canvas>svg { width:100%; height:auto; display:block; overflow:visible; }
+.uni-map-canvas>svg { position:absolute; inset:0; width:100%; height:100%; display:block; overflow:visible; }
 .uni-map-nodes { position:absolute; inset:0; pointer-events:none; }
 .uni-map-dots { color:#374334; opacity:.48; }
 .uni-band-label { fill:#cdbb9a; font-size:10px; letter-spacing:1.4px; font-family:inherit; }
@@ -309,3 +309,33 @@
 .uni-filmstrip[hidden] { display:none; }
 .uni-film-toggle { border:1px solid var(--uni-line,#444b38); border-radius:4px; padding:5px 8px; color:var(--uni-muted,#b6af96); font-size:10px; background:transparent; cursor:pointer; flex-shrink:0; }
 .uni-film-toggle:focus-visible { outline:2px solid var(--uni-amber,#e7ad51); outline-offset:2px; }
+
+/* A readable graph workspace with explicit scope, paging and direct entry actions. */
+.uni-map-tools { display:flex; align-items:end; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:4px 23px 10px; flex-shrink:0; }
+.uni-map-tools [role=group] { display:flex; gap:4px; flex-wrap:wrap; }
+.uni-map-tools button { border:1px solid var(--uni-line); border-radius:5px; padding:6px 10px; font-size:12px; }
+.uni-map-tools button[aria-pressed=true] { background:#42331c; border-color:#906d36; color:#f0c173; }
+.uni-map-tools label { display:grid; gap:5px; color:var(--uni-muted); font-size:11px; flex:1 1 200px; max-width:340px; }
+.uni-map-tools select { background:#171c19; color:var(--uni-ink); border:1px solid #555748; border-radius:5px; min-height:36px; padding:5px 8px; width:100%; font:inherit; }
+.uni-map-context { padding:0 23px 12px; color:var(--uni-muted); line-height:1.5; font-size:12px; flex-shrink:0; }
+.uni-map-footer { flex-wrap:wrap; gap:12px; font-size:11px; }
+.uni-map-pagination { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
+.uni-map-pagination button { border:1px solid var(--uni-line); border-radius:4px; padding:4px 9px; }
+.uni-map-edge { opacity:.32; }
+.uni-map-edge.is-active { opacity:1; stroke-width:1.8; }
+.uni-node-meta { font-size:10px; }
+.uni-entry-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin:0 18px 14px; }
+.uni-entry-actions button { display:flex; justify-content:center; align-items:center; gap:6px; border:1px solid #535344; border-radius:5px; padding:7px; font-size:11px; text-align:center; }
+.uni-entry-actions button:first-child { grid-column:1/-1; border-color:#846333; color:#f0c173; background:#42331c66; }
+.uni-editing-notice { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 22px; background:#3c321d; border-bottom:1px solid #6b5330; color:#f0d3a1; }
+.uni-editing-notice button { border:1px solid #927644; border-radius:5px; padding:5px 10px; }
+@media (max-width:700px) {
+  .uni-map-tools { padding-inline:14px; }
+  .uni-map-tools label { max-width:none; }
+  .uni-map-pagination>span:first-child { flex-basis:100%; }
+  .uni-map-context { padding-inline:14px; }
+}
+@media (min-width:1000px) {
+  .uni-editor-host { flex:1; min-height:0; overflow:auto; scrollbar-width:thin; }
+}
+@media (prefers-reduced-motion:reduce) { .uni-map-canvas,.uni-map-edge,.universe-library button { transition:none; } }

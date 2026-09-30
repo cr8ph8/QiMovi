@@ -1,0 +1,19 @@
+.phone-previz { margin: 18px 0; padding: 18px; border: 1px solid var(--line, #d8d7cf); border-radius: 12px; background: var(--surface, #faf9f5); color: var(--ink, #202321); }
+.phone-previz h3, .phone-previz h4 { margin: 0 0 8px; }
+.phone-previz p { margin: 7px 0; line-height: 1.5; }
+.phone-previz-heading { display: flex; align-items: start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.phone-previz-import { position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 8px 12px; border: 1px solid currentColor; border-radius: 8px; font-weight: 650; cursor: pointer; }
+.phone-previz-import input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
+.phone-previz-import:focus-within { outline: 3px solid #c19338; outline-offset: 3px; }
+.phone-previz-import.is-disabled { opacity: .5; cursor: default; }
+.phone-previz-context { font-size: 13px; color: var(--muted, #616860); }
+.phone-previz-review { margin: 14px 0; padding: 14px; border: 1px solid #ae965d; border-radius: 9px; background: #fffdf6; overflow-wrap: anywhere; }
+.phone-previz-review ul { padding-left: 20px; font-size: 13px; line-height: 1.6; }
+.phone-previz-review button { min-height: 40px; padding: 8px 14px; border: 1px solid #726440; border-radius: 7px; background: #e9d39f; color: #292819; font-weight: 650; cursor: pointer; }
+.phone-previz-review button:disabled { opacity: .5; cursor: default; }
+.phone-previz-error { color: #963d2d; overflow-wrap: anywhere; }
+.phone-previz-receipts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); list-style: none; gap: 10px; padding: 0; margin: 12px 0 0; max-height: 420px; overflow-y: auto; }
+.phone-previz-receipts li { padding: 12px; border: 1px solid var(--line, #deded5); border-radius: 8px; overflow-wrap: anywhere; }
+.phone-previz-receipts p, .phone-previz-receipts small { font-size: 12px; }
+.phone-previz-notes { white-space: pre-wrap; }
+@media (max-width: 600px) { .phone-previz { padding: 12px; } .phone-previz-receipts { grid-template-columns: 1fr; } }

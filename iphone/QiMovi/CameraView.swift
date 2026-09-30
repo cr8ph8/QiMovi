@@ -7,6 +7,9 @@ struct CameraView: View {
     let sceneID: String?
     let shotID: String?
     let shotTitle: String?
+    var project: FilmProject? = nil
+    var shot: FilmShot? = nil
+    @State private var tool = "Movement"
     @StateObject private var capture = CameraCapture.shared
     @Environment(\.scenePhase) private var scenePhase
 
@@ -19,8 +22,8 @@ struct CameraView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Rehearse the movement").font(.title2.bold())
-                    Text("Use your iPhone to record a shot’s rotation. Hold it in the same orientation throughout the take.")
+                    Text(tool == "Clapper" ? "Slate the take" : "Rehearse the movement").font(.title2.bold())
+                    Text(tool == "Clapper" ? "Mark the selected shot, then share its slate log with your desktop project." : "Use your iPhone to record a shot’s rotation. Hold it in the same orientation throughout the take.")
                         .foregroundStyle(.secondary)
                 }
                 VStack(alignment: .leading, spacing: 8) {
@@ -28,12 +31,21 @@ struct CameraView: View {
                         .font(.subheadline.weight(.semibold))
                     Text(shotTitle ?? "Choose a shot in Shots, then open Camera.")
                         .font(.headline)
-                    Text("Rotation rehearsal · no video recording")
+                    Text(tool == "Clapper" ? "Digital slate · no video recording" : "Rotation rehearsal · no video recording")
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading).padding()
                 .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 18))
 
+                Picker("Camera tool", selection: $tool) {
+                    Text("Movement").tag("Movement")
+                    Text("Clapper").tag("Clapper")
+                }.pickerStyle(.segmented)
+
+                if tool == "Clapper" {
+                    if let project, let shot { ClapperView(project: project, shot: shot) }
+                    else { Text("Select a shot above to prepare its clapper.").foregroundStyle(.secondary) }
+                } else {
                 rotationMonitor
 
                 HStack(spacing: 12) {
@@ -52,7 +64,7 @@ struct CameraView: View {
                     } else {
                         Button {
                             capture.start(projectID: projectID, projectTitle: projectTitle, sourceHash: sourceHash,
-                                sceneID: sceneID, shotID: shotID, shotTitle: shotTitle)
+                                sceneID: sceneID, shotID: shotID, shotTitle: shotTitle, shotSourceHash: shot?.sourceRecordHash)
                         } label: {
                             Label("Record movement", systemImage: "record.circle").frame(maxWidth: .infinity)
                         }
@@ -103,8 +115,9 @@ struct CameraView: View {
                 }
                 VStack(alignment: .leading, spacing: 8) {
                     Label("Desktop camera handoff", systemImage: "desktopcomputer").font(.subheadline.bold())
-                    Text("Exports contain timed rotation and shot links. Live Blender or Unity control, position tracking and calibrated playback are still being connected.")
+                    Text("On Mac, open 3D & cameras → Phone rehearsals & clapper to review these files. Orientation and slate marks retain their shot links; live control, position tracking and calibrated playback remain separate.")
                         .font(.footnote).foregroundStyle(.secondary)
+                }
                 }
             }.padding()
         }
@@ -113,6 +126,7 @@ struct CameraView: View {
         .onChange(of: scenePhase) { _, value in if value != .active { capture.pause() } }
         .onChange(of: shotID) { _, _ in capture.pause() }
         .onChange(of: projectID) { _, _ in capture.pause() }
+        .onChange(of: sourceHash) { _, _ in capture.pause() }
     }
 
     private var rotationMonitor: some View {

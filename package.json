@@ -1,7 +1,7 @@
 {
   "name": "qimovi",
   "private": true,
-  "version": "0.5.0-alpha.1",
+  "version": "0.6.0-alpha.1",
   "packageManager": "bun@1.4.0",
   "type": "module",
   "scripts": {
@@ -13,7 +13,10 @@
     "local:serve": "node local/server/cli.mjs serve --port 4317 --dist dist-local",
     "test": "node --test tests/*.test.mjs",
     "test:phone-ui": "vitest run tests/phone-handoff-ui.test.tsx tests/phone-handoff-api.test.ts --config vite.local.config.ts",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "test:previz-ui": "vitest run tests/previz-ui.test.tsx tests/phone-previz-ui.test.tsx tests/world-map.test.ts --config vite.local.config.ts",
+    "check:clapper": "bash iphone/scripts/check-clapper.sh",
+    "test:workspace-ui": "vitest run tests/world-map.test.ts tests/world-map-ui.test.tsx tests/node-workflow-guidance.test.tsx tests/writing-handoff-ui.test.tsx tests/contact-sheet.test.tsx tests/universe-profile-guidance.test.tsx tests/movie-desk-needs.test.tsx --config vite.local.config.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

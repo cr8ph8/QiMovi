@@ -8,6 +8,8 @@ Follow [QUICKSTART.md](QUICKSTART.md). Use Node 24.10+ for the local service and
 
 Work with a new, empty workspace or synthetic fixtures. Never use a real production database as a test fixture. Keep generated Xcode projects, private absolute paths, owner configuration, API keys, signing material, device identifiers, build output, and app-container backups out of commits.
 
+If you are reusing selected code in another product, follow [PORTING.md](PORTING.md). Record your upstream commit and local changes, retain required notices, and check the entire feature boundary rather than copying only its UI. Run `node examples/reuse-core.mjs` for a small contract-only starting point.
+
 ## Preserve the boundaries
 
 - QiMovi is the production system; QiCanIScreenwrite remains a separate writing application with reusable components and explicit handoffs.

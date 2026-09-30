@@ -2,6 +2,8 @@
 
 QiMovi has a local desktop production workspace and a smaller native iPhone companion. They share the film-production model and explicit source references. They do not currently share a live database or automatic synchronization service.
 
+For selective reuse, dependency boundaries and a recommended module order, read [Porting QiMovi into another system](PORTING.md).
+
 ```mermaid
 flowchart TB
   B[Local browser interface] --> S[Node local service]

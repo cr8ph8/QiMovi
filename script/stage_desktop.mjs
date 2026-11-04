@@ -30,7 +30,7 @@ fs.chmodSync(path.join(resources, 'node'), 0o755);
 fs.chmodSync(path.join(contents, 'MacOS/QiMovieSlate'), 0o755);
 // Retain the implementation and integration guides with the installed runtime.
 // These source docs contain no workspace configuration or donor application data.
-for (const relative of ['dist-local', 'local/desktop', 'local/server', 'local/docs', 'local/content/filmcraft', 'local/providers', 'local/contracts', 'local/integrations/three-d', 'local/integrations/resolve', 'local/integrations/blender-mcp', 'local/kernel/src', 'local/kernel/registry', 'local/tools/documents.mjs', 'local/tools/document-schedules.mjs', 'local/tools/reviews.mjs', 'local/completion/modules.json', 'local/completion/artifacts.json']) {
+for (const relative of ['dist-local', 'local/desktop', 'local/server', 'local/docs', 'local/content/filmcraft', 'local/providers', 'local/contracts', 'local/accounting', 'local/integrations/three-d', 'local/integrations/resolve', 'local/integrations/blender-mcp', 'local/kernel/src', 'local/kernel/registry', 'local/tools/documents.mjs', 'local/tools/document-schedules.mjs', 'local/tools/reviews.mjs', 'local/completion/modules.json', 'local/completion/artifacts.json']) {
   fs.cpSync(path.join(root, relative), path.join(runtime, relative), { recursive: true });
 }
 // Ship the reusable production packs, without development renders or QA outputs.

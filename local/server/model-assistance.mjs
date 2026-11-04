@@ -197,7 +197,7 @@ async function boundedJson(fetchImpl, url, { signal, method = 'GET', body, maxBy
   } catch (error) { await response.body?.cancel().catch(() => {}); throw error; }
 }
 
-export function createModelAssistanceService(store, { fetchImpl = globalThis.fetch, timeoutMs = LIMITS.timeoutMs, statusTimeoutMs = LIMITS.statusTimeoutMs, now = () => new Date().toISOString() } = {}) {
+export function createModelAssistanceService(store, { fetchImpl = globalThis.fetch, timeoutMs = LIMITS.timeoutMs, statusTimeoutMs = LIMITS.statusTimeoutMs, now = () => new Date().toISOString(), resourceJournal = null } = {}) {
   check(typeof fetchImpl === 'function' && Number.isSafeInteger(timeoutMs) && timeoutMs > 0 && timeoutMs <= LIMITS.timeoutMs && Number.isSafeInteger(statusTimeoutMs) && statusTimeoutMs > 0 && statusTimeoutMs <= LIMITS.statusTimeoutMs, 'MODEL_SERVICE_OPTIONS_INVALID');
   const filename = path.join(store.directory, 'model-assistance-config.json'), active = new Map();
   let origin = null, closed = false, checking = null;
@@ -275,7 +275,8 @@ export function createModelAssistanceService(store, { fetchImpl = globalThis.fet
         check(canonicalJson(captured) === canonicalJson(buildModelAssistanceContext(store, input)), 'MODEL_CONTEXT_CHANGED', 409);
         started = save({ schemaVersion: 1, projectId: input.projectId, sourceHash: input.sourceHash, sceneId: input.sceneId, requestId: input.requestId, requestHash, input, ...captured, provider: { kind: 'OLLAMA', origin, model: input.model, modelDigest: model.digest }, status: 'STARTED', startedAt: now(), finishedAt: null, output: null, error: null, authority: 'PROPOSAL_ONLY', sourceChanged: false }, null);
         timer = setTimeout(() => controller.abort(failure('MODEL_TIMEOUT', 504)), timeoutMs);
-        const result = await boundedJson(fetchImpl, `${origin}/api/chat`, { signal: controller.signal, method: 'POST', body: { model: input.model, messages: [{ role: 'user', content: captured.prompt }], stream: false, think: false, options: { num_predict: input.maxOutputTokens, num_ctx: 8192 } }, maxBytes: LIMITS.responseBytes });
+        const invoke = () => boundedJson(fetchImpl, `${origin}/api/chat`, { signal: controller.signal, method: 'POST', body: { model: input.model, messages: [{ role: 'user', content: captured.prompt }], stream: false, think: false, options: { num_predict: input.maxOutputTokens, num_ctx: 8192 } }, maxBytes: LIMITS.responseBytes });
+        const result = resourceJournal ? await resourceJournal.measure({ id: input.requestId, provider: 'OLLAMA', model: input.model, taskId: input.requestId, local: true, requestHash }, invoke) : await invoke();
         check(!controller.signal.aborted, 'MODEL_CANCELED', 499);
         check(result.done === true && result.model === input.model && result.message?.role === 'assistant' && assistanceText(result.message.content, LIMITS.outputText, true) && !result.message.tool_calls?.length && !result.message.images?.length, 'MODEL_RESPONSE_INVALID', 502);
         const output = { text: result.message.content, sha256: hash(result.message.content), model: input.model, doneReason: typeof result.done_reason === 'string' ? result.done_reason : '', promptTokens: result.prompt_eval_count ?? null, outputTokens: result.eval_count ?? null };

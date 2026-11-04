@@ -57,6 +57,8 @@ jobs:
           codesign --verify --deep --strict "$APP"
           find "$APP/Contents/Resources" -name brand-scanner.mjs | grep .
           find "$APP/Contents/Resources" -name brand-financing.mjs | grep .
+          test -f "$APP/Contents/Resources/runtime/local/accounting/resource-journal.mjs"
+          "$APP/Contents/Resources/node" --input-type=module -e 'await import(process.argv[1]);' "file://$APP/Contents/Resources/runtime/local/server/http.mjs"
           mkdir -p build-artifacts
           printf 'Source commit: %s\nArchitecture: arm64\nDevelopment ad-hoc signature; not notarized. No private workspace included.\n' "$(git rev-parse HEAD)" > build-artifacts/BUILD.txt
           ditto -c -k --sequesterRsrc --keepParent "$APP" build-artifacts/QiMovi-macOS-arm64.zip

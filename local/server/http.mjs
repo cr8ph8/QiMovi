@@ -1,3 +1,5 @@
+import { openResourceJournal } from '../accounting/resource-journal.mjs';
+import { resourceSnapshot, publicResourceContext } from './resource-accounting.mjs';
 import { createBrandFinancingService } from './brand-financing.mjs';
 import { createPhonePrevizService, PHONE_PREVIZ_MAX_BYTES } from './phone-previz.mjs';
 import { createPhoneHandoffService } from './phone-handoff.mjs';
@@ -73,7 +75,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
   directory = privateDirectory(directory);
   check(!fs.existsSync(path.join(directory, 'project-creation.json')), 'PROJECT_CREATION_INCOMPLETE', 409);
   const unlock = acquireLock(directory);
-  let store, kernel, securityAudit, preservationIntegrity;
+  let store, kernel, securityAudit, preservationIntegrity, resourceJournal;
   try {
     const config = loadConfig(directory);
     const higgsfieldDesktop = createHiggsfieldDesktopBridge({ ...higgsfieldDesktopOptions, directory });
@@ -100,7 +102,8 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const nodeConnectors = createNodeConnectorService(nodeConnectorOptions);
     const resolveMcp = createResolveMcpBridge(resolveMcpOptions);
     const openCreator = createOpenCreatorService(store, openCreatorOptions);
-    const modelAssistance = createModelAssistanceService(store, modelAssistanceOptions);
+    resourceJournal = openResourceJournal(directory, 'qimovi', store.project().id);
+    const modelAssistance = createModelAssistanceService(store, { ...modelAssistanceOptions, resourceJournal });
     const usageAccounting = createUsageAccountingService(store);
     const productionBudget = createProductionBudgetService(store);
     const brandFinancing = createBrandFinancingService(store, { budgetService: productionBudget, actorId: config.ownerActorId });
@@ -197,6 +200,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
               || noQuery && req.method === 'GET' && assetMatch && /^project-asset:[a-f0-9]{64}$/.test(assetId);
             check(allowed, 'CANISCREENWRITE_SCOPE_REJECTED', 403);
           }
+          resourceJournal.observeRequest(req, res, url.pathname);
           if (url.pathname === '/api/phone-previz' || url.pathname.startsWith('/api/phone-previz/')) {
             if (url.pathname === '/api/phone-previz' && req.method === 'GET') {
               check([...url.searchParams.keys()].every(key => ['sceneId', 'shotId'].includes(key)) && [...url.searchParams.keys()].length === 2, 'PHONE_PREVIZ_QUERY_INVALID', 422);
@@ -216,8 +220,28 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
           }
           if (url.pathname === '/api/caniscreenwrite/brand-context' && req.method === 'POST') {
             check([...url.searchParams].length === 0, 'BRAND_QUERY_REJECTED', 422);
-            try { return json(res, 200, brandFinancing.context(await body(req, 4096))); }
+            try {
+              const context = brandFinancing.context(await body(req, 4096));
+              let costContext = null;
+              try { costContext = publicResourceContext(resourceSnapshot(resourceJournal, store, usageAccounting, productionBudget, brandFinancing)); } catch { /* Costs unknown, never zero or permission to execute. */ }
+              return json(res, 200, { ...context, costContext });
+            }
             catch (error) { throw new PilotError(error.code?.startsWith('BRAND_') ? error.code : 'BRAND_REQUEST_REJECTED', [409, 413, 415, 422].includes(error.status) ? error.status : 422); }
+          }
+          if (url.pathname === '/api/resource-accounting' || url.pathname.startsWith('/api/resource-accounting/')) {
+            check([...url.searchParams].length === 0, 'RESOURCE_QUERY_REJECTED', 422);
+            try {
+              if (url.pathname === '/api/resource-accounting' && req.method === 'GET') return json(res, 200, resourceSnapshot(resourceJournal, store, usageAccounting, productionBudget, brandFinancing));
+              if (url.pathname === '/api/resource-accounting/export' && req.method === 'GET') return json(res, 200, resourceJournal.export(), { 'Content-Disposition': 'attachment; filename="private-resource-journal.json"' });
+              if (req.method === 'POST') {
+                const input = await body(req, 32768);
+                check(input && Object.keys(input).sort().join(',') === 'data,projectId' && input.projectId === store.project().id, 'RESOURCE_PROJECT_MISMATCH', 409);
+                if (url.pathname === '/api/resource-accounting/rate') return json(res, 200, resourceJournal.setRate(input.data));
+                if (url.pathname === '/api/resource-accounting/entry') return json(res, 200, resourceJournal.record(input.data));
+                if (url.pathname === '/api/resource-accounting/quote') return json(res, 200, resourceJournal.quote(input.data));
+              }
+              throw new PilotError('RESOURCE_ROUTE_NOT_FOUND', 404);
+            } catch (e) { throw new PilotError(/^RESOURCE_[A-Z_]+$/.test(e.code ?? '') ? e.code : 'RESOURCE_UNAVAILABLE', [404,409,413,422].includes(e.status) ? e.status : 503); }
           }
           if (url.pathname === '/api/brand-financing' || url.pathname.startsWith('/api/brand-financing/')) {
             try {
@@ -720,8 +744,8 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
         // while storage is still open. Closing sockets alone does not await it.
         await Promise.all([preservationIntegrity.close(), libraryUpload.close(), mediaIntake.close(), studioMedia.close(), storyboardFrames.close(), studioGeneration.close(), studioReferences.close(), dccRehearsals.close(), comicPackages.close(), modelAssistance.close(), higgsfieldDesktop.close(),higgsfieldMcp.close(),openCreator.close()]);
         await connectionsClosed;
-        securityAudit.close(); kernel.runtime.close(); store.close(); unlock();
+        resourceJournal.close(); securityAudit.close(); kernel.runtime.close(); store.close(); unlock();
       })();
     } };
-  } catch (error) { await preservationIntegrity?.close(); securityAudit?.close(); kernel?.runtime.close(); store?.close(); unlock(); throw error; }
+  } catch (error) { await preservationIntegrity?.close(); resourceJournal?.close(); securityAudit?.close(); kernel?.runtime.close(); store?.close(); unlock(); throw error; }
 }

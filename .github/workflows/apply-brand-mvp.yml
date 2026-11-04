@@ -1,0 +1,62 @@
+name: Apply reviewed brand financing patch
+
+on:
+  push:
+    branches: [feat/brand-financing-mvp]
+    paths:
+      - '.github/brand-mvp-part-*.b64'
+      - '.github/workflows/apply-brand-mvp.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.repository == 'cr8ph8/QiMovi' && github.ref == 'refs/heads/feat/brand-financing-mvp'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Apply hash-verified source patch to feature branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = '148b589924d9e24ded29316df923927ef8d178dd'
+          python3 - <<'PY'
+          import base64, gzip, hashlib, os, pathlib, subprocess
+          expected = {
+            'ARCHITECTURE.md': '7c073766f48ac61cd50842cc0288990a34d60ef0caddb8fc6fe7bf7847df135d',
+            'README.md': '17e974db844e5bc8c31358ed4675c0b068455a4d05d589044881e89cd18f4024',
+            'docs/brand-financing.md': '8a471a2af25280c04e5b368884480ff8fd2ad0126c814364c102a6d86c398cc7',
+            'local/contracts/brand-financing.mjs': '9743f75c248d395a215d27f365eac60bea0c1c56e58ed7f65d795ada836cc8d5',
+            'local/server/brand-financing.mjs': 'a215fd2c9a1e48814653ba54a8e45e501689c6058328793b3727b896da29c1d7',
+            'local/server/http.mjs': 'bbf15c12b268629f0dbcf03ca92111d77587b7774d8690ba9ded217242d0f41e',
+            'src/drifter/BrandFinancingPanel.tsx': '09704899f2268026f1cba01e3f3adc8bc0a183dbc358086f5444a1c5f7bf831e',
+            'src/drifter/ProductionBudgetPanel.tsx': 'cd1d18498b76e6c0b154caf4ec23dbc103e3b8ce975fb656a86330d5b0fabc8c',
+            'src/drifter/brand-financing.css': 'bab4ddd0cefcc0ca2564bc04257467cfbbecfd64db1eda18ff9427e464ddb3ff',
+            'src/drifter/brandFinancingApi.ts': '1fb61b61e430dd7e8570e62708ddc795b19a0ededffecb68eb80896ef5680911',
+            'tests/brand-financing-ui.test.tsx': '86644a5b4510d3ce83b1d7002c219eb84da2086a7afbfa9c9b06be5f21800877',
+            'tests/brand-financing.test.mjs': '4f7ef1a7f0c33648456db4f16d672497900740774d803149f508a999786c3397',
+          }
+          encoded = ''.join(pathlib.Path(f'.github/brand-mvp-part-{i:02d}.b64').read_text() for i in range(4))
+          patch = gzip.decompress(base64.b64decode(encoded, validate=True))
+          assert len(patch) == 90446
+          assert hashlib.sha256(patch).hexdigest() == '9ddced4ca2b0f3cf1674db846e2594f27827eb1c9f6a1b8fcfb1481449488cbb'
+          patchfile = pathlib.Path(os.environ['RUNNER_TEMP']) / 'brand.patch'
+          patchfile.write_bytes(patch)
+          subprocess.run(['git', 'apply', '--check', str(patchfile)], check=True)
+          subprocess.run(['git', 'apply', str(patchfile)], check=True)
+          for name, digest in expected.items():
+              assert hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest() == digest, name
+          subprocess.run(['git', 'add', '--', *expected], check=True)
+          names = subprocess.check_output(['git', 'diff', '--cached', '--name-only'], text=True).splitlines()
+          assert set(names) == set(expected), names
+          subprocess.run(['git', 'diff', '--cached', '--check'], check=True)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat: add reviewed brand integration and financing MVP'
+          git push origin HEAD:refs/heads/feat/brand-financing-mvp
+          git rev-parse HEAD

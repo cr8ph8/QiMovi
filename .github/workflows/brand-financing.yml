@@ -1,0 +1,40 @@
+name: QiMovi workspace checks
+
+on:
+  push:
+    branches: [main, feat/brand-financing-mvp]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: workspace-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Retain exact public source snapshot for reproducibility
+        run: git archive --format=tar.gz HEAD > source-snapshot.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-snapshot-${{ github.sha }}
+          path: source-snapshot.tar.gz
+          retention-days: 3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.10.0'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - run: bun install --frozen-lockfile
+      - run: node --test tests/*.test.mjs
+      - run: bun run typecheck
+      - run: bun run build:local

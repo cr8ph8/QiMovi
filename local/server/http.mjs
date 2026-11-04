@@ -1,3 +1,4 @@
+import { createBrandFinancingService } from './brand-financing.mjs';
 import { createPhonePrevizService, PHONE_PREVIZ_MAX_BYTES } from './phone-previz.mjs';
 import { createPhoneHandoffService } from './phone-handoff.mjs';
 import { createProjectLibraryUploadService } from './project-library-upload.mjs';
@@ -102,6 +103,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const modelAssistance = createModelAssistanceService(store, modelAssistanceOptions);
     const usageAccounting = createUsageAccountingService(store);
     const productionBudget = createProductionBudgetService(store);
+    const brandFinancing = createBrandFinancingService(store, { budgetService: productionBudget, actorId: config.ownerActorId });
     const writingProduction = createWritingProductionService(store);
     const productionAttachment = createProductionAttachmentService(store);
     const legacyProductionRevision = createLegacyProductionRevisionService(store);
@@ -210,6 +212,17 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
             if (url.pathname === '/api/phone/preview' && req.method === 'POST') return json(res, 200, phoneHandoff.preview(await body(req, 2 * 1024 * 1024)));
             if (url.pathname === '/api/phone/apply' && req.method === 'POST') return json(res, 200, phoneHandoff.apply(await body(req, 2 * 1024 * 1024)));
             throw new PilotError('PHONE_HANDOFF_ROUTE_NOT_FOUND', 404);
+          }
+          if (url.pathname === '/api/brand-financing' || url.pathname.startsWith('/api/brand-financing/')) {
+            try {
+              check([...url.searchParams].length === 0, 'BRAND_QUERY_REJECTED', 422);
+              if (req.method === 'GET' && url.pathname === '/api/brand-financing') return json(res, 200, brandFinancing.load());
+              if (req.method === 'POST' && url.pathname === '/api/brand-financing/scan') return json(res, 200, brandFinancing.scan(await body(req, 32768)));
+              if (req.method === 'POST' && url.pathname === '/api/brand-financing/command') return json(res, 200, brandFinancing.command(await body(req, 32768)));
+              throw new PilotError('BRAND_ROUTE_NOT_FOUND', 404);
+            } catch (error) {
+              throw new PilotError(error.code?.startsWith('BRAND_') ? error.code : 'BRAND_REQUEST_REJECTED', [400, 401, 403, 404, 409, 413, 415, 422].includes(error.status) ? error.status : 422);
+            }
           }
           if (url.pathname === '/api/asset-token' || url.pathname.startsWith('/api/asset-token/')) {
             try {

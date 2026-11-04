@@ -64,6 +64,14 @@ On iPhone, **Camera → Movement** records orientation references and **Camera �
 
 The clapper uses the phone's wall clock, **not synchronized production timecode**. Optional visual/sound cues do not establish frame-accurate audio/video synchronization. See the [clapper walkthrough](QUICKSTART.md#use-the-digital-clapper) and [PreViz integration guide](local/integrations/three-d/README.md).
 
+## Brand integration and financing
+
+Open **Project budget → Brand Integration & Financing** to scan saved screenplay
+revisions, review natural placement opportunities, draft sponsorship deals and
+record owner-confirmed agreements and receipts. Cash, in-kind expense savings and
+brand-paid advertising remain distinct. This local MVP does not contact sponsors,
+verify legal rights or connect to a bank. See the [walkthrough and boundaries](docs/brand-financing.md).
+
 ## Alpha boundaries
 
 - A plan, generated output, imported document, or status selection does not approve rights, spending, production, or release.

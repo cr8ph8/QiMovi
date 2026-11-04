@@ -1,0 +1,20 @@
+.brand-financing { margin: 1rem 0; padding: 1rem; border: 1px solid var(--border, #667085); border-radius: 10px; }
+.brand-financing > summary { cursor: pointer; font-weight: 700; }
+.brand-financing h4 { margin: 1.5rem 0 .7rem; }
+.brand-financing p, .brand-financing small { line-height: 1.5; overflow-wrap: anywhere; }
+.brand-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: .8rem; }
+.brand-financing label { display: flex; flex-direction: column; gap: .4rem; margin: .5rem 0; }
+.brand-financing input, .brand-financing select, .brand-financing textarea { width: 100%; min-width: 0; padding: .55rem; color: inherit; background: var(--surface, #171b25); border: 1px solid var(--border, #667085); border-radius: 5px; }
+.brand-financing textarea { min-height: 5rem; }
+.brand-financing fieldset { min-width: 0; padding: .8rem; border: 1px solid var(--border, #667085); }
+.brand-financing button { padding: .55rem .8rem; margin: .3rem 0; cursor: pointer; }
+.brand-financing button:disabled { cursor: not-allowed; opacity: .55; }
+.brand-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.brand-financing .brand-confirm { flex-direction: row; align-items: flex-start; }
+.brand-confirm input { width: auto; flex-shrink: 0; margin-top: .3rem; }
+.brand-opportunity { padding: .8rem 0; border-bottom: 1px solid var(--border, #667085); }
+.brand-opportunity blockquote { margin: .5rem 0; padding-left: .8rem; border-left: 3px solid currentColor; white-space: pre-wrap; }
+.brand-table { overflow-x: auto; }
+.brand-table table { width: 100%; border-collapse: collapse; }
+.brand-table th, .brand-table td { padding: .6rem; text-align: left; border-bottom: 1px solid var(--border, #667085); }
+.brand-financing [role=alert] { border: 1px solid currentColor; padding: .8rem; }

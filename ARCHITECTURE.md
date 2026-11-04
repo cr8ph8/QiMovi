@@ -169,3 +169,14 @@ is retained for development, not a ready deployment. Configure your own service
 endpoints and email sender domain before using that code.
 
 See [the PreViz integration guide](local/integrations/three-d/README.md) for the existing Blender and Unity routes and their separate acceptance requirements.
+
+## Brand integration and financing
+
+The budget workspace includes an owner-only placement scanner, revision-bound
+creative reviews, draft/signed deals and append-only receipt/refund history. The
+additive `brand_financing_events` table shares `workspace.sqlite`; it never edits
+screenplay records, expense-budget records or canonical admission state.
+Projections use the existing saved budget, preserve unknowns, separate currencies
+and exclude draft cash and brand-paid advertising from production funding.
+See [Brand Integration & Financing](docs/brand-financing.md) for routes, limits,
+financial assumptions, review boundaries and tests.

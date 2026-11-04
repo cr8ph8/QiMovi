@@ -48,5 +48,5 @@ export const brandFinancingApi: BrandApi = {
       !Array.isArray(data.opportunities) || data.approvalGranted !== false) throw new Error('The scan response could not be verified.');
     return data;
   },
-  async command(input) { return verify(await request('/command', input), input.projectId); },
+  async command(input) { const result = verify(await request('/command', input), input.projectId); window.dispatchEvent(new Event('qimovi:brand-financing-changed')); return result; },
 };

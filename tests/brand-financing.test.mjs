@@ -195,5 +195,26 @@ test('HTTP requires owner session and rejects bridge scope, foreign origins and 
     const snapshot = await (await fetch(base, { headers })).json(), source = snapshot.sources[0];
     const scan = await (await fetch(`${base}/scan`, { method: 'POST', headers, body: JSON.stringify({ projectId: f.project.id, sourceId: source.id, sourceFingerprint: source.fingerprint }) })).json();
     assert.equal(scan.opportunities.length, 3);
+    const bridgeHeaders = { cookie: bridge, origin: server.origin, 'content-type': 'application/json' };
+    const request = { projectId: f.project.id, sourceId: source.id, sourceHash: source.sourceHash };
+    const contextResponse = await fetch(`${server.origin}/api/caniscreenwrite/brand-context`, { method: 'POST', headers: bridgeHeaders, body: JSON.stringify(request) });
+    assert.equal(contextResponse.status, 200); assert.equal((await contextResponse.json()).readOnly, true);
+    assert.equal((await fetch(`${base}/command`, { method: 'POST', headers: bridgeHeaders, body: '{}' })).status, 403);
+    assert.equal((await fetch(`${server.origin}/api/caniscreenwrite/brand-context`, { method: 'POST', headers: bridgeHeaders, body: JSON.stringify({ ...request, sourceHash: 'f'.repeat(64) }) })).status, 409);
+    assert.equal((await fetch(`${server.origin}/api/caniscreenwrite/brand-context?all=true`, { method: 'POST', headers: bridgeHeaders, body: JSON.stringify(request) })).status, 403);
   } finally { await server.close(); }
+});
+
+test('source-bound writer context omits financial evidence and never mutates the ledger', t => {
+  const f = setup(t), deal = f.deal(); f.add(deal); f.sign(deal.id); f.payment(deal.id);
+  const before = f.service.load(), input = { projectId: f.project.id, sourceId: f.draft.id, sourceHash: f.source().sourceHash };
+  const context = f.service.context(input);
+  assert.equal(context.readOnly, true); assert.equal(context.approvalGranted, false); assert.equal(context.totalsScope, 'PROJECT_NOT_DRAFT');
+  assert.equal(context.reviews.length, 1); assert.equal(context.deals.length, 1); assert.equal(context.totals[0].signedCash, '40');
+  const serialized = JSON.stringify(context);
+  for (const field of ['contractEvidence', 'externalId', 'payments', 'events', 'budgetHash']) assert.equal(serialized.includes(`"${field}"`), false);
+  assert.equal(f.service.load().headHash, before.headHash);
+  assert.throws(() => f.service.context({ ...input, projectId: 'other' }), /BRAND_PROJECT_MISMATCH/);
+  assert.throws(() => f.service.context({ ...input, sourceHash: 'f'.repeat(64) }), /BRAND_SOURCE_CHANGED/);
+  assert.throws(() => f.service.context({ ...input, includeEvidence: true }), /BRAND_FIELDS_INVALID/);
 });

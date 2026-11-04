@@ -166,5 +166,24 @@ export function createBrandFinancingService(store, { budgetService, actorId, now
     } catch (error) { if (db.isTransaction) db.exec('ROLLBACK'); throw error; }
     return { ...load(), replayed };
   }
-  return { load, scan, command };
+  function context(input) {
+    shape(input, ['projectId', 'sourceId', 'sourceHash']);
+    need(input.projectId === store.project().id, 'BRAND_PROJECT_MISMATCH', 409);
+    const source = sources().find(row => row.id === input.sourceId);
+    need(source && source.sourceHash === input.sourceHash, 'BRAND_SOURCE_CHANGED', 409);
+    const snapshot = load();
+    const reviews = snapshot.reviews.filter(row => row.opportunity.source.id === source.id).map(row => ({
+      id: row.opportunity.id, heading: row.opportunity.heading, category: row.opportunity.category,
+      quote: row.opportunity.quote, context: row.opportunity.context, start: row.opportunity.start, end: row.opportunity.end,
+      productionSceneId: row.opportunity.productionSceneId, decision: row.decision, reason: row.reason, stale: row.stale,
+    }));
+    const ids = new Set(reviews.map(row => row.id));
+    return { schemaVersion: 'qimovi-brand-context/v1', projectId: snapshot.projectId, source,
+      ledgerVersion: snapshot.version, reviews,
+      deals: snapshot.deals.filter(row => ids.has(row.opportunityId)).map(row => ({ id: row.id, opportunityId: row.opportunityId,
+        sponsor: row.sponsor, status: row.status, currency: row.currency, cash: row.cash })),
+      totals: snapshot.totals, totalsScope: 'PROJECT_NOT_DRAFT',
+      readOnly: true, authority: 'OWNER_RECORDED_PLANNING_ONLY', externalVerification: false, approvalGranted: false };
+  }
+  return { load, scan, command, context };
 }

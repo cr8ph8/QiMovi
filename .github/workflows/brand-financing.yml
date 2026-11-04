@@ -1,18 +1,14 @@
 name: QiMovi workspace checks
-
 on:
   push:
-    branches: [main, feat/brand-financing-mvp]
+    branches: [main, feat/brand-financing-mvp, feat/cross-app-brand-workflow]
   pull_request:
     branches: [main]
-
 permissions:
   contents: read
-
 concurrency:
   group: workspace-checks-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -21,8 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Retain exact public source snapshot for reproducibility
-        run: git archive --format=tar.gz HEAD > source-snapshot.tar.gz
+      - run: git archive --format=tar.gz HEAD > source-snapshot.tar.gz
       - uses: actions/upload-artifact@v4
         with:
           name: source-snapshot-${{ github.sha }}
@@ -39,3 +34,35 @@ jobs:
       - run: bunx vitest run tests/*.test.ts tests/*.test.tsx --config vite.local.config.ts
       - run: bun run typecheck
       - run: bun run build:local
+  macos-package:
+    needs: validate
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.10.0'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - run: bun install --frozen-lockfile
+      - name: Stage native app without installing or touching workspaces
+        run: QI_STAGE_DIRECTORY="$RUNNER_TEMP/qimovi-stage" bash script/build_and_run.sh --stage-only
+      - name: Verify packaged integration and preserve source identity
+        run: |
+          APP="$RUNNER_TEMP/qimovi-stage/QiMovi.app"
+          codesign --verify --deep --strict "$APP"
+          find "$APP/Contents/Resources" -name brand-scanner.mjs | grep .
+          find "$APP/Contents/Resources" -name brand-financing.mjs | grep .
+          mkdir -p build-artifacts
+          printf 'Source commit: %s\nArchitecture: arm64\nDevelopment ad-hoc signature; not notarized. No private workspace included.\n' "$(git rev-parse HEAD)" > build-artifacts/BUILD.txt
+          ditto -c -k --sequesterRsrc --keepParent "$APP" build-artifacts/QiMovi-macOS-arm64.zip
+          shasum -a 256 build-artifacts/QiMovi-macOS-arm64.zip > build-artifacts/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QiMovi-macOS-arm64-${{ github.sha }}
+          path: build-artifacts/
+          retention-days: 14

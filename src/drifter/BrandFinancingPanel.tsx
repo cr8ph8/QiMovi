@@ -7,7 +7,7 @@ const blankPayment = () => ({ milestone: '', kind: 'receipt', amount: '', extern
 const money = (value: string | null, currency: string) => value === null ? 'Unknown / incomplete budget' : `${value} ${currency}`;
 const errorText = (error: unknown) => error instanceof Error ? error.message : 'Request not confirmed. Your entry is retained.';
 
-export default function BrandFinancingPanel({ projectId, open = true, api = brandFinancingApi }: { projectId: string; open?: boolean; api?: BrandApi }) {
+export default function BrandFinancingPanel({ projectId, open = true, focusRequest = 0, api = brandFinancingApi }: { projectId: string; open?: boolean; focusRequest?: number; api?: BrandApi }) {
   const [expanded, setExpanded] = useState(false), [snapshot, setSnapshot] = useState<BrandSnapshot | null>(null);
   const [scan, setScan] = useState<BrandScan | null>(null), [sourceId, setSourceId] = useState('');
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
@@ -15,6 +15,8 @@ export default function BrandFinancingPanel({ projectId, open = true, api = bran
   const [decision, setDecision] = useState({ dealId: '', action: 'sign', evidence: '', confirmed: false });
   const pending = useRef<BrandCommand | null>(null), active = useRef(true), serial = useRef(0), lock = useRef(false);
   useEffect(() => { active.current = true; return () => { active.current = false; ++serial.current; }; }, []);
+  const details = useRef<HTMLDetailsElement>(null);
+  useEffect(() => { if (focusRequest > 0 && open && details.current) { details.current.open = true; setExpanded(true); details.current.scrollIntoView?.({ block: 'nearest' }); } }, [focusRequest, open]);
   async function refresh() {
     if (lock.current) return;
     lock.current = true; setBusy(true); setError(''); const attempt = ++serial.current;
@@ -57,7 +59,7 @@ export default function BrandFinancingPanel({ projectId, open = true, api = bran
   }
   const blocked = busy || Boolean(pending.current);
   const eligible = snapshot?.reviews.filter(row => row.decision === 'approved' && !row.stale) ?? [];
-  return <details className="brand-financing" onToggle={event => setExpanded(event.currentTarget.open)}>
+  return <details ref={details} className="brand-financing" onToggle={event => setExpanded(event.currentTarget.open)}>
     <summary>Brand Integration &amp; Financing</summary>
     {expanded && <div aria-label="Brand financing workspace" aria-busy={busy}>
       <p>Find natural placements in saved screenplays. Review each opportunity, then track agreements and receipts separately. Nothing here grants legal clearance or changes your screenplay.</p>

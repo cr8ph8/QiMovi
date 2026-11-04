@@ -88,3 +88,9 @@ Read [ARCHITECTURE.md](ARCHITECTURE.md), [SECURITY.md](SECURITY.md), and [CONTRI
 QiMovi's original software code is released under the **MIT License**; see [LICENSE](LICENSE). Third-party components keep their own terms, described in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 **Film assets, screenplays, story worlds, characters, performances, production documents, and QiMovi/Quotient Intelligent names, logos, and branding are reserved and are not licensed under MIT.** Code access grants no rights to those materials. Use your own cleared content and branding for derivative products.
+
+### Brand planning across local apps
+
+The **Brand placements** companion opens financing from creative and production
+workflows. QiScreenwrite adds offline placement review and an exact-revision,
+read-only financing bridge. See [the paired workflow and installation boundaries](docs/cross-app-brand-planning.md).

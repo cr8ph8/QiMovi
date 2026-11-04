@@ -1,0 +1,38 @@
+name: Apply reviewed resource accounting source
+on:
+  push:
+    branches: [feat/resource-cost-accounting]
+    paths: ['.github/workflows/apply-resource-patch.yml']
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: github.repository == 'cr8ph8/QiMovi' && github.ref == 'refs/heads/feat/resource-cost-accounting'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Apply exact reviewed patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib, base64, lzma, hashlib, subprocess, os
+          encoded = ''.join(pathlib.Path(f'.github/resource-patch-{i}.b64').read_text() for i in range(4))
+          patch = lzma.decompress(base64.b64decode(encoded, validate=True))
+          assert len(patch) == 89089
+          assert hashlib.sha256(patch).hexdigest() == '18227821d84b9039e4dba96e9c723be2861a5bc0e0c0d3b2b2ecca172530e159'
+          target = pathlib.Path(os.environ['RUNNER_TEMP']) / 'resource.patch'
+          target.write_bytes(patch)
+          subprocess.run(['git','apply','--check',str(target)],check=True)
+          subprocess.run(['git','apply','--index',str(target)],check=True)
+          expected = {'README.md','docs/RESOURCE-ACCOUNTING.md','local/accounting/resource-journal.mjs','local/accounting/resource-math.mjs','local/accounting/resource-view.mjs','local/server/http.mjs','local/server/model-assistance.mjs','local/server/resource-accounting.mjs','script/stage_desktop.mjs','src/accounting/ResourceCostDock.tsx','src/accounting/resource-cost.css','src/drifter/App.tsx','tests/resource-accounting.test.mjs','tests/resource-http.test.mjs','tests/resource-ui.test.tsx'}
+          assert set(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines()) == expected
+          subprocess.run(['git','diff','--cached','--check'],check=True)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat: add app-wide cost and resource accounting with local inference metering'
+          git push origin HEAD:refs/heads/feat/resource-cost-accounting

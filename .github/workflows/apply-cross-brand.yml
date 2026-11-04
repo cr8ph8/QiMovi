@@ -28,7 +28,7 @@ jobs:
           target = pathlib.Path(os.environ['RUNNER_TEMP']) / 'cross-brand.patch'
           target.write_bytes(patch)
           subprocess.run(['git','apply','--check',str(target)],check=True)
-          subprocess.run(['git','apply','--index',str(target)],check=True)
+          subprocess.run(['git','apply','--index','--whitespace=fix',str(target)],check=True)
           assert set(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines()) == expected
           subprocess.run(['git','diff','--cached','--check'],check=True)
           PY

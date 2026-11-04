@@ -19,11 +19,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
+          fetch-depth: 2
       - name: Apply hash-verified source patch to feature branch only
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = '148b589924d9e24ded29316df923927ef8d178dd'
+          test "$(git rev-parse HEAD^)" = '728d81f1dee11dfc281326cea30a4b832fb01cd6'
           python3 - <<'PY'
           import base64, gzip, hashlib, os, pathlib, subprocess
           expected = {

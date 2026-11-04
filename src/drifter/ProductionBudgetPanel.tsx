@@ -55,10 +55,10 @@ function Total({ total }: { total: BudgetTotals }) {
   </tr>;
 }
 
-export default function ProductionBudgetPanel({ project, records = [], open = true, onSaved, onDirtyChange, focusRequest, onOpenTarget, api = productionBudgetApi }: {
+export default function ProductionBudgetPanel({ project, records = [], open = true, onSaved, onDirtyChange, focusRequest, brandFocusRequest, onOpenTarget, api = productionBudgetApi }: {
   project: WorkspaceProject; records?: WorkspaceRecord[]; open?: boolean; onSaved?: (record: WorkspaceRecord) => void;
   onDirtyChange?: (dirty: boolean) => void; api?: ProductionBudgetApi;
-  focusRequest?: BudgetFocusRequest;
+  focusRequest?: BudgetFocusRequest; brandFocusRequest?: number;
   onOpenTarget?: (target: BudgetTarget) => void;
 }) {
   const scope = `${project.id}:${project.sourceHash}`;
@@ -425,7 +425,7 @@ export default function ProductionBudgetPanel({ project, records = [], open = tr
   return <section className="production-budget" hidden={!open} aria-label="Production budget" aria-busy={Boolean(busy)}>
     <div className="budget-heading"><div><span className="budget-eyebrow">Planning & cost analysis</span><h3>Budget & production planning</h3><p>{project.title} · {project.sourceHash === null ? 'Project without a screenplay' : 'Current screenplay source'}</p></div><details className="budget-tools"><summary>Budget tools & exports</summary><div className="budget-actions"><button disabled={Boolean(busy)} onClick={() => void refresh()}>{busy === 'load' ? 'Reading…' : 'Refresh inventory'}</button><button disabled={!view || Boolean(busy) || readingReference} onClick={() => { setScopeOpen(true); chooseTab('lines'); }}>{busy === 'generate' ? 'Generating…' : 'Generate missing lines'}</button><button disabled={!view || Boolean(busy)} onClick={() => exportBudget('json')}>Export JSON</button><button disabled={!view || Boolean(busy)} onClick={() => exportBudget('csv')}>Export CSV</button></div><p>Generate unpriced lines from saved project work. Exports include the current draft; entered forms must first be added to it.</p></details></div>
     <p className="budget-scope">Turn story requirements into department work, a sourced estimate and actual costs. Currencies and provider credits stay separate; saving does not authorize spending.</p>
-    <BrandFinancingPanel key={scope} projectId={project.id} open={open}/>
+    <BrandFinancingPanel key={scope} projectId={project.id} open={open} focusRequest={brandFocusRequest}/>
     {focusTargetId && <div className="budget-focus" role="status"><div><strong>{focusedTargetMissing ? 'Linked budget target needs review' : `Budget for ${targetMap.get(focusTargetId)?.label ?? 'linked work'}`}</strong><span>{focusedTargetMissing ? 'This target is not in the loaded inventory. Refresh to check its saved requirements; your draft and entered fields are retained.' : 'Lists include this target and its descendants. The summary remains the whole project.'}</span></div>{focusedTargetMissing && <button type="button" disabled={Boolean(busy)} onClick={() => void refresh()}>Refresh linked budget inventory</button>}<button type="button" onClick={() => setFocusTargetId('')}>Clear budget focus</button></div>}
     {error && <p role="alert" className="budget-error">{error}</p>}{notice && <p role="status" className="budget-notice">{notice}</p>}
     {newerSaved && <div className="budget-conflict"><p>Saved version {newerSaved.record?.version ?? 'new'} is available. Use Export JSON in Budget tools & exports to keep a copy of this draft before replacing it.</p><button type="button" disabled={Boolean(busy)} onClick={loadNewerSaved}>Discard my budget draft and load saved version</button></div>}

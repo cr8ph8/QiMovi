@@ -1,3 +1,4 @@
+import BrandWorkflowPanel from './BrandWorkflowPanel';
 import { STORYBOARD_FRAME_ROLE } from './filmmakingLanguage';
 import ProductionBudgetPanel from './ProductionBudgetPanel';
 import type { BudgetFocusRequest, BudgetWorkRequest } from './budgetNavigation';
@@ -64,6 +65,7 @@ export default function App({ api = workspaceApi }: { api?: WorkspaceApi }) {
   const [budgetFocus, setBudgetFocus] = useState<BudgetFocusRequest>();
   const [budgetWorkRequest, setBudgetWorkRequest] = useState<BudgetWorkRequest>();
   const budgetNonce = useRef(0);
+  const [brandFocus, setBrandFocus] = useState(0);
   const openBudget = (targetId?: string) => {
     if (boot) setBudgetFocus({ nonce: ++budgetNonce.current, projectId: boot.project.id, sourceHash: boot.project.sourceHash, ...(targetId ? { targetId } : {}) });
     setBudgetStarted(true); setBudgetOpen(true);
@@ -388,6 +390,10 @@ export default function App({ api = workspaceApi }: { api?: WorkspaceApi }) {
     <div className="session-preserved-workspace" hidden={needsSession}>
     {project.creativeOrigin && <nav className="production-writing-link" aria-label="Production screenplay connection"><span>Production copy · screenplay v{project.productionDraftRef?.version} · plan v{project.productionPlanRef?.version}</span><button onClick={() => openCreativeAuthoring('write')}>Writing & development{creativeDirty ? ' · unsaved work' : ''}</button><button onClick={() => { setCreativeAreaRequest(previous => ({ area: 'scene-plan', nonce: (previous?.nonce ?? 0) + 1 })); setCreativeOpen(true); }}>Scene & shot plan</button></nav>}
     <StudioHeader onPhone={() => setPhoneOpen(true)} production onEditors={() => openAuthoring('nodes', true)} onCasting={() => openCasting()} onTakes={() => openTakes(scene.id)} onDocuments={openDocuments} onChooseContext={() => openNodeContext()} onBudget={() => openBudget()} hidden={screenwritingOpen} projectTitle={project.title} mode="scenes" busy={loading || Boolean(loadError)} dirty={studioDirty} unsavedAreas={studioDraftStatus?.areas.map(area => ({ ...area, onOpen: () => resumeWorkbenchDraft(area.id) }))} writingDirty={Boolean(assistantWriting?.dirty)} onMode={openAuthoring} onProduction={() => openAuthoring('nodes', false, 'storyboard')} onDcc={() => navigateWorkflow('cameras')} onGeneration={() => navigateWorkflow('generation')} onAssistant={() => { setConnectionsOpen(false); setAssistantOpen(value => !value); }} onModels={() => { setAssistantOpen(false); setConnectionsOpen(true); }} onRefresh={() => void reload()}/>
+    <BrandWorkflowPanel projectId={project.id} sceneId={screenwritingOpen ? undefined : scene.id}
+      active={!needsSession && !budgetOpen && !(creativeBoot && creativeOpen)} stage={documentsOpen ? 'Delivery & documents' : screenwritingOpen ? 'Writing & editorial' : dccOpen ? 'Cameras & rehearsal' : dreaminaOpen ? 'Production preparation' : 'Production'}
+      revisionKey={boot.records.filter(row => ['screenplay-draft', 'production-budget'].includes(row.kind)).map(row => row.sha256).join(':')}
+      onOpenFinance={() => { setBrandFocus(value => value + 1); openBudget(); }}/>
     <div className="studio-layout" aria-hidden={screenwritingOpen || undefined}>
       <aside className="scene-rail"><div className="rail-heading"><span className="eyebrow">THE FILM</span><span>{project.scenes.length} scenes</span></div><nav aria-label="Scenes">{project.scenes.map(item => {
         const image = project.cells.find(cell => cell.sceneId === item.id && cell.imageHash);
@@ -422,7 +428,7 @@ export default function App({ api = workspaceApi }: { api?: WorkspaceApi }) {
     {documentsOpen && <DocumentsPanel key={`documents:${project.id}:${project.sourceHash}`} project={project} api={api} onClose={() => { setDocumentsOpen(false); if (documentsReturnToWorkbench) setScreenwritingOpen(true); setDocumentsReturnToWorkbench(false); }} onSaved={() => void reload()}/>}
     {budgetStarted && <section className="production-budget-drawer" hidden={!budgetOpen} aria-label="Project budget workspace">
       <header className="production-budget-drawer-heading"><h2>Project budget</h2><button onClick={() => setBudgetOpen(false)} aria-label="Close project budget">Close{budgetDirty ? ' · draft kept' : ''}</button></header>
-      <ProductionBudgetPanel key={`${project.id}:${project.sourceHash}`} project={project} records={boot.records} open={budgetOpen} focusRequest={budgetFocus} onOpenTarget={target => {
+      <ProductionBudgetPanel key={`${project.id}:${project.sourceHash}`} project={project} records={boot.records} open={budgetOpen} brandFocusRequest={brandFocus} focusRequest={budgetFocus} onOpenTarget={target => {
         setBudgetWorkRequest({ nonce: ++budgetNonce.current, projectId: project.id, sourceHash: project.sourceHash, target });
         setBudgetOpen(false); setScreenwritingStarted(true); setScreenwritingOpen(true);
       }} onSaved={retainRecord} onDirtyChange={setBudgetDirty}/>

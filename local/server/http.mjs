@@ -153,7 +153,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
           const bridgeToken = crypto.randomBytes(32).toString('hex');
           caniscreenwriteSessions.clear();
           caniscreenwriteSessions.set(sha256(bridgeToken), now + sessionLifetimeMs);
-          return json(res, 200, { authenticated: true, actor: config.ownerActorId, protocol: 'caniscreenwrite-bridge/v1', capabilities: ['universe-drafts/v1'] }, {
+          return json(res, 200, { authenticated: true, actor: config.ownerActorId, protocol: 'caniscreenwrite-bridge/v1', capabilities: ['universe-drafts/v1', 'brand-context/v1'] }, {
             'Set-Cookie': `caniscreenwrite_bridge=${bridgeToken}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${Math.floor(sessionLifetimeMs / 1000)}`,
           });
         }
@@ -188,7 +188,8 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
             const projectAssetId = /^project-asset:[a-f0-9]{64}$/.test(recordId);
             // CanIScreenwrite universe drafts v1: namespaced authoring only.
             const universeId = /^universe-(?:entity|claim|link):csw:[a-f0-9]{32}:[A-Za-z0-9._:-]+$/.test(recordId) && recordId.length <= 140;
-            const allowed = noQuery && req.method === 'GET' && url.pathname === '/api/bootstrap'
+            const allowed = noQuery && req.method === 'POST' && url.pathname === '/api/caniscreenwrite/brand-context'
+              || noQuery && req.method === 'GET' && url.pathname === '/api/bootstrap'
               || req.method === 'GET' && url.pathname === '/api/records' && recordKindQuery
               || noQuery && req.method === 'GET' && recordMatch?.[2] === '/history' && (draftId || projectAssetId)
               || noQuery && req.method === 'PUT' && recordMatch && !recordMatch[2] && (draftId || universeId)
@@ -212,6 +213,11 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
             if (url.pathname === '/api/phone/preview' && req.method === 'POST') return json(res, 200, phoneHandoff.preview(await body(req, 2 * 1024 * 1024)));
             if (url.pathname === '/api/phone/apply' && req.method === 'POST') return json(res, 200, phoneHandoff.apply(await body(req, 2 * 1024 * 1024)));
             throw new PilotError('PHONE_HANDOFF_ROUTE_NOT_FOUND', 404);
+          }
+          if (url.pathname === '/api/caniscreenwrite/brand-context' && req.method === 'POST') {
+            check([...url.searchParams].length === 0, 'BRAND_QUERY_REJECTED', 422);
+            try { return json(res, 200, brandFinancing.context(await body(req, 4096))); }
+            catch (error) { throw new PilotError(error.code?.startsWith('BRAND_') ? error.code : 'BRAND_REQUEST_REJECTED', [409, 413, 415, 422].includes(error.status) ? error.status : 422); }
           }
           if (url.pathname === '/api/brand-financing' || url.pathname.startsWith('/api/brand-financing/')) {
             try {

@@ -1,3 +1,4 @@
+import BrandWorkflowPanel from './BrandWorkflowPanel';
 import ProjectLibraryPanel from './ProjectLibraryPanel';
 import ProjectStoryBiblePanel from './ProjectStoryBiblePanel';
 import OpenCreatorFinishing from './OpenCreatorFinishing';
@@ -64,6 +65,7 @@ export default function CreativeProjectWorkspace({ project, records, api, onSave
   loading?: boolean; error?: string | null; open?: boolean; toolsApi?: HiggsfieldToolsApi; mediaApi?: StudioMediaApi; onPhone?: () => void;
 }) {
   const effectiveProject = attachedProject ?? project;
+  const [brandFocus, setBrandFocus] = useState(0);
   const [area,setArea] = useState<Area>('develop');
   const [writingGuideOpen, setWritingGuideOpen] = useState(false);
   const [phaseMenu, setPhaseMenu] = useState<string | null>(null);
@@ -157,6 +159,10 @@ export default function CreativeProjectWorkspace({ project, records, api, onSave
     {dirty && <nav className="creative-project-unsaved" aria-label="Unsaved work"><span>Open work</span>{unfinished.map(item => <button key={item.area} aria-current={area === item.area ? 'page' : undefined} onClick={() => openArea(item.area)}>{item.label} · unsaved</button>)}</nav>}
     {error && <div className="creative-project-error" role="alert"><p>{error}</p><button disabled={loading} onClick={onRefresh}>Reconnect local workspace</button></div>}
     <section className="creative-project-content">
+      <BrandWorkflowPanel projectId={project.id} active={open && area !== 'budget'} stage={activePhase}
+        revisionKey={records.filter(row => ['screenplay-draft', 'production-budget'].includes(row.kind)).map(row => row.sha256).join(':')}
+        onOpenFinance={() => { setBrandFocus(value => value + 1); openBudget(); }}/>
+
       <div className="creative-project-orientation" aria-label="Current workspace">
         <div><span className="creative-project-area-label">Current tool</span><strong>{selectedTool.label}</strong><p>{context.description}</p></div>
         <button type="button" onClick={() => openArea(context.next)}>{context.action}<ArrowRight size={14} aria-hidden="true"/></button>
@@ -169,7 +175,7 @@ export default function CreativeProjectWorkspace({ project, records, api, onSave
       <ProjectLibraryPanel project={effectiveProject} records={records} open={open && area === 'library'} onReadLore={() => openArea('develop')} onSaved={onSaved} onDirty={setLibraryDirty} onOpenBudget={openBudget}/>
       <ProjectStoryBiblePanel key={`bible:${project.id}`} project={effectiveProject} developmentProject={project} records={records} api={api} open={open && area === 'bible'} disabled={Boolean(error)} entityRequest={bibleEntryRequest} onSaved={onSaved} onDirty={setBibleDirty} onOpenSources={() => openArea('library')} onOpenBudget={openBudget} onDevelop={draft => { setDevelopmentRequest({ token: crypto.randomUUID(), draft }); openArea('develop'); }}/>
       <CreativeDevelopmentPanel requestedDraft={developmentRequest} onOpenSource={openBibleSource} requestedKind={areaRequest?.developmentKind} key={`develop:${project.id}`} project={project} records={records} api={api} open={open && area === 'develop'} disabled={Boolean(error)} onSaved={onSaved} onDirty={setDevelopmentDirty} onWrite={content => { setWritingRequest({ ...content, nonce: crypto.randomUUID(), projectId: project.id }); openArea('write'); }}/>
-      <ProductionBudgetPanel key={`budget:${project.id}`} project={effectiveProject} records={records} open={open && area === 'budget'} onSaved={onSaved} onDirtyChange={setBudgetDirty} focusRequest={budgetFocusRequest}/>
+      <ProductionBudgetPanel key={`budget:${project.id}`} project={effectiveProject} records={records} open={open && area === 'budget'} onSaved={onSaved} onDirtyChange={setBudgetDirty} focusRequest={budgetFocusRequest} brandFocusRequest={brandFocus}/>
       <div hidden={area !== 'pipeline'}>
         <div className="creative-project-section-heading"><h2>One project, from idea to delivery</h2><p>Develop the story, prepare generation inputs and review retained media. Your production roadmap stays with the project throughout.</p></div>
         <nav className="creative-project-journey" aria-label="Continue project work">

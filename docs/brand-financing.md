@@ -59,3 +59,10 @@ bun run build:local
 ```
 
 Coverage includes exact evidence ranges, scanner purity and notes, stale source/budget handling, CAS/replay, read-only rejection, unsigned funding exclusion, in-kind caps, duplicate receipts, bounded refunds, cancellation, currency separation, exact decimals, unknown budgets, SQLite immutability, tamper detection, backup/restore and HTTP owner/origin/capability boundaries. UI tests cover explicit review, exact retries, stale choices, payment payloads and authority checks.
+
+## Cross-workflow and writer access
+
+See [local brand planning across both apps](cross-app-brand-planning.md).
+The desktop companion exposes saved context across creative and production phases.
+QiScreenwrite can scan and review locally, then read a source-bound summary through
+the scoped bridge. All financial writes remain owner-only in QiMovi.

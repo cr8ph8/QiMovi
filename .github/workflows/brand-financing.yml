@@ -36,5 +36,6 @@ jobs:
           bun-version: '1.4.0'
       - run: bun install --frozen-lockfile
       - run: node --test tests/*.test.mjs
+      - run: bunx vitest run tests/brand-financing-ui.test.tsx --config vite.local.config.ts
       - run: bun run typecheck
       - run: bun run build:local

@@ -1,0 +1,30 @@
+.qi-discovery-dock { position: fixed; bottom: 12px; left: 16px; z-index: 45; font: 14px/1.5 system-ui, sans-serif; }
+.qi-discovery-dock > button, .qi-discovery-dialog button {
+  padding: .4rem .7rem; border: 1px solid #667790; border-radius: .4rem;
+  background: #26344b; color: #fff; cursor: pointer;
+}
+.qi-discovery-dialog button:disabled { opacity: .55; cursor: default; }
+.qi-discovery-dialog {
+  width: min(56rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); overflow: auto;
+  margin: auto; padding: 1rem; border: 1px solid #667790; border-radius: .75rem;
+  background: #141c2b; color: #f1f5ff; font: 14px/1.5 system-ui, sans-serif; color-scheme: dark;
+}
+.qi-discovery-dialog::backdrop { background: #080d18bb; }
+.qi-discovery-dialog header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.qi-discovery-dialog h2 { font-size: 1.45rem; font-weight: 700; }
+.qi-discovery-dialog h3, .qi-discovery-dialog h4, .qi-discovery-dialog legend { font-weight: 650; margin: .5rem 0; }
+.qi-discovery-dialog p, .qi-discovery-dialog dl, .qi-discovery-dialog form, .qi-discovery-dialog details { margin: .55rem 0; }
+.qi-discovery-dialog section, .qi-discovery-dialog fieldset { min-width: 0; margin: .7rem 0; padding: .65rem; border: 1px solid #465774; border-radius: .5rem; }
+.qi-discovery-dialog label { display: grid; gap: .25rem; margin: .5rem 0; }
+.qi-discovery-dialog .qi-discovery-confirm { display: flex; align-items: start; }
+.qi-discovery-dialog .qi-discovery-confirm input { margin-top: .25rem; }
+.qi-discovery-dialog select, .qi-discovery-dialog textarea { width: 100%; padding: .35rem; border: 1px solid #667790; background: #1c283e; }
+.qi-discovery-dialog table { width: 100%; border-collapse: collapse; text-align: left; }
+.qi-discovery-dialog caption { text-align: left; }
+.qi-discovery-dialog td, .qi-discovery-dialog th { border-bottom: 1px solid #465774; padding: .3rem; }
+.qi-discovery-dialog ol, .qi-discovery-dialog ul { padding-left: 1.35rem; }
+.qi-discovery-dialog ol { list-style: decimal; }
+.qi-discovery-dialog ul { list-style: disc; }
+.qi-discovery-dialog li + li { margin-top: .3rem; }
+.qi-discovery-dialog dd { overflow-wrap: anywhere; color: #ccd7ee; }
+.qi-discovery-rankings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: .65rem; }

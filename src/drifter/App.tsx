@@ -1,3 +1,4 @@
+import DiscoveryDock from './DiscoveryLab';
 import ResourceCostDock from '../accounting/ResourceCostDock';
 import BrandWorkflowPanel from './BrandWorkflowPanel';
 import { STORYBOARD_FRAME_ROLE } from './filmmakingLanguage';
@@ -220,6 +221,7 @@ export default function App({ api = workspaceApi }: { api?: WorkspaceApi }) {
   }
   const phoneProject = boot?.project ?? creativeBoot?.project;
   const costSurface = phoneProject && !needsSession ? <ResourceCostDock key={phoneProject.id} projectId={phoneProject.id} app="qimovi"/> : null;
+  const discoverySurface = phoneProject && !needsSession ? <DiscoveryDock key={phoneProject.id} projectId={phoneProject.id}/> : null;
   const phoneSurface = phoneProject ? <PhoneHandoffPanel key={`${phoneProject.id}:${phoneProject.sourceHash ?? 'creative'}`} project={phoneProject} open={phoneOpen && !needsSession} dirty={creativeDirty || Boolean(workbenchDraftStatus?.dirty) || Boolean(Object.keys(drafts).length) || Boolean(Object.keys(castingDrafts).length) || budgetDirty} onClose={() => setPhoneOpen(false)} onSaved={record => {
     const retain = (rows: WorkspaceRecord[]) => rows.some(item => item.id === record.id && item.version >= record.version) ? rows : [...rows.filter(item => item.id !== record.id), record];
     setCreativeBoot(previous => previous ? { ...previous, records: retain(previous.records) } : previous);
@@ -234,7 +236,7 @@ export default function App({ api = workspaceApi }: { api?: WorkspaceApi }) {
     setCreativeBoot(previous => previous ? { ...previous, records: retain(previous.records) } : previous);
     setBoot(previous => previous ? { ...previous, records: retain(previous.records) } : previous);
   }}/></div> : null;
-  if (creativeBoot && !boot) return <>{creativeSurface}{phoneSurface}{costSurface}{needsSession && <SessionRecovery loading={loading} error={loadError} token={token} onToken={setToken} onSubmit={login} onRetry={() => void reload()}/>}</>;
+  if (creativeBoot && !boot) return <>{creativeSurface}{phoneSurface}{costSurface}{discoverySurface}{needsSession && <SessionRecovery loading={loading} error={loadError} token={token} onToken={setToken} onSubmit={login} onRetry={() => void reload()}/>}</>;
 
   if (needsSession && !project) return <SessionRecovery loading={loading} error={loadError} token={token} onToken={setToken} onSubmit={login} onRetry={() => void reload()}/>;
 
@@ -388,7 +390,7 @@ export default function App({ api = workspaceApi }: { api?: WorkspaceApi }) {
   const sourceParagraphs = (project.prologue?.length ?? 0) + project.scenes.reduce((sum, item) => sum + item.paragraphs.length, 0);
   const observations = boot.records.filter(record => record.kind === 'review-observation');
   const sourceAdmitted = (boot.canonical?.sourceStatus ?? project.sourceStatus) === 'ADMITTED';
-  return <>{creativeSurface}{phoneSurface}{costSurface}<div hidden={Boolean(creativeBoot && creativeOpen)} className="drifter-studio" data-unsaved={studioDirty ? 'true' : 'false'}>
+  return <>{creativeSurface}{phoneSurface}{costSurface}{discoverySurface}<div hidden={Boolean(creativeBoot && creativeOpen)} className="drifter-studio" data-unsaved={studioDirty ? 'true' : 'false'}>
     <div className="session-preserved-workspace" hidden={needsSession}>
     {project.creativeOrigin && <nav className="production-writing-link" aria-label="Production screenplay connection"><span>Production copy · screenplay v{project.productionDraftRef?.version} · plan v{project.productionPlanRef?.version}</span><button onClick={() => openCreativeAuthoring('write')}>Writing & development{creativeDirty ? ' · unsaved work' : ''}</button><button onClick={() => { setCreativeAreaRequest(previous => ({ area: 'scene-plan', nonce: (previous?.nonce ?? 0) + 1 })); setCreativeOpen(true); }}>Scene & shot plan</button></nav>}
     <StudioHeader onPhone={() => setPhoneOpen(true)} production onEditors={() => openAuthoring('nodes', true)} onCasting={() => openCasting()} onTakes={() => openTakes(scene.id)} onDocuments={openDocuments} onChooseContext={() => openNodeContext()} onBudget={() => openBudget()} hidden={screenwritingOpen} projectTitle={project.title} mode="scenes" busy={loading || Boolean(loadError)} dirty={studioDirty} unsavedAreas={studioDraftStatus?.areas.map(area => ({ ...area, onOpen: () => resumeWorkbenchDraft(area.id) }))} writingDirty={Boolean(assistantWriting?.dirty)} onMode={openAuthoring} onProduction={() => openAuthoring('nodes', false, 'storyboard')} onDcc={() => navigateWorkflow('cameras')} onGeneration={() => navigateWorkflow('generation')} onAssistant={() => { setConnectionsOpen(false); setAssistantOpen(value => !value); }} onModels={() => { setAssistantOpen(false); setConnectionsOpen(true); }} onRefresh={() => void reload()}/>

@@ -82,7 +82,7 @@ export class ResourceJournal {
     if (!pathname.startsWith('/api/') || /^\/api\/(?:resource-accounting|session|health|bootstrap|security)(?:\/|$)/.test(pathname)) return;
     if (['GET', 'HEAD'].includes(req.method) && !/\/(?:export|backup|download)(?:\/|$)/.test(pathname)) return;
     const category = pathname.split('/')[2];
-    const family = /^(?:records|brands|brand-financing|creative-services|model-assistance|studio|higgsfield|dcc|blender|resolve|opencreator|media-takes|storyboard|production-budget|usage-accounting|project-library|caniscreenwrite|connectors|pocket-exchange|phone|phone-previz|writing-production|production-attachment|legacy-production-revision|writing-recovery|recovery|development-recovery|rights|preservation|preservation-integrity|asset-token|comic-packages|node-workflow|admission)$/.test(category) ? category : 'other';
+    const family = /^(?:records|brands|brand-financing|creative-services|model-assistance|studio|higgsfield|dcc|blender|resolve|opencreator|media-takes|storyboard|production-budget|usage-accounting|project-library|caniscreenwrite|connectors|pocket-exchange|phone|phone-previz|writing-production|production-attachment|legacy-production-revision|writing-recovery|recovery|development-recovery|rights|preservation|preservation-integrity|asset-token|comic-packages|node-workflow|discovery|admission)$/.test(category) ? category : 'other';
     const id = crypto.randomUUID(), start = performance.now();
     try { this.append(`http:${id}:start`, 'http-start', { id, family, method: req.method }); }
     catch { this.degraded = true; return; } // Authored saves remain usable if diagnostics fill up.

@@ -7,12 +7,18 @@ const blankPayment = () => ({ milestone: '', kind: 'receipt', amount: '', extern
 const money = (value: string | null, currency: string) => value === null ? 'Unknown / incomplete budget' : `${value} ${currency}`;
 const errorText = (error: unknown) => error instanceof Error ? error.message : 'Request not confirmed. Your entry is retained.';
 
-export default function BrandFinancingPanel({ projectId, open = true, focusRequest = 0, api = brandFinancingApi }: { projectId: string; open?: boolean; focusRequest?: number; api?: BrandApi }) {
+type Props = { projectId: string; open?: boolean; focusRequest?: number; api?: BrandApi };
+export default function BrandFinancingPanel(props: Props) {
+  return <BrandFinancingWorkspace key={props.projectId} {...props}/>;
+}
+
+function BrandFinancingWorkspace({ projectId, open = true, focusRequest = 0, api = brandFinancingApi }: Props) {
   const [expanded, setExpanded] = useState(false), [snapshot, setSnapshot] = useState<BrandSnapshot | null>(null);
   const [scan, setScan] = useState<BrandScan | null>(null), [sourceId, setSourceId] = useState('');
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
   const [reason, setReason] = useState(''), [deal, setDeal] = useState(blankDeal), [payment, setPayment] = useState(blankPayment);
   const [decision, setDecision] = useState({ dealId: '', action: 'sign', evidence: '', confirmed: false });
+  const pendingSuccess = useRef<(() => void) | undefined>(undefined);
   const pending = useRef<BrandCommand | null>(null), active = useRef(true), serial = useRef(0), lock = useRef(false);
   useEffect(() => { active.current = true; return () => { active.current = false; ++serial.current; }; }, []);
   const details = useRef<HTMLDetailsElement>(null);
@@ -24,7 +30,7 @@ export default function BrandFinancingPanel({ projectId, open = true, focusReque
       const result = await api.load(projectId);
       if (!active.current || attempt !== serial.current) return;
       setSnapshot(result); setSourceId(current => result.sources.some(source => source.id === current) ? current : result.sources[0]?.id ?? '');
-      pending.current = null; setScan(null); setNotice('Saved ledger refreshed. Unsaved form entries are retained.');
+      pending.current = null; pendingSuccess.current = undefined; setScan(null); setNotice('Saved ledger refreshed. Unsaved form entries are retained.');
     } catch (e) { if (active.current) setError(errorText(e)); }
     finally { lock.current = false; if (active.current) setBusy(false); }
   }
@@ -39,15 +45,17 @@ export default function BrandFinancingPanel({ projectId, open = true, focusReque
   async function submit(action: string, data: unknown, onSuccess?: () => void) {
     if (!snapshot || lock.current || pending.current) return;
     pending.current = { projectId, expectedVersion: snapshot.version, requestId: crypto.randomUUID(), action, data };
-    await send(onSuccess);
+    pendingSuccess.current = onSuccess;
+    await send();
   }
-  async function send(onSuccess?: () => void) {
+  async function send() {
     const request = pending.current; if (!request || lock.current) return;
     lock.current = true; setBusy(true); setError('');
     try {
       const result = await api.command(request);
       if (!active.current) return;
-      pending.current = null; setSnapshot(result); setNotice(`Saved ${request.action} event. This does not authorize production, rights, or spending.`); onSuccess?.();
+      const onSuccess = pendingSuccess.current;
+      pending.current = null; pendingSuccess.current = undefined; setSnapshot(result); setNotice(`Saved ${request.action} event. This does not authorize production, rights, or spending.`); onSuccess?.();
     } catch (e) { if (active.current) setError(errorText(e)); }
     finally { lock.current = false; if (active.current) setBusy(false); }
   }
@@ -110,17 +118,17 @@ export default function BrandFinancingPanel({ projectId, open = true, focusReque
         <form onSubmit={event => { event.preventDefault(); void submit(decision.action, { dealId: decision.dealId, evidence: decision.evidence, confirmed: decision.confirmed }, () => setDecision({ dealId: '', action: 'sign', evidence: '', confirmed: false })); }}><fieldset disabled={blocked}><legend>Owner-confirmed agreement status</legend><div className="brand-grid">
           <label>Agreement<select required value={decision.dealId} onChange={event => setDecision({ ...decision, dealId: event.target.value, confirmed: false })}><option value="">Choose a deal</option>{snapshot.deals.filter(row => row.status !== 'cancelled').map(row => <option key={row.id} value={row.id}>{row.sponsor} · {row.status}</option>)}</select></label>
           <label>Action<select value={decision.action} onChange={event => setDecision({ ...decision, action: event.target.value, confirmed: false })}><option value="sign">Record signed contract</option><option value="cancel">Cancel deal</option></select></label>
-          <label>Contract / cancellation evidence reference<textarea required maxLength={2000} value={decision.evidence} onChange={event => setDecision({ ...decision, evidence: event.target.value })}/></label>
-        </div><label className="brand-confirm"><input type="checkbox" required checked={decision.confirmed} onChange={event => setDecision({ ...decision, confirmed: event.target.checked })}/>I reviewed the agreement and have authority to record this status. This is not independent legal verification.</label><button type="submit">Record agreement status</button></fieldset></form>
+          <label>Contract / cancellation evidence reference<textarea required maxLength={2000} value={decision.evidence} onChange={event => setDecision({ ...decision, evidence: event.target.value, confirmed: false })}/></label>
+        </div><label className="brand-confirm"><input type="checkbox" required checked={decision.confirmed} onChange={event => setDecision({ ...decision, confirmed: event.target.checked })}/>I reviewed the agreement and have authority to record this status. This is not independent legal verification.</label><button type="submit" disabled={!decision.confirmed}>Record agreement status</button></fieldset></form>
         <h4>4. Record cash actually received or refunded</h4>
-        <form onSubmit={event => { event.preventDefault(); const [dealId, milestoneId] = payment.milestone.split('|'); void submit('payment', { dealId, milestoneId, kind: payment.kind, amount: payment.amount, externalId: payment.externalId, evidence: payment.evidence, receivedDate: payment.receivedDate, confirmed: payment.confirmed }, () => setPayment(blankPayment())); }}><fieldset disabled={blocked}><legend>Evidence-backed owner entry, not a bank connection</legend><div className="brand-grid">
+        <form onSubmit={event => { event.preventDefault(); const [dealId, ...milestoneParts] = payment.milestone.split('|'); const milestoneId = milestoneParts.join('|'); void submit('payment', { dealId, milestoneId, kind: payment.kind, amount: payment.amount, externalId: payment.externalId, evidence: payment.evidence, receivedDate: payment.receivedDate, confirmed: payment.confirmed }, () => setPayment(blankPayment())); }}><fieldset disabled={blocked}><legend>Evidence-backed owner entry, not a bank connection</legend><div className="brand-grid">
           <label>Payment milestone<select required value={payment.milestone} onChange={event => setPayment({ ...payment, milestone: event.target.value, confirmed: false })}><option value="">Choose a milestone</option>{snapshot.deals.filter(row => row.signedAt).flatMap(row => row.milestones.map(milestone => <option key={`${row.id}|${milestone.id}`} value={`${row.id}|${milestone.id}`}>{row.sponsor} · {milestone.label} · {row.currency}</option>))}</select></label>
-          <label>Payment type<select value={payment.kind} onChange={event => setPayment({ ...payment, kind: event.target.value })}><option value="receipt">Cash received</option><option value="refund">Refund paid</option></select></label>
-          <label>Payment amount<input required inputMode="decimal" value={payment.amount} onChange={event => setPayment({ ...payment, amount: event.target.value })}/></label>
-          <label>External transaction reference<input required maxLength={200} value={payment.externalId} onChange={event => setPayment({ ...payment, externalId: event.target.value })}/></label>
-          <label>Payment evidence<textarea required maxLength={2000} value={payment.evidence} onChange={event => setPayment({ ...payment, evidence: event.target.value })}/></label>
-          <label>Receipt / refund date<input required type="date" value={payment.receivedDate} onChange={event => setPayment({ ...payment, receivedDate: event.target.value })}/></label>
-        </div><label className="brand-confirm"><input required type="checkbox" checked={payment.confirmed} onChange={event => setPayment({ ...payment, confirmed: event.target.checked })}/>I checked the evidence and confirm the money moved.</label><button type="submit">Record payment</button></fieldset></form>
+          <label>Payment type<select value={payment.kind} onChange={event => setPayment({ ...payment, kind: event.target.value, confirmed: false })}><option value="receipt">Cash received</option><option value="refund">Refund paid</option></select></label>
+          <label>Payment amount<input required inputMode="decimal" value={payment.amount} onChange={event => setPayment({ ...payment, amount: event.target.value, confirmed: false })}/></label>
+          <label>External transaction reference<input required maxLength={200} value={payment.externalId} onChange={event => setPayment({ ...payment, externalId: event.target.value, confirmed: false })}/></label>
+          <label>Payment evidence<textarea required maxLength={2000} value={payment.evidence} onChange={event => setPayment({ ...payment, evidence: event.target.value, confirmed: false })}/></label>
+          <label>Receipt / refund date<input required type="date" value={payment.receivedDate} onChange={event => setPayment({ ...payment, receivedDate: event.target.value, confirmed: false })}/></label>
+        </div><label className="brand-confirm"><input required type="checkbox" checked={payment.confirmed} onChange={event => setPayment({ ...payment, confirmed: event.target.checked })}/>I checked the evidence and confirm the money moved.</label><button type="submit" disabled={!payment.confirmed}>Record payment</button></fieldset></form>
         <details><summary>Payment schedule, receipts &amp; audit</summary>
           {snapshot.schedule.map(row => <p key={`${row.dealId}:${row.milestoneId}`}>{row.sponsor} · {row.label} · due {row.dueDate ?? 'unknown'} · outstanding {money(row.outstanding, row.currency)}</p>)}
           {snapshot.payments.map(row => <p key={row.externalId}>{row.receivedDate} · {row.kind} · {row.amount} · {row.externalId} · {row.evidence}</p>)}

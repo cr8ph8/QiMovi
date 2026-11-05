@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { canonicalJson } from '../kernel/src/canonical-json.mjs';
 import { productionBudgetProject } from '../contracts/production-budget.mjs';
 import { BRAND_SCHEMA, BRAND_LIMITS, requireBrand as need, brandShape as shape, brandText as text,
-  brandDate, brandAmount as amount, scanBrandOpportunities, validateBrandDeal, projectBrandEvents, calculateBrandFinancing } from '../contracts/brand-financing.mjs';
+  brandDate, brandNarrative, brandAmount as amount, scanBrandOpportunities, validateBrandDeal, projectBrandEvents, calculateBrandFinancing } from '../contracts/brand-financing.mjs';
 
 const hash = value => createHash('sha256').update(value).digest('hex');
 const fingerprint = value => hash(canonicalJson(value));
@@ -117,7 +117,7 @@ export function createBrandFinancingService(store, { budgetService, actorId, now
         let payload;
         if (input.action === 'review') {
           shape(data, ['sourceId', 'sourceFingerprint', 'opportunityId', 'decision', 'reason']);
-          need(['approved', 'rejected'].includes(data.decision), 'BRAND_REVIEW_INVALID'); text(data.reason, 1000);
+          need(['approved', 'rejected'].includes(data.decision), 'BRAND_REVIEW_INVALID'); brandNarrative(data.reason, 1000);
           const result = scan({ projectId: input.projectId, sourceId: data.sourceId, sourceFingerprint: data.sourceFingerprint });
           const opportunity = result.opportunities.find(row => row.id === data.opportunityId);
           need(opportunity, 'BRAND_OPPORTUNITY_MISSING', 409);
@@ -130,7 +130,7 @@ export function createBrandFinancingService(store, { budgetService, actorId, now
           need(data.budgetHash === (savedBudget.record?.sha256 ?? null), 'BRAND_BUDGET_CHANGED', 409);
           checkSavings(data.deal, state, savedBudget); payload = data;
         } else if (input.action === 'sign' || input.action === 'cancel') {
-          shape(data, ['dealId', 'evidence', 'confirmed']); text(data.evidence, 2000);
+          shape(data, ['dealId', 'evidence', 'confirmed']); brandNarrative(data.evidence, 2000);
           need(data.confirmed === true, 'BRAND_CONFIRMATION_REQUIRED');
           const deal = state.deals.find(row => row.id === data.dealId);
           need(deal && (input.action === 'sign' ? deal.status === 'draft' : deal.status !== 'cancelled'), 'BRAND_DEAL_STATE_INVALID', 409);
@@ -145,7 +145,7 @@ export function createBrandFinancingService(store, { budgetService, actorId, now
           shape(data, ['dealId', 'milestoneId', 'kind', 'amount', 'externalId', 'evidence', 'receivedDate', 'confirmed']);
           need(data.confirmed === true, 'BRAND_CONFIRMATION_REQUIRED');
           need(['receipt', 'refund'].includes(data.kind) && amount(data.amount) > 0n, 'BRAND_PAYMENT_INVALID');
-          text(data.externalId, 200); text(data.evidence, 2000); brandDate(data.receivedDate);
+          text(data.externalId, 200); brandNarrative(data.evidence, 2000); brandDate(data.receivedDate);
           const deal = state.deals.find(row => row.id === data.dealId), milestone = deal?.milestones.find(row => row.id === data.milestoneId);
           need(deal?.signedAt && milestone && (deal.status === 'signed' || data.kind === 'refund' && deal.status === 'cancelled'), 'BRAND_PAYMENT_NOT_CONTRACTED', 409);
           need(!state.payments.some(row => row.externalId.trim().toLowerCase() === data.externalId.trim().toLowerCase()), 'BRAND_DUPLICATE_PAYMENT', 409);

@@ -40,13 +40,38 @@ function verify(data: BrandSnapshot, projectId: string) {
     throw new Error('The financing response could not be verified. Refresh before continuing.');
   return data;
 }
+function sameSource(value: unknown, expected: BrandSource): boolean {
+  if (!value || typeof value !== 'object') return false;
+  const source = value as Partial<BrandSource>;
+  const record = source.recordRef, wanted = expected.recordRef;
+  return source.id === expected.id && source.fingerprint === expected.fingerprint && source.sourceHash === expected.sourceHash &&
+    (wanted === null ? record === null : Boolean(record && record.id === wanted.id && record.version === wanted.version && record.sha256 === wanted.sha256));
+}
+function validOpportunity(value: unknown, source: BrandSource): boolean {
+  if (!value || typeof value !== 'object') return false;
+  const row = value as Partial<BrandOpportunity>;
+  return typeof row.id === 'string' && row.id.startsWith('placement:') && row.id.length <= 160 && sameSource(row.source, source) &&
+    typeof row.scriptSceneId === 'string' && typeof row.heading === 'string' && typeof row.context === 'string' && typeof row.reason === 'string' &&
+    (row.productionSceneId === null || typeof row.productionSceneId === 'string') &&
+    ['beverage', 'food', 'technology', 'vehicle', 'wardrobe', 'location'].includes(row.category ?? '') &&
+    Number.isSafeInteger(row.start) && Number.isSafeInteger(row.end) && row.start! >= 0 && row.end! <= 800000 &&
+    typeof row.quote === 'string' && row.quote.length > 0 && row.end! - row.start! === row.quote.length;
+}
 export const brandFinancingApi: BrandApi = {
   async load(projectId) { return verify(await request(''), projectId); },
   async scan(projectId, source) {
     const data = await request('/scan', { projectId, sourceId: source.id, sourceFingerprint: source.fingerprint });
-    if (data?.schemaVersion !== 'qimovi-brand-financing/v1' || data.projectId !== projectId || data.source?.fingerprint !== source.fingerprint ||
-      !Array.isArray(data.opportunities) || data.approvalGranted !== false) throw new Error('The scan response could not be verified.');
+    if (data?.schemaVersion !== 'qimovi-brand-financing/v1' || data.projectId !== projectId || !sameSource(data.source, source) ||
+      data.method !== 'LOCAL_KEYWORD_HEURISTIC' || typeof data.truncated !== 'boolean' || data.approvalGranted !== false ||
+      !Array.isArray(data.opportunities) || data.opportunities.length > 200 ||
+      !data.opportunities.every((row: unknown) => validOpportunity(row, source)) ||
+      new Set(data.opportunities.map((row: BrandOpportunity) => row.id)).size !== data.opportunities.length) throw new Error('The scan response could not be verified.');
     return data;
   },
-  async command(input) { const result = verify(await request('/command', input), input.projectId); window.dispatchEvent(new Event('qimovi:brand-financing-changed')); return result; },
+  async command(input) {
+    const result = verify(await request('/command', input), input.projectId);
+    if (result.version <= input.expectedVersion) throw new Error('The financing write was not confirmed. Retry the exact request.');
+    window.dispatchEvent(new Event('qimovi:brand-financing-changed'));
+    return result;
+  },
 };

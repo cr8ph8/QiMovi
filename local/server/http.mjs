@@ -1,6 +1,7 @@
 import { openResourceJournal } from '../accounting/resource-journal.mjs';
 import { resourceSnapshot, publicResourceContext } from './resource-accounting.mjs';
 import { createBrandFinancingService } from './brand-financing.mjs';
+import { createDiscoveryService } from './discovery.mjs';
 import { createPhonePrevizService, PHONE_PREVIZ_MAX_BYTES } from './phone-previz.mjs';
 import { createPhoneHandoffService } from './phone-handoff.mjs';
 import { createProjectLibraryUploadService } from './project-library-upload.mjs';
@@ -107,6 +108,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const usageAccounting = createUsageAccountingService(store);
     const productionBudget = createProductionBudgetService(store);
     const brandFinancing = createBrandFinancingService(store, { budgetService: productionBudget, actorId: config.ownerActorId });
+    const discovery = createDiscoveryService(store, { actorId: config.ownerActorId });
     const writingProduction = createWritingProductionService(store);
     const productionAttachment = createProductionAttachmentService(store);
     const legacyProductionRevision = createLegacyProductionRevisionService(store);
@@ -201,6 +203,17 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
             check(allowed, 'CANISCREENWRITE_SCOPE_REJECTED', 403);
           }
           resourceJournal.observeRequest(req, res, url.pathname);
+          if (url.pathname === '/api/discovery' || url.pathname.startsWith('/api/discovery/')) {
+            const queryKeys = [...url.searchParams.keys()];
+            if (url.pathname === '/api/discovery/run' && req.method === 'GET') {
+              check(queryKeys.length === 1 && queryKeys[0] === 'query', 'DISCOVERY_QUERY_INVALID', 422);
+              return json(res, 200, discovery.run(url.searchParams.get('query')));
+            }
+            check(queryKeys.length === 0, 'DISCOVERY_QUERY_INVALID', 422);
+            if (url.pathname === '/api/discovery' && req.method === 'GET') return json(res, 200, discovery.list());
+            if (url.pathname === '/api/discovery/retain' && req.method === 'POST') return json(res, 200, discovery.retain(await body(req, 4096)));
+            throw new PilotError('DISCOVERY_ROUTE_NOT_FOUND', 404);
+          }
           if (url.pathname === '/api/phone-previz' || url.pathname.startsWith('/api/phone-previz/')) {
             if (url.pathname === '/api/phone-previz' && req.method === 'GET') {
               check([...url.searchParams.keys()].every(key => ['sceneId', 'shotId'].includes(key)) && [...url.searchParams.keys()].length === 2, 'PHONE_PREVIZ_QUERY_INVALID', 422);

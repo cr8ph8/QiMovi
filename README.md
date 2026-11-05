@@ -72,6 +72,14 @@ record owner-confirmed agreements and receipts. Cash, in-kind expense savings an
 brand-paid advertising remain distinct. This local MVP does not contact sponsors,
 verify legal rights or connect to a bank. See the [walkthrough and boundaries](docs/brand-financing.md).
 
+## Discovery lab
+
+Open **Discovery lab** in the local workspace to compare a ranking-only baseline
+with Hampton admission on 100 synthetic filmmaking video records. Inspect the
+recommendation evidence and retain useful references after review. Run the
+offline benchmark and audit the decisions using the
+[experiment guide](docs/discovery-experiment.md).
+
 ## Alpha boundaries
 
 - A plan, generated output, imported document, or status selection does not approve rights, spending, production, or release.

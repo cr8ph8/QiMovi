@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { hashCanonical } from '../local/kernel/src/canonical-json.mjs';
-import { validDiscoveryVideo } from '../local/contracts/discovery.mjs';
+import { validDiscoveryVideo, validRetentionRequest } from '../local/contracts/discovery.mjs';
 import { datasetHash, sourceCatalog, videoRecords } from '../local/discovery/fixtures.mjs';
 import { discoveryStateHash, governDiscovery } from '../local/discovery/admission.mjs';
 import { benchmarkDiscovery, runDiscovery } from '../local/discovery/experiment.mjs';
@@ -13,6 +13,24 @@ import { validateRecord } from '../local/contracts/drifter.mjs';
 import { createCreativeProject } from '../local/server/creative-project.mjs';
 import { startServer } from '../local/server/http.mjs';
 import { loadConfig } from '../local/server/storage.mjs';
+
+const noteAtLimit = 'a'.repeat(498) + '\nb';
+
+test('retention accepts multiline prose within the note length and character limits', () => {
+  const review = {
+    projectId: 'fixture', queryId: 'lighting', videoId: 'vid-lighting-01', receiptHash: 'a'.repeat(64),
+    note: 'Compare the lighting.\r\n\tCheck the shadows.\nKeep the rehearsal short.', confirmed: true,
+  };
+  assert.ok(validRetentionRequest(review));
+  assert.ok(validRetentionRequest({ ...review, note: noteAtLimit }));
+  for (const note of [noteAtLimit + 'x', '', ' \t\r\n ', 'a\0b', 'a\vb', 'a\fb', 'a\x1bb', 'a\x7fb', '\ud800\n\udc00']) {
+    assert.equal(validRetentionRequest({ ...review, note }), false, JSON.stringify(note));
+  }
+  for (const field of ['projectId', 'queryId', 'videoId', 'receiptHash']) {
+    assert.equal(validRetentionRequest({ ...review, [field]: review[field] + '\n' }), false, field);
+  }
+  assert.equal(validDiscoveryVideo({ ...videoRecords[0], description: 'Line one.\nLine two.' }), false);
+});
 
 test('frozen 100-record experiment reproduces decision, quality and cost metrics', () => {
   assert.equal(datasetHash, 'bd878fcd1f0170daaa433ff08ca40918d2c4b37dcc1684e0332d387c22a62593');
@@ -123,16 +141,24 @@ test('loopback owner reviews are evidence-bound, idempotent and isolated from pr
   assert.equal((await retain({ ...input, projectId: 'another-project' })).status, 409);
   assert.equal((await retain({ ...input, receiptHash: '0'.repeat(64) })).data.error, 'DISCOVERY_REVIEW_STALE');
   assert.equal((await retain(review(rejected))).data.error, 'DISCOVERY_CANDIDATE_NOT_ADMITTED');
+  for (const note of [noteAtLimit + 'x', ' \n\t ', 'Invalid\ncontrol\x1b']) {
+    const response = await retain({ ...input, note });
+    assert.equal(response.status, 422);
+    assert.equal(response.data.error, 'DISCOVERY_REVIEW_REQUIRED');
+  }
   assert.equal((await call(route)).data.retained.length, 0);
 
-  const [first, retry] = await Promise.all([retain(input), retain(input)]);
+  const multiline = { ...input, note: 'Use this for the lighting rehearsal.\n\n- Compare contrast between setups.' };
+  const [first, retry] = await Promise.all([retain(multiline), retain(multiline)]);
   assert.equal(first.status, 200);
   assert.deepEqual(retry, first);
   assert.equal(first.data.scope, 'RESEARCH_REFERENCE_ONLY');
   assert.equal(first.data.reference.admission.eventHash, input.receiptHash);
+  assert.equal(first.data.reference.note, multiline.note);
   assert.equal((await retain({ ...input, note: 'Changed review' })).data.error, 'DISCOVERY_ALREADY_RETAINED');
-  const second = await retain(review(committed[1]));
+  const second = await retain({ ...review(committed[1]), note: noteAtLimit });
   assert.equal(second.status, 200);
+  assert.equal(second.data.reference.note, noteAtLimit);
   assert.equal(second.data.previousEventHash, first.data.eventHash);
   assert.equal(second.data.preStateHash, first.data.postStateHash);
   const after = await Promise.all(['/api/bootstrap', '/api/project-library', '/api/brand-financing'].map(endpoint => call(endpoint)));
@@ -142,7 +168,7 @@ test('loopback owner reviews are evidence-bound, idempotent and isolated from pr
   server = await open();
   assert.equal((await login()).status, 200);
   assert.deepEqual((await call(route)).data.retained, [first.data, second.data]);
-  assert.deepEqual(await retain(input), first);
+  assert.deepEqual(await retain(multiline), first);
   const db = new DatabaseSync(path.join(directory, 'workspace.sqlite'));
   try {
     const tamper = "UPDATE discovery_retention_events SET event_hash = 'tampered' WHERE seq = 1";

@@ -5,8 +5,11 @@ export const RETENTION_LIMIT = 100;
 
 const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value)
   && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
-const text = (value, max) => typeof value === 'string' && value.trim().length > 0
-  && value.length <= max && value.isWellFormed() && !/[\x00-\x1f\x7f]/.test(value);
+const boundedText = (value, max) => typeof value === 'string' && value.trim().length > 0
+  && value.length <= max && value.isWellFormed();
+const text = (value, max) => boundedText(value, max) && !/[\x00-\x1f\x7f]/.test(value);
+// Review prose may contain tabs and line endings.
+const reviewNote = value => boundedText(value, 500) && !/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(value);
 export const discoveryHash = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
 export const videoId = value => typeof value === 'string' && /^vid-[a-z]+-(?:0[1-9]|10)$/.test(value);
 const sourceId = value => typeof value === 'string' && /^urn:qimovi:synthetic:[a-z]+:(?:0[1-9]|10)$/.test(value);
@@ -29,5 +32,5 @@ export function validDiscoveryVideo(row) {
 export function validRetentionRequest(input) {
   return exact(input, ['projectId', 'queryId', 'videoId', 'receiptHash', 'note', 'confirmed'])
     && text(input.projectId, 160) && text(input.queryId, 40) && videoId(input.videoId)
-    && discoveryHash(input.receiptHash) && text(input.note, 500) && input.confirmed === true;
+    && discoveryHash(input.receiptHash) && reviewNote(input.note) && input.confirmed === true;
 }

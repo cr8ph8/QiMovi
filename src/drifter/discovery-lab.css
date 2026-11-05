@@ -27,4 +27,5 @@
 .qi-discovery-dialog ul { list-style: disc; }
 .qi-discovery-dialog li + li { margin-top: .3rem; }
 .qi-discovery-dialog dd { overflow-wrap: anywhere; color: #ccd7ee; }
+.qi-discovery-dialog .qi-discovery-review-note { white-space: pre-wrap; overflow-wrap: anywhere; }
 .qi-discovery-rankings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: .65rem; }

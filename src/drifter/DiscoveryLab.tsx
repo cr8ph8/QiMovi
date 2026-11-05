@@ -170,8 +170,10 @@ export function DiscoveryLab({ projectId }: { projectId: string }) {
       </>}
       <section aria-label="Reviewed references"><h3>Reviewed references ({snapshot.retained.length})</h3>
         {snapshot.retained.length === 0 ? <p>No reviewed references retained.</p> : <ul>{snapshot.retained.map(({ eventHash, reference }) => <li key={eventHash}>
-          <details><summary>{reference.record.title}</summary><p>{reference.note}</p><dl><dt>Retention receipt</dt><dd>{eventHash}</dd>
-            <dt>Admission receipt</dt><dd>{reference.admission.eventHash}</dd></dl></details>
+          <details><summary>{reference.record.title}</summary>
+            <p className="qi-discovery-review-note">{reference.note}</p>
+            <dl><dt>Retention receipt</dt><dd>{eventHash}</dd><dt>Admission receipt</dt><dd>{reference.admission.eventHash}</dd></dl>
+          </details>
         </li>)}</ul>}
       </section>
     </>}

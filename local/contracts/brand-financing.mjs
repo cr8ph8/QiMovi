@@ -11,10 +11,17 @@ export function brandShape(value, keys) {
   requireBrand(value && typeof value === 'object' && !Array.isArray(value) &&
     Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key)), 'BRAND_FIELDS_INVALID');
 }
-export function brandText(value, max = 500) {
+function checkedText(value, max, controls) {
   requireBrand(typeof value === 'string' && value.trim().length > 0 && value.length <= max &&
-    !/[\x00-\x1f\x7f]/.test(value) && value.isWellFormed(), 'BRAND_TEXT_INVALID');
+    !controls.test(value) && value.isWellFormed(), 'BRAND_TEXT_INVALID');
   return value;
+}
+export function brandText(value, max = 500) {
+  return checkedText(value, max, /[\x00-\x1f\x7f]/);
+}
+/** Preserve textarea line endings exactly. Only tab, LF and CR are allowed controls. */
+export function brandNarrative(value, max = 2000) {
+  return checkedText(value, max, /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/);
 }
 export function brandDate(value) {
   requireBrand(typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) &&
@@ -38,13 +45,13 @@ const sum = values => values.reduce((n, value) => n + brandAmount(value), 0n);
 export function validateBrandDeal(deal) {
   brandShape(deal, ['id', 'sponsor', 'opportunityId', 'currency', 'cash', 'extraCost', 'marketingSupport', 'savings', 'milestones', 'notes']);
   requireBrand(typeof deal.id === 'string' && /^deal:[a-zA-Z0-9-]{1,80}$/.test(deal.id), 'BRAND_DEAL_ID_INVALID');
-  brandText(deal.sponsor, 160); brandText(deal.opportunityId, 160); brandText(deal.notes, 2000);
+  brandText(deal.sponsor, 160); brandText(deal.opportunityId, 160); brandNarrative(deal.notes, 2000);
   requireBrand(typeof deal.currency === 'string' && /^[A-Z]{3}$/.test(deal.currency), 'BRAND_CURRENCY_INVALID');
   for (const field of ['cash', 'extraCost', 'marketingSupport']) brandAmount(deal[field]);
   requireBrand(Array.isArray(deal.savings) && deal.savings.length <= 30 && Array.isArray(deal.milestones) && deal.milestones.length <= 30, 'BRAND_DEAL_LIMIT');
   const lines = new Set(), milestones = new Set();
   for (const saving of deal.savings) {
-    brandShape(saving, ['lineId', 'amount', 'basis']); brandText(saving.lineId); brandText(saving.basis, 1000);
+    brandShape(saving, ['lineId', 'amount', 'basis']); brandText(saving.lineId); brandNarrative(saving.basis, 1000);
     requireBrand(!lines.has(saving.lineId) && brandAmount(saving.amount) > 0n, 'BRAND_SAVING_INVALID'); lines.add(saving.lineId);
   }
   for (const milestone of deal.milestones) {

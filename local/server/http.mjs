@@ -1,4 +1,6 @@
 import { openResourceJournal } from '../accounting/resource-journal.mjs';
+import { openResearchLoop } from '../research/engine.mjs';
+import { target as researchTarget } from '../research/target.mjs';
 import { resourceSnapshot, publicResourceContext } from './resource-accounting.mjs';
 import { createBrandFinancingService } from './brand-financing.mjs';
 import { createPhonePrevizService, PHONE_PREVIZ_MAX_BYTES } from './phone-previz.mjs';
@@ -20,7 +22,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { WorkspaceStore, PilotError, check, sha256, loadConfig, privateDirectory, acquireLock } from './storage.mjs';
+import { WorkspaceStore, PilotError, check, sha256, canonical, loadConfig, privateDirectory, acquireLock } from './storage.mjs';
 import { openOwnerKernel } from './kernel.mjs';
 import { listDocuments, previewDocuments, validateDocumentDependencies } from './documents.mjs';
 import { dreaminaContext, previewDreamina, exportDreamina, validateDreaminaDependencies } from './dreamina.mjs';
@@ -75,7 +77,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
   directory = privateDirectory(directory);
   check(!fs.existsSync(path.join(directory, 'project-creation.json')), 'PROJECT_CREATION_INCOMPLETE', 409);
   const unlock = acquireLock(directory);
-  let store, kernel, securityAudit, preservationIntegrity, resourceJournal;
+  let store, kernel, securityAudit, preservationIntegrity, resourceJournal, researchLoop;
   try {
     const config = loadConfig(directory);
     const higgsfieldDesktop = createHiggsfieldDesktopBridge({ ...higgsfieldDesktopOptions, directory });
@@ -103,6 +105,19 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const resolveMcp = createResolveMcpBridge(resolveMcpOptions);
     const openCreator = createOpenCreatorService(store, openCreatorOptions);
     resourceJournal = openResourceJournal(directory, 'qimovi', store.project().id);
+    researchLoop = openResearchLoop({
+      directory, app: 'qimovi', projectId: store.project().id, resourceJournal, target: researchTarget,
+      readSourceHash: () => sha256(canonical({ project: store.project(), records: store.rawList()
+        .map(record => ({ id: record.id, version: record.version, sha256: record.sha256 }))
+        .sort((left, right) => left.id.localeCompare(right.id)) })),
+      // Keep source validation and research acceptance in one synchronous owner
+      // transaction, so a concurrent workspace write cannot pass a stale check.
+      withSourceLock: fn => {
+        store.db.exec('BEGIN IMMEDIATE');
+        try { const result = fn(); store.db.exec('COMMIT'); return result; }
+        catch (error) { store.db.exec('ROLLBACK'); throw error; }
+      },
+    });
     const modelAssistance = createModelAssistanceService(store, { ...modelAssistanceOptions, resourceJournal });
     const usageAccounting = createUsageAccountingService(store);
     const productionBudget = createProductionBudgetService(store);
@@ -201,6 +216,19 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
             check(allowed, 'CANISCREENWRITE_SCOPE_REJECTED', 403);
           }
           resourceJournal.observeRequest(req, res, url.pathname);
+          if (url.pathname === '/api/research-loop' || url.pathname.startsWith('/api/research-loop/')) {
+            try {
+              check([...url.searchParams].length === 0, 'RESEARCH_QUERY_REJECTED', 422);
+              if (url.pathname === '/api/research-loop' && req.method === 'GET') return json(res, 200, researchLoop.snapshot());
+              if (url.pathname === '/api/research-loop/export' && req.method === 'GET') return json(res, 200, researchLoop.export(), { 'Content-Disposition': 'attachment; filename="private-research-loop.json"' });
+              if (url.pathname === '/api/research-loop/start' && req.method === 'POST') return json(res, 200, researchLoop.start(await body(req, 4096)));
+              if (url.pathname === '/api/research-loop/cancel' && req.method === 'POST') return json(res, 200, researchLoop.cancel(await body(req, 4096)));
+              throw new PilotError('RESEARCH_ROUTE_NOT_FOUND', 404);
+            } catch (error) {
+              if (error instanceof PilotError) throw error;
+              throw new PilotError(/^RESEARCH_[A-Z_]+$/.test(error.code ?? '') ? error.code : 'RESEARCH_UNAVAILABLE', [404, 409, 413, 422, 503].includes(error.status) ? error.status : 503);
+            }
+          }
           if (url.pathname === '/api/phone-previz' || url.pathname.startsWith('/api/phone-previz/')) {
             if (url.pathname === '/api/phone-previz' && req.method === 'GET') {
               check([...url.searchParams.keys()].every(key => ['sceneId', 'shotId'].includes(key)) && [...url.searchParams.keys()].length === 2, 'PHONE_PREVIZ_QUERY_INVALID', 422);
@@ -736,6 +764,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     return { origin: expectedOrigin, close() {
       return closePromise ??= (async () => {
         const connectionsClosed = new Promise(resolve => { server.close(resolve); server.closeIdleConnections(); });
+        const researchClosed = researchLoop.close();
         blenderMcp.close();
         await resolveMcp.close();
         // Stop render/probe ownership before closing shared media intake or storage.
@@ -744,8 +773,9 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
         // while storage is still open. Closing sockets alone does not await it.
         await Promise.all([preservationIntegrity.close(), libraryUpload.close(), mediaIntake.close(), studioMedia.close(), storyboardFrames.close(), studioGeneration.close(), studioReferences.close(), dccRehearsals.close(), comicPackages.close(), modelAssistance.close(), higgsfieldDesktop.close(),higgsfieldMcp.close(),openCreator.close()]);
         await connectionsClosed;
+        await researchClosed;
         resourceJournal.close(); securityAudit.close(); kernel.runtime.close(); store.close(); unlock();
       })();
     } };
-  } catch (error) { await preservationIntegrity?.close(); resourceJournal?.close(); securityAudit?.close(); kernel?.runtime.close(); store?.close(); unlock(); throw error; }
+  } catch (error) { await preservationIntegrity?.close(); await researchLoop?.close(); resourceJournal?.close(); securityAudit?.close(); kernel?.runtime.close(); store?.close(); unlock(); throw error; }
 }

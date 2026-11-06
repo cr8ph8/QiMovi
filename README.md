@@ -32,7 +32,7 @@ Next create your own empty workspace and start the loopback service using [QUICK
 
 ## Research lab pilot
 
-Open **Research lab** beside **Costs** to run bounded, offline retrieval experiments on public synthetic examples. Hampton admission can update a separate accepted research configuration; production search and creative records retain their existing behavior. The lab includes independent scoring, confirmation, cancellation, source-version checks and resource receipts. See [installation and usage](docs/research-loop.md) and the [operating contract](local/research/program.md). This pilot makes no model calls and does not establish real-project performance.
+Open **Research lab** beside **Costs** to run bounded, offline retrieval experiments on public synthetic examples. Explicit owner approval can update a separate accepted research configuration. Production search and creative records retain their existing behavior. The lab includes independent scoring, confirmation, cancellation, source-version checks and resource receipts. See [installation and usage](docs/research-loop.md) and the [operating contract](local/research/program.md). This pilot makes no model calls and does not establish real-project performance.
 
 ## Build on QiMovi in your own system
 

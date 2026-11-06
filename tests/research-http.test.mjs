@@ -53,9 +53,10 @@ test('research routes require the local owner and reject bridge, query, project 
   const f = await fixture(t);
   for (const route of ['/api/research-loop', '/api/research-loop/export']) assert.equal((await f.call(route)).status, 401);
   assert.equal((await f.call('/api/research-loop/start', 'POST', {})).status, 401);
+  assert.equal((await f.call('/api/research-loop/review', 'POST', {})).status, 401);
   await f.login(true);
   for (const route of ['/api/research-loop', '/api/research-loop/export']) assert.equal((await f.call(route)).status, 403);
-  for (const route of ['/api/research-loop/start', '/api/research-loop/cancel']) assert.equal((await f.call(route, 'POST', {})).status, 403);
+  for (const route of ['/api/research-loop/start', '/api/research-loop/cancel', '/api/research-loop/review']) assert.equal((await f.call(route, 'POST', {})).status, 403);
   await f.login();
   const initial = (await f.call('/api/research-loop')).data;
   assert.equal(initial.degraded, false);
@@ -92,9 +93,17 @@ test('owner research persists confirmed configuration only, exports receipts and
   const done = await f.settled();
   assert.equal(done.runs.length, 1);
   assert.equal(done.runs[0].status, 'COMPLETED');
-  assert.equal(done.runs[0].decision, 'COMMIT');
-  assert.equal(done.accepted.version, initial.accepted.version + 1);
-  assert.notEqual(done.accepted.hash, initial.accepted.hash);
+  assert.equal(done.runs[0].reason, 'OWNER_REVIEW_REQUIRED');
+  assert.deepEqual(done.accepted, initial.accepted);
+  const approval = { projectId: initial.projectId, runId: done.runs[0].id, proposalHash: done.pendingReviews[0].proposalHash, action: 'APPROVE' };
+  assert.equal((await f.call('/api/research-loop/review', 'POST', approval, 'http://foreign.invalid')).status, 403);
+  assert.equal((await f.call('/api/research-loop/review', 'POST', { ...approval, productionWrite: true })).status, 422);
+  assert.equal((await f.call('/api/research-loop/review', 'POST', { ...approval, proposalHash: 'a'.repeat(64) })).status, 409);
+  const approved = await f.call('/api/research-loop/review', 'POST', approval);
+  assert.equal(approved.status, 200);
+  assert.equal(approved.data.runs[0].review.decision, 'COMMIT');
+  assert.equal(approved.data.accepted.version, initial.accepted.version + 1);
+  assert.deepEqual((await f.call('/api/research-loop/review', 'POST', approval)).data.accepted, approved.data.accepted);
   assert.ok(done.runs[0].confirmation.candidate.correct > done.runs[0].confirmation.baseline.correct);
   assert.equal(done.runs[0].resources.inputTokens, 0);
   assert.equal(done.runs[0].resources.outputTokens, 0);
@@ -110,12 +119,31 @@ test('owner research persists confirmed configuration only, exports receipts and
   const exported = await f.call('/api/research-loop/export');
   assert.equal(exported.status, 200);
   assert.match(exported.headers.get('content-disposition'), /private-research-loop\.json/);
-  assert.ok(exported.data.events.some(event => event.type === 'run-finish' && event.data.decision === 'COMMIT'));
+  assert.equal(exported.data.events.filter(event => event.data.decision === 'COMMIT').length, 1);
+  assert.ok(exported.data.events.some(event => event.type === 'run-review' && event.data.actor === 'local-owner' && event.data.decision === 'COMMIT'));
   await f.reopen();
   const reopened = (await f.call('/api/research-loop')).data;
-  assert.deepEqual(reopened.accepted, done.accepted);
+  assert.deepEqual(reopened.accepted, approved.data.accepted);
   assert.equal(reopened.runs[0].id, done.runs[0].id);
   assert.equal((await f.call('/api/research-loop/start', 'POST', input)).data.runs.length, 1);
+});
+
+test('a saved screenplay change after evaluation invalidates the approval', async t => {
+  const f = await fixture(t); await f.login();
+  const initial = (await f.call('/api/research-loop')).data;
+  assert.equal((await f.call('/api/research-loop/start', 'POST', request(initial.projectId))).status, 200);
+  const proposal = (await f.settled()).pendingReviews[0];
+  const saved = await f.call('/api/records/screenplay-draft:review-stale', 'PUT', {
+    kind: 'screenplay-draft', expectedVersion: null, requestId: crypto.randomUUID(),
+    data: { schemaVersion: 2, projectId: initial.projectId, sourceHash: null, title: 'Saved owner draft', format: 'FOUNTAIN', body: 'INT. TEST ROOM - DAY\n\nA new revision.\n', status: 'DRAFT' },
+  });
+  assert.equal(saved.status, 200);
+  const result = await f.call('/api/research-loop/review', 'POST', { projectId: initial.projectId, runId: proposal.id, proposalHash: proposal.proposalHash, action: 'APPROVE' });
+  assert.equal(result.status, 200);
+  assert.equal(result.data.runs[0].review.decision, 'ESCALATE');
+  assert.equal(result.data.runs[0].review.reason, 'SOURCE_OR_ACCEPTED_STATE_CHANGED');
+  assert.deepEqual(result.data.accepted, initial.accepted);
+  assert.deepEqual(result.data.pendingReviews, []);
 });
 
 test('an owner edit during research invalidates its source snapshot without touching the edited draft', async t => {

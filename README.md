@@ -30,6 +30,10 @@ bun run build:local
 
 Next create your own empty workspace and start the loopback service using [QUICKSTART.md](QUICKSTART.md). That guide also covers packaging the native Mac app and running the iPhone target in Xcode. Basic local authoring does not require a hosted account or a paid model.
 
+## Research lab pilot
+
+Open **Research lab** beside **Costs** to run bounded, offline retrieval experiments on public synthetic examples. Explicit owner approval can update a separate accepted research configuration. Production search and creative records retain their existing behavior. The lab includes independent scoring, confirmation, cancellation, source-version checks and resource receipts. See [installation and usage](docs/research-loop.md) and the [operating contract](local/research/program.md). This pilot makes no model calls and does not establish real-project performance.
+
 ## Build on QiMovi in your own system
 
 You can fork the app, integrate its local service, or extract selected source modules. Start with the [porting and code-reuse guide](PORTING.md): it maps dependencies, explains which pieces are portable, and gives adoption steps for another UI, backend or mobile companion. This is application source, not a separately packaged SDK.

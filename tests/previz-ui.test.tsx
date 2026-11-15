@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { webcrypto } from 'node:crypto';
+import { Blob } from 'node:buffer';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import DccPanel from '../src/drifter/DccPanel';
@@ -14,6 +15,14 @@ vi.mock('../src/drifter/PhonePrevizPanel', () => ({ default: ({ disabled }: { di
 vi.mock('../src/drifter/DccStageReturns', () => ({ default: ({ disabled }: { disabled: boolean }) => <section className="dcc-stage-returns"><input aria-label="Pending frame description" defaultValue=""/><button disabled={disabled}>Add returned frame</button></section> }));
 vi.mock('../src/drifter/FilmcraftGuide', () => ({ FilmcraftDisclosure: () => null }));
 vi.mock('../src/drifter/localDownload', () => ({ downloadLocalBlob: vi.fn() }));
+vi.mock('../src/drifter/visualPrevisStage', () => ({
+  createPrevisStage: () => ({ draw: vi.fn(), dispose: vi.fn() }),
+  drawPrevisMap: vi.fn(),
+}));
+vi.mock('../src/drifter/visualPrevisRecording', () => ({
+  choosePrevisCodec: async () => 'avc',
+  exportPrevisGuide: vi.fn(async () => new window.Blob(['test guide'], { type: 'video/mp4' })),
+}));
 vi.mock('../src/drifter/DccApi', () => ({ verifyDccStageKit: vi.fn(async value => value), dccStageKitZip: vi.fn(async () => new Uint8Array([1, 2, 3])) }));
 
 const scene: Scene = { id: 'scene-1', index: 1, heading: 'EXT. COURTYARD - DAY', paragraphs: [], shots: [
@@ -42,6 +51,36 @@ beforeEach(() => { vi.stubGlobal('crypto', webcrypto); vi.clearAllMocks(); });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe('PreViz directing workflow', () => {
+  it('keeps visual plans per shot and reopens only a matching saved draft', async () => {
+    vi.stubGlobal('Blob', Blob);
+    await setupFetch();
+    render(<DccPanel {...props}/>);
+    await prepared();
+    fireEvent.click(screen.getByRole('button', { name: 'Open 3D shot editor' }));
+    const lens = await screen.findByLabelText('Focal length (mm)') as HTMLInputElement;
+    fireEvent.change(lens, { target: { value: '42' } });
+    fireEvent.blur(lens);
+    expect(input('Focal length (mm)').value).toBe('42');
+    fireEvent.click(screen.getByRole('button', { name: 'Save plan' }));
+    await waitFor(() => expect(downloadLocalBlob).toHaveBeenCalledTimes(1));
+    const [blob, filename] = vi.mocked(downloadLocalBlob).mock.lastCall!;
+    expect(filename).toMatch(/qimovi-shot-1-.*\.qipreviz\.json/);
+    const text = await (blob as unknown as Blob).text();
+    const saved = JSON.parse(text);
+    expect(saved.plan.scope).toEqual({ projectId: project.id, sourceHash: project.sourceHash, sceneId: 'scene-1', shotId: 'shot-1' });
+    expect(saved.sha256).toBe(await hashCanonical(saved.plan));
+    const file = { size: text.length, text: async () => text };
+
+    fireEvent.change(screen.getByLabelText('Shot to direct'), { target: { value: 'shot-2' } });
+    expect(input('Focal length (mm)').value).toBe('50');
+    fireEvent.change(screen.getByLabelText('Open plan'), { target: { files: [file] } });
+    await screen.findByText('This plan belongs to a different shot or screenplay revision.');
+    fireEvent.change(screen.getByLabelText('Shot to direct'), { target: { value: 'shot-1' } });
+    expect(input('Focal length (mm)').value).toBe('42');
+    fireEvent.change(screen.getByLabelText('Open plan'), { target: { files: [file] } });
+    await screen.findByText('Shot plan opened for editing.');
+  });
+
   it('shows QiMovi preparation with exact field corrections instead of a generic checklist', async () => {
     await setupFetch(); render(<DccPanel {...props}/>); await prepared();
     expect(screen.getByText('QIMOVI / PREVISUALIZATION')).toBeTruthy();

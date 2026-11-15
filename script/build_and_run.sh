@@ -63,20 +63,19 @@ INSTALL_CANDIDATE="$(mktemp -d "$INSTALL_DIRECTORY/.QiMovi-install-XXXXXX")"
 trap 'rm -rf "$STAGING_DIRECTORY" "${INSTALL_CANDIDATE:-}"' EXIT
 ditto "$STAGED_APP" "$INSTALL_CANDIDATE/QiMovi.installing"
 /usr/bin/codesign --verify --deep --strict "$INSTALL_CANDIDATE/QiMovi.installing"
-# One continuing app identity: retire known legacy filenames, while preferences
-# and project databases remain outside the bundle and keep their existing IDs.
+# Archive recognized app names within the selected installation directory.
+# A user-level install must be able to complete without modifying /Applications.
 ARCHIVE_APPS=()
-for EXISTING_APP in "$APP_BUNDLE" "$INSTALL_DIRECTORY/Qi Movie Slate.app" "$HOME/Applications/Qi Movie Slate.app" "/Applications/Qi Movie Slate.app"; do
+for EXISTING_APP in "$APP_BUNDLE" "$INSTALL_DIRECTORY/Qi Movie Slate.app"; do
   if [[ ! -e "$EXISTING_APP" ]]; then continue; fi
-  ALREADY_LISTED=false
-  for LISTED_APP in ${ARCHIVE_APPS[@]+"${ARCHIVE_APPS[@]}"}; do if [[ "$LISTED_APP" == "$EXISTING_APP" ]]; then ALREADY_LISTED=true; break; fi; done
-  if [[ "$ALREADY_LISTED" == true ]]; then continue; fi
   EXISTING_ID="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$EXISTING_APP/Contents/Info.plist")"
   if [[ "$EXISTING_ID" != com.hampton.qimovieslate.local ]]; then echo "Existing application has a different identity; leaving it untouched: $EXISTING_APP" >&2; exit 1; fi
   ARCHIVE_APPS+=("$EXISTING_APP")
 done
 ARCHIVE_PATHS=()
 restore_archived_apps() {
+  local index
+  if [[ "${ARCHIVE_PATHS[*]+present}" != present ]]; then return 0; fi
   for (( index=${#ARCHIVE_PATHS[@]}-1; index>=0; index-- )); do
     mv "${ARCHIVE_PATHS[$index]}" "${ARCHIVE_APPS[$index]}" || echo "Restore the prior app from ${ARCHIVE_PATHS[$index]}" >&2
   done
@@ -89,7 +88,10 @@ for EXISTING_APP in ${ARCHIVE_APPS[@]+"${ARCHIVE_APPS[@]}"}; do
   ARCHIVE_PATHS+=("$ARCHIVE_PATH")
 done
 if ! mv "$INSTALL_CANDIDATE/QiMovi.installing" "$APP_BUNDLE"; then restore_archived_apps; exit 1; fi
-/usr/bin/codesign --verify --deep --strict "$APP_BUNDLE"
+if ! /usr/bin/codesign --verify --deep --strict "$APP_BUNDLE"; then
+  if mv "$APP_BUNDLE" "$INSTALL_CANDIDATE/QiMovi.failed"; then restore_archived_apps; fi
+  exit 1
+fi
 if [[ "$MODE" == --build-only ]]; then exit 0; fi
 if [[ "$MODE" == --debug ]]; then lldb -- "$APP_BUNDLE/Contents/MacOS/QiMovieSlate"; exit; fi
 /usr/bin/open "$APP_BUNDLE"

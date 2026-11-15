@@ -1,6 +1,6 @@
 import { validateShotDirection, type ShotDirection } from '../../local/contracts/shot-direction.mjs';
 import './shot-direction.css';
-import { useEffect, useId, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useId, useRef, useState } from 'react';
 import { downloadLocalBlob } from './localDownload';
 import WorkflowContextBar from './WorkflowContextBar';
 import CameraReturns from './CameraReturns';
@@ -15,7 +15,10 @@ import { dccStageKitZip, verifyDccStageKit, type DccStageOptions, type DccPreviz
 import { getDrifterPrevizPreset } from './dccDrifterPresets';
 import { FilmcraftDisclosure } from './FilmcraftGuide';
 import { horizontalFieldOfViewDegrees, STAGE_SENSOR_WIDTH_MM } from './cameraPlanning';
+import type { PrevisPlan } from './visualPrevis.mjs';
 import './dcc.css';
+
+const VisualPrevisPanel = lazy(() => import('./VisualPrevisPanel'));
 
 type DccContext = { schemaVersion: 'filmstack-dcc-context/v1'; observation: null | { observedAt: string; unityVersions: string[]; blenderInstallation: string }; unityConnection: 'UNVERIFIED'; blenderConnection: 'UNVERIFIED'; deviceCamera: 'NOT_ACTIVE' };
 type ExchangeCell = { id:string; role:'START'|'MOMENT'|'END'; description:string; actionRefs:string[]; imageHash:string|null };
@@ -90,6 +93,8 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
   const [returnRefresh, setReturnRefresh] = useState(0);
   const [returnRequest, setReturnRequest] = useState<{scope:string;receiptSha256:string;nonce:number}>();
   const [stageDrafts, setStageDrafts] = useState<Record<string, StageDraft>>({});
+  const [visualOpen, setVisualOpen] = useState(false);
+  const [visualDrafts, setVisualDrafts] = useState<Record<string, PrevisPlan>>({});
   const [selectedShots, setSelectedShots] = useState<Record<string, string>>({});
   const [promptPreview, setPromptPreview] = useState<{ key: string; text: string } | null>(null);
   const [blenderStatus, setBlenderStatus] = useState<{scope:string;status:BlenderReadinessStatus}>();
@@ -270,9 +275,23 @@ export default function DccPanel({ project, scene, open, onClose, flow, api, onS
         <nav aria-label="Rehearsal workflow"><ol className="dcc-workflow-steps"><li><button onClick={()=>showSection('.dcc-stage-fields')}><b>01</b><strong>Prepare</strong><span>Camera, blocking and timing</span></button></li><li><button onClick={()=>showSection(draft.target==='BLENDER'?'.dcc-local-rehearsal':'.dcc-stage-export')}><b>02</b><strong>Rehearse</strong><span>{draft.target==='BLENDER'?'Local Blender rehearsal':'Unity Director kit'}</span></button></li><li><button onClick={()=>showSection('.dcc-stage-returns')}><b>03</b><strong>Review</strong><span>Import or choose a return</span></button></li><li><button onClick={()=>showSection('.dcc-stage-return-selected', '.dcc-stage-returns')}><b>04</b><strong>Storyboard</strong><span>Add a pending frame candidate</span></button></li></ol></nav>
         <p className="dcc-draft-scope">Camera settings stay with each shot in this open workspace. Export a kit or retain a rehearsal to save a version.</p>
         <p className="dcc-active-source">{project.title} · scene {scene.index} · shot {shotLabel || 'unavailable'} · screenplay revision <code>{project.sourceHash.slice(0,12)}</code></p>
+        <div className="dcc-director-selection">
+          <label>Shot to direct<select disabled={!preparationReady || loading || exporting || requestInvalid || requestPending} value={draft.shotId}
+            onChange={event => updateStage({ shotId: event.target.value })}>
+            {requestInvalid && <option value="">Requested shot unavailable</option>}
+            {scene.shots.map(shot => <option key={shot.id} value={shot.id}>{shot.label ?? shot.id} · {shot.description ?? ''}</option>)}
+          </select></label>
+          {directedShot && <button type="button" className="secondary" aria-expanded={visualOpen} disabled={loading || exporting || requestInvalid || requestPending}
+            onClick={() => setVisualOpen(value => !value)}>{visualOpen ? 'Close 3D shot editor' : 'Open 3D shot editor'}</button>}
+        </div>
+        {visualOpen && directedShot && <Suspense fallback={<p role="status">Loading the 3D shot editor…</p>}>
+          <VisualPrevisPanel key={draftKey} scope={{ projectId: project.id, sourceHash: project.sourceHash, sceneId: scene.id, shotId: directedShot.id }}
+            shotLabel={shotLabel} draft={visualDrafts[draftKey]} startingLens={lensValid ? Number(draft.lensMm) : 35}
+            disabled={!preparationReady || loading || exporting || requestInvalid || requestPending}
+            onChange={next => setVisualDrafts(previous => ({ ...previous, [draftKey]: next }))}/>
+        </Suspense>}
         <fieldset disabled={!preparationReady || loading || exporting || requestInvalid || requestPending} className="dcc-stage-fields"><legend>Prepare a local directing kit</legend>
           <div className="dcc-application-choices" role="group" aria-label="Application"><span>Application</span><div><button type="button" aria-pressed={draft.target==='BLENDER'} onClick={()=>updateStage({target:'BLENDER'})}>Blender · camera rehearsal</button><button type="button" aria-pressed={draft.target==='UNITY'} onClick={()=>updateStage({target:'UNITY'})}>Unity · scene blocking</button></div></div>
-          <label>Shot to direct<select value={draft.shotId} onChange={event => updateStage({ shotId: event.target.value })}>{requestInvalid && <option value="">Requested shot unavailable</option>}{scene.shots.map(shot => <option key={shot.id} value={shot.id}>{shot.label ?? shot.id} · {shot.description ?? ''}</option>)}</select></label>
           {directedShot&&<section className="dcc-shot-context" aria-label="Selected shot context"><div><span className="eyebrow">SHOT {shotLabel}</span><h4>{directedShot.description||'Direction not yet recorded'}</h4><p>{draft.lensMm} mm · {draft.durationSeconds} s planned · {draft.motion==='STATIC'?'Locked off':draft.motion==='DOLLY_IN'?'Dolly in':'Dolly out'} · {directedShot.cells.length} reference frames</p></div>
             {directedShot.cells.length>0&&<div className="dcc-shot-references">{directedShot.cells.map(cell=><article key={cell.id}>{cell.imageHash&&<img src={`/api/blobs/${cell.imageHash}`} alt={`${cell.role==='START'?'Opening':cell.role==='END'?'Ending':'Moment'} reference: ${cell.description}`}/>}<strong>{cell.role==='START'?'Scene opening':cell.role==='END'?'Ending':'Moment'}</strong><p>{cell.description}</p>{onOpenStoryboard&&<button type="button" className="secondary" onClick={()=>onOpenStoryboard(scene.id,directedShot.id,cell.id)}>Open reference in storyboard</button>}</article>)}</div>}
             {sourcePassages.length>0?<div className="dcc-shot-passages"><strong>Source passages linked by these frames</strong>{sourcePassages.map(paragraph=><p key={paragraph.id}><span>{paragraph.type}</span>{paragraph.text}</p>)}</div>:<p>No source passages are linked through this shot’s reference frames. The shot description and camera settings remain planning directions.</p>}

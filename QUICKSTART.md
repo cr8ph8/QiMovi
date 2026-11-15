@@ -64,6 +64,8 @@ Changing the selected shot or source revision does not copy another shot's camer
 
 Runtime discovery, successful execution, scene reopening, returned media and creative acceptance are separate stages. See the [PreViz integration guide](local/integrations/three-d/README.md) for Blender/Unity requirements and phone limitations.
 
+For an in-app rehearsal, select the shot and choose **Open 3D shot editor**. Use the overhead view or the position fields to set the camera and stand-in at a keyframe. Scrub to a new position and choose **Add keyframe** to change the path. **Save plan** creates a shot- and screenplay-linked draft file you can reopen on the same shot. **Export guide video** encodes the camera view at 24 fps using a compatible local encoder. Review the clip, import it into the project Library, and select it as a **Motion reference** during generation preparation.
+
 ### Package the native Mac app
 
 The native host wraps the local interface and service. It requires macOS tools (`swift`, `sips`, `iconutil`, and `codesign`) and is not a cross-platform installer.

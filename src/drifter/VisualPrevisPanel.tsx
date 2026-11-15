@@ -8,7 +8,7 @@ import {
   resizePrevis, samplePrevis, STAGE_RADIUS_CM, validatePrevisPlan, type PrevisKey, type PrevisPlan, type PrevisScope,
 } from './visualPrevis.mjs';
 import { createPrevisStage, drawPrevisMap } from './visualPrevisStage';
-import { previsRecordingType, recordPrevisGuide } from './visualPrevisRecording';
+import { choosePrevisCodec, exportPrevisGuide, type PrevisCodec } from './visualPrevisRecording';
 import './visual-previs.css';
 
 const timeLabel = (frame: number) => `${(frame / PREVIS_FPS).toFixed(2)} s`;
@@ -49,7 +49,7 @@ export default function VisualPrevisPanel({ scope, shotLabel, draft, startingLen
   const [recording, setRecording] = useState(false);
   const [reading, setReading] = useState(false);
   const [renderReady, setRenderReady] = useState(false);
-  const [videoSupported, setVideoSupported] = useState(false);
+  const [codec, setCodec] = useState<PrevisCodec>();
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [stageError, setStageError] = useState('');
@@ -79,7 +79,9 @@ export default function VisualPrevisPanel({ scope, shotLabel, draft, startingLen
       renderer = createPrevisStage(canvas);
       stage.current = renderer;
       setRenderReady(true);
-      setVideoSupported(Boolean(previsRecordingType(canvas)));
+      void choosePrevisCodec(canvas).then(value => {
+        if (alive.current && stage.current === renderer) setCodec(value);
+      }).catch(() => undefined);
     } catch {
       setStageError('The camera view requires WebGL 2. You can still edit the shot plan and use the overhead view.');
     }
@@ -197,7 +199,7 @@ export default function VisualPrevisPanel({ scope, shotLabel, draft, startingLen
   }
 
   async function record() {
-    if (!stage.current || !cameraView.current || !renderReady || !videoSupported || editLocked || capture.current) return;
+    if (!stage.current || !cameraView.current || !renderReady || !codec || editLocked || capture.current) return;
     const controller = new AbortController();
     const renderer = stage.current;
     capture.current = controller;
@@ -208,13 +210,13 @@ export default function VisualPrevisPanel({ scope, shotLabel, draft, startingLen
       const verified = validatePrevisPlan(plan, scope);
       const canvas = cameraView.current;
       const sha256 = await hashCanonical(verified);
-      const video = await recordPrevisGuide(canvas, verified.frameCount, position => {
+      const video = await exportPrevisGuide(canvas, codec, verified.frameCount, position => {
         renderer.draw(samplePrevis(verified, position));
         setFrame(position);
       }, controller.signal);
       if (controller.signal.aborted || !alive.current) return;
       downloadLocalBlob(video, `${label}-guide-${sha256.slice(0, 12)}.${video.type === 'video/mp4' ? 'mp4' : 'webm'}`);
-      setNotice('Guide recorded. Save it, then use the Library to attach it as a motion reference.');
+      setNotice('Guide encoded. Save it, then use the Library to attach it as a motion reference.');
     } catch (caught) { if (!controller.signal.aborted && alive.current) setError(errorText(caught)); }
     finally {
       capture.current = undefined;
@@ -278,11 +280,11 @@ export default function VisualPrevisPanel({ scope, shotLabel, draft, startingLen
         event.currentTarget.value = '';
         if (file) void openPlan(file);
       }}/></label>
-      <button type="button" className="primary" disabled={editLocked || !renderReady || !videoSupported}
-        onClick={() => void record()}>{recording ? 'Recording guide…' : 'Record guide video'}</button>
-      {recording && <button type="button" className="secondary" onClick={() => capture.current?.abort()}>Cancel recording</button>}
+      <button type="button" className="primary" disabled={editLocked || !renderReady || !codec}
+        onClick={() => void record()}>{recording ? 'Encoding guide…' : 'Export guide video'}</button>
+      {recording && <button type="button" className="secondary" onClick={() => capture.current?.abort()}>Cancel export</button>}
     </footer>
-    {!videoSupported && renderReady && <p>Video recording is unavailable in this viewer.</p>}
+    {!codec && renderReady && <p>Video export needs a compatible local encoder. The shot plan can still be saved.</p>}
     {error && <p className="error-text" role="alert">{error}</p>}
     {notice && <p role="status">{notice}</p>}
   </section>;

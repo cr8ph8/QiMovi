@@ -20,8 +20,8 @@ vi.mock('../src/drifter/visualPrevisStage', () => ({
   drawPrevisMap: vi.fn(),
 }));
 vi.mock('../src/drifter/visualPrevisRecording', () => ({
-  previsRecordingType: () => 'video/mp4',
-  recordPrevisGuide: vi.fn(async () => new window.Blob(['test guide'], { type: 'video/mp4' })),
+  choosePrevisCodec: async () => 'avc',
+  exportPrevisGuide: vi.fn(async () => new window.Blob(['test guide'], { type: 'video/mp4' })),
 }));
 vi.mock('../src/drifter/DccApi', () => ({ verifyDccStageKit: vi.fn(async value => value), dccStageKitZip: vi.fn(async () => new Uint8Array([1, 2, 3])) }));
 

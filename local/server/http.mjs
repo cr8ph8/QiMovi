@@ -45,6 +45,7 @@ import { createStudioReferenceService } from './studio-references.mjs';
 import { retainDccStageKit, importDccStageReturn, listDccStageReturns, adoptDccStageReturnFrame } from './dcc-stage-returns.mjs';
 import { createDccRehearsalService } from './dcc-rehearsals.mjs';
 import { createDccMotionService } from './dcc-motion.mjs';
+import { createDollyBenchmarkService, DOLLY_BUNDLE_MAX_BYTES, dollyBenchmarkRequest, dollyBinaryBody } from './dolly-benchmark.mjs';
 import { createBlenderMcpServer } from './blender-mcp.mjs';
 import { createComicPackageService } from './comic-packages.mjs';
 import { COMIC_PACKAGE_REQUEST_MAX_BYTES } from '../contracts/comic-package.mjs';
@@ -71,7 +72,7 @@ function constantEqual(a, b) {
   const left = Buffer.from(a); const right = Buffer.from(b);
   return left.length === right.length && crypto.timingSafeEqual(left, right);
 }
-export async function startServer({ directory, port = 4317, dist = 'dist-local', validateRecord, sessionLifetimeMs = 12 * 60 * 60 * 1000, mediaIntakeOptions, nodeConnectorOptions, modelAssistanceOptions, higgsfieldDesktopOptions, higgsfieldMcpOptions, studioGenerationOptions, studioReferenceOptions, dccRehearsalOptions, dccMotionOptions, resolveMcpOptions, openCreatorOptions }) {
+export async function startServer({ directory, port = 4317, dist = 'dist-local', validateRecord, sessionLifetimeMs = 12 * 60 * 60 * 1000, mediaIntakeOptions, nodeConnectorOptions, modelAssistanceOptions, higgsfieldDesktopOptions, higgsfieldMcpOptions, studioGenerationOptions, studioReferenceOptions, dccRehearsalOptions, dccMotionOptions, dollyBenchmarkOptions, resolveMcpOptions, openCreatorOptions }) {
   directory = privateDirectory(directory);
   check(!fs.existsSync(path.join(directory, 'project-creation.json')), 'PROJECT_CREATION_INCOMPLETE', 409);
   const unlock = acquireLock(directory);
@@ -114,6 +115,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const studioReferences = createStudioReferenceService(store, higgsfieldMcp, studioReferenceOptions);
     const dccRehearsals = createDccRehearsalService(store, dccRehearsalOptions);
     const dccMotion = createDccMotionService(store, { ...dccMotionOptions, mediaIntake });
+    const dollyBenchmark = createDollyBenchmarkService(store, dollyBenchmarkOptions);
     const blenderMcp = createBlenderMcpServer({ store, rehearsals: dccRehearsals, motion: dccMotion });
     const comicPackages = createComicPackageService(store, { sourceStatus: () => kernel.runtime.readModel.getAggregate(store.project().id).state.facts['source.revision'] ? 'ADMITTED' : 'PENDING_OWNER_ADMISSION' });
     const sessions = new Map();
@@ -563,6 +565,34 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
             try { return json(res,200,importCameraProof(store,await body(req,46*1024*1024))); }
             catch(error) { throw new PilotError(error.code??'CAMERA_IMPORT_REJECTED',error.status??409); }
           }
+          if (url.pathname === '/api/dcc/dolly-benchmark/inputs' && req.method === 'GET') {
+            const bytes = await dollyBenchmark.inputs();
+            res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Length': bytes.length,
+              'Content-Disposition': 'attachment; filename="qimovi-dolly-generator-inputs.zip"',
+              'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff' });
+            return res.end(bytes);
+          }
+          if (url.pathname === '/api/dcc/dolly-benchmark/fixture' && req.method === 'POST') {
+            const bytes = await dollyBinaryBody(req, AbortSignal.timeout(120_000), DOLLY_BUNDLE_MAX_BYTES);
+            return json(res, 200, await dollyBenchmark.install(bytes));
+          }
+          if (url.pathname === '/api/dcc/dolly-benchmark' && req.method === 'POST') {
+            const { action, scope } = dollyBenchmarkRequest(url.searchParams);
+            if (action === 'self-test') {
+              const input = await body(req, 1024);
+              check(input && typeof input === 'object' && !Array.isArray(input) && !Object.keys(input).length,
+                'DOLLY_BENCHMARK_SELF_TEST_INPUT_INVALID', 422);
+            }
+            const caller = new AbortController();
+            const disconnected = () => caller.abort();
+            res.once('close', disconnected);
+            try {
+              const receipt = await dollyBenchmark.run(scope, action, signal => dollyBinaryBody(req, signal), caller.signal);
+              return json(res, 200, receipt);
+            } finally {
+              res.removeListener('close', disconnected);
+            }
+          }
           if (url.pathname === '/api/dcc/motion' || url.pathname === '/api/dcc/motion/stop') {
             try {
               if (url.pathname === '/api/dcc/motion' && req.method === 'GET') {
@@ -739,7 +769,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
         blenderMcp.close();
         await resolveMcp.close();
         // Stop render/probe ownership before closing shared media intake or storage.
-        await dccMotion.close();
+        await Promise.all([dccMotion.close(), dollyBenchmark.close()]);
         // Probe children and upload streams must stop and finish file cleanup
         // while storage is still open. Closing sockets alone does not await it.
         await Promise.all([preservationIntegrity.close(), libraryUpload.close(), mediaIntake.close(), studioMedia.close(), storyboardFrames.close(), studioGeneration.close(), studioReferences.close(), dccRehearsals.close(), comicPackages.close(), modelAssistance.close(), higgsfieldDesktop.close(),higgsfieldMcp.close(),openCreator.close()]);

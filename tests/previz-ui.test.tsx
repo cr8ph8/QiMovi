@@ -137,4 +137,31 @@ describe('PreViz directing workflow', () => {
     expect(screen.queryByRole('button', { name: 'Export Blender rehearsal kit ↗' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Retain phone observations' })).toBeNull();
   });
+
+  it('opens a local dry-run benchmark for the selected shot and clears its evidence on shot change', async () => {
+    const snapshot = await exchange();
+    const scope = { projectId: project.id, sourceHash: project.sourceHash, sceneId: scene.id, shotId: 'shot-1' };
+    const body = { schemaVersion: 'qimovi-dolly-benchmark/v1', fixture: 'synthetic-dolly/v1', scope,
+      action: 'self-test', approvalGranted: false, finalMedia: false, elapsedMs: 300,
+      report: { mode: 'DRY-RUN', status: 'PASS', cases: Object.fromEntries(Array.from({ length: 7 }, (_, i) => [i, { control: 'PASS' }])) } };
+    const receipt = { ...body, sha256: await hashCanonical(body) };
+    const fetcher = vi.fn(async (path: string) => {
+      if (path.startsWith('/api/dcc/dolly-benchmark?')) {
+        const query = new URLSearchParams(path.split('?')[1]);
+        expect(Object.fromEntries(query)).toEqual({ ...scope, action: 'self-test' });
+        return response(receipt);
+      }
+      return response(path === '/api/dcc/context' ? context : snapshot);
+    });
+    vi.stubGlobal('fetch', fetcher);
+    render(<DccPanel {...props}/>); await prepared();
+    const details = screen.getByText('Dolly benchmark · synthetic v1').closest('details')!;
+    details.open = true;
+    fireEvent.click(screen.getByRole('button', { name: 'Run validator self-test' }));
+    expect(await screen.findByText('7 of 7 controls matched their expected outcomes.')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Download review evidence' }));
+    expect(downloadLocalBlob).toHaveBeenCalledWith(expect.any(window.Blob), `qimovi-dolly-evidence-${receipt.sha256.slice(0, 12)}.json`);
+    fireEvent.change(screen.getByLabelText('Shot to direct'), { target: { value: 'shot-2' } });
+    expect(screen.queryByText('7 of 7 controls matched their expected outcomes.')).toBeNull();
+  });
 });

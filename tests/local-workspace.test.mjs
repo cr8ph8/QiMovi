@@ -84,6 +84,9 @@ test('local owner session protects project data and rejects foreign origins', as
       ['GET', '/api/phone-previz?sceneId=synthetic-scene&shotId=synthetic-shot'],
       ['POST', '/api/phone-previz/preview'],
       ['POST', '/api/phone-previz/retain'],
+      ['GET', '/api/dcc/dolly-benchmark/inputs'],
+      ['POST', '/api/dcc/dolly-benchmark/fixture'],
+      ['POST', '/api/dcc/dolly-benchmark'],
     ]) {
       // Auth must reject before parsing artifact data or looking up a shot.
       const request = { method, headers: { origin: server.origin, 'content-type': 'application/json' },
@@ -99,6 +102,19 @@ test('local owner session protects project data and rejects foreign origins', as
     const ownerPreviz = await fetch(`${server.origin}/api/phone-previz?sceneId=synthetic-scene&shotId=synthetic-shot`, { headers: { cookie } });
     assert.equal(ownerPreviz.status, 409, 'the owner reaches source/shot validation in this empty film');
     assert.equal((await ownerPreviz.json()).error, 'PHONE_PREVIZ_SHOT_UNAVAILABLE');
+    const inputs = await fetch(`${server.origin}/api/dcc/dolly-benchmark/inputs`, { headers: { cookie } });
+    assert.equal(inputs.status, 409);
+    assert.equal((await inputs.json()).error, 'DOLLY_BENCHMARK_FIXTURE_REQUIRED');
+    const badFixture = await fetch(`${server.origin}/api/dcc/dolly-benchmark/fixture`, {
+      method: 'POST', headers: { ...headers, 'content-type': 'application/octet-stream' }, body: 'bad fixture',
+    });
+    assert.equal(badFixture.status, 422);
+    assert.equal((await badFixture.json()).error, 'DOLLY_BENCHMARK_FIXTURE_INVALID');
+    assert.equal(fs.existsSync(path.join(directory, 'integrations', 'dolly-benchmark-v1.zip')), false);
+    const scope = new URLSearchParams({ projectId: 'no-project', sourceHash: 'a'.repeat(64), sceneId: 'scene', shotId: 'shot', action: 'self-test' });
+    const benchmark = await fetch(`${server.origin}/api/dcc/dolly-benchmark?${scope}`, { method: 'POST', headers, body: '{}' });
+    assert.equal(benchmark.status, 409);
+    assert.equal((await benchmark.json()).error, 'DOLLY_BENCHMARK_SCOPE_CHANGED');
 
   } finally { await server.close(); }
 });

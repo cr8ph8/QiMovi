@@ -105,6 +105,14 @@ node local/server/cli.mjs backup \
 
 The native equivalent is **File → Create Workspace Milestone…**. Backup includes workspace records and owned media; separately stored research/source folders need their own backup. Credentials are excluded. Store backup files privately and test restoration into a new location before relying on them.
 
+### Score a synthetic dolly candidate on Mac
+
+In **3D & cameras**, select a shot and open **Dolly benchmark · synthetic v1**. Choose the original QiMovi Mac Dolly Benchmark ZIP and click **Install benchmark bundle** once per workspace. **Run validator self-test** checks the 50-frame fixture using local Blender. **Download generator inputs** exports the opening and closing frames, calibrated camera path, and frame order. Give the generator those files and keep the numerical reference in QiMovi.
+
+Choose **Score candidate** with a `.npz` containing `rgb` as `uint8[50,288,384,3]` in sRGB and `depth` as finite, nonnegative floating-point `[50,288,384]` camera-forward axial depth. Use zero for invalid depth. The scorer fits one scale from the endpoints and evaluates frames 2–49. Omitted depth receives `SKIPPED`.
+
+**Download review evidence** saves the outcomes, input hashes, and the selected project, source revision, scene, and shot. This is a dry run with the synthetic v1 fixture. A passing score is evidence for review. Production acceptance follows the existing owner workflow.
+
 ## iPhone: build the production companion
 
 Install Xcode with an iOS 17 or newer SDK and Python 3. From the repository root:

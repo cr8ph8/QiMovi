@@ -2,6 +2,7 @@ import { canonicalJson } from './canonical';
 import { validateBootstrap, validateWorkspaceBootstrap, validateRecord } from './validation';
 import type { WorkspaceApi, WorkspaceProject } from './types';
 import { writingRecoveryApi } from './writingRecoveryApi';
+import { saveMovieSelection } from './movieSelectionApi';
 
 export class WorkspaceError extends Error {
   constructor(message: string, public readonly status: number) { super(message); }
@@ -27,7 +28,10 @@ export const workspaceApi: WorkspaceApi = {
     // Freeze the complete attempt before hashing or awaiting the transport.
     const { id, ...body } = JSON.parse(canonicalJson(input));
     const expectedData = canonicalJson(body.data);
-    const record = await validateRecord(await request(`/api/records/${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify(body) }), project);
+    const saved = body.kind === 'movie-sequence'
+      ? await saveMovieSelection({ id, ...body }, (action, value) => request(`/api/movie-selections/${action}`, { method: 'POST', body: JSON.stringify(value) }))
+      : await request(`/api/records/${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify(body) });
+    const record = await validateRecord(saved, project);
     if (record.id !== id || record.kind !== body.kind || canonicalJson(record.data) !== expectedData || record.version !== (body.expectedVersion ?? 0) + 1) {
       throw new Error('The local workspace response does not match this save. Save not confirmed; reload before continuing.');
     }

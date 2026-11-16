@@ -23,6 +23,7 @@ import { canonicalJson } from '../kernel/src/canonical-json.mjs';
 import { AUTHORING_KINDS, BIBLE_AUTHORING_INPUT_KINDS, BIBLE_AUTHORING_INPUT_LIMIT } from '../contracts/authoring.mjs';
 import { readAuthoringLineage, validateBibleAuthoringRecord, bibleAuthoringScopeMatches } from './authoring-lineage.mjs';
 import { validateMovieSequenceIdentity, validateMovieSequenceReferences } from '../contracts/movie-sequence.mjs';
+import { validateMovieSelectionRequest, movieSelectionRequestBasis, movieSequenceHasSelection } from '../contracts/movie-selection.mjs';
 import { validateStudioOperationIdentity, validateStudioOperationReferences } from '../contracts/studio-operation.mjs';
 import { isCreativeProject, validateCreativeProject, CREATIVE_PROJECT_RECORD_KINDS, projectOwnedContext } from '../contracts/creative-project.mjs';
 import { validateCreativeScreenplayDraft } from '../contracts/creative-screenplay.mjs';
@@ -58,6 +59,7 @@ const ID = /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,159}$/;
 const SHA = /^[a-f0-9]{64}$/;
 const MEDIA_SERVICE = Symbol('media-service');
 const PHONE_HANDOFF_SERVICE = Symbol('phone-handoff-service');
+const MOVIE_SELECTION_SERVICE = Symbol('movie-selection-service');
 const MODEL_SERVICE = Symbol('model-assistance-service');
 const USAGE_SERVICE = Symbol('usage-accounting-service');
 const BUDGET_SERVICE = Symbol('production-budget-service');
@@ -418,6 +420,9 @@ export class WorkspaceStore {
     } finally { if (fs.existsSync(temp)) fs.unlinkSync(temp); }
   }
   replayMediaRequest(requestId, requestHash) {
+    // Retained-media association retries may append their receipt directly;
+    // they must not preclaim either movie-selection receipt namespace.
+    check(!/^movie-selection(?:-replay)?:/.test(requestId ?? ''), 'MOVIE_SELECTION_TRUSTED_SAVE_REQUIRED', 409);
     const prior = this.db.prepare('SELECT * FROM requests WHERE id=?').get(requestId);
     if (!prior) return null;
     check(prior.request_sha256 === requestHash, 'REQUEST_ID_CONFLICT', 409);
@@ -533,11 +538,34 @@ export class WorkspaceStore {
     check(['shot-direction', 'project-direction'].includes(input?.kind) && input?.requestId?.startsWith('phone-apply:') && SHA.test(requestHash) && typeof verify === 'function', 'PHONE_HANDOFF_WRITE_INVALID', 422);
     return this.save(id, input, PHONE_HANDOFF_SERVICE, { requestHash, verify });
   }
+  replayMovieSelectionRequest(input) {
+    validateMovieSelectionRequest(input);
+    const prior = this.db.prepare('SELECT * FROM requests WHERE id=?').get(`movie-selection-replay:${sha256(input.requestId)}`);
+    if (!prior) return null;
+    check(prior.request_sha256 === sha256(canonical({ operation: 'MOVIE_SELECTION_PREPARE_REPLAY', input })), 'REQUEST_ID_CONFLICT', 409);
+    const result = JSON.parse(prior.result);
+    const stored = this.db.prepare('SELECT * FROM records WHERE id=? AND version=?').get(input.recordId, (input.expectedVersion ?? 0) + 1);
+    check(stored && result.id === stored.id && result.kind === 'movie-sequence' && stored.kind === result.kind && result.version === stored.version
+      && result.sha256 === stored.sha256 && sha256(canonical(result.data)) === result.sha256 && canonical(result.data) === stored.data
+      && canonical(result.data) === canonical(input.data), 'MOVIE_SELECTION_REPLAY_INVALID', 409);
+    return { ...result, replayed: true };
+  }
+  commitMovieSelection(input, verify) {
+    validateMovieSelectionRequest(input, { commit: true });
+    check(typeof verify === 'function', 'MOVIE_SELECTION_TRUSTED_SAVE_REQUIRED', 409);
+    const basis = movieSelectionRequestBasis(input);
+    return this.save(input.recordId, { kind: 'movie-sequence', data: input.data, expectedVersion: input.expectedVersion, requestId: `movie-selection:${sha256(input.requestId)}` }, MOVIE_SELECTION_SERVICE, {
+      requestHash: sha256(canonical({ operation: 'MOVIE_SELECTION_COMMIT', input })), verify,
+      replayRequestId: `movie-selection-replay:${sha256(input.requestId)}`,
+      replayRequestHash: sha256(canonical({ operation: 'MOVIE_SELECTION_PREPARE_REPLAY', input: basis })),
+    });
+  }
   save(id, input, service, options) {
     check(input && Object.keys(input).sort().join(',') === 'data,expectedVersion,kind,requestId', 'INVALID_RECORD_REQUEST');
     check(input.kind !== PRODUCTION_ATTACHMENT_KIND && !id?.startsWith(`${PRODUCTION_ATTACHMENT_KIND}:`) && !input.requestId?.startsWith('production-attachment:'), 'PRODUCTION_ATTACHMENT_TRUSTED_SERVICE_REQUIRED', 409);
     const { kind, requestId, expectedVersion } = input;
     check(!requestId?.startsWith('phone-apply:') || service === PHONE_HANDOFF_SERVICE, 'PHONE_HANDOFF_TRUSTED_SAVE_REQUIRED', 409);
+    check(!/^movie-selection(?:-replay)?:/.test(requestId ?? '') || service === MOVIE_SELECTION_SERVICE, 'MOVIE_SELECTION_TRUSTED_SAVE_REQUIRED', 409);
     check((kind !== WRITING_PRODUCTION_KIND && !id?.startsWith(`${WRITING_PRODUCTION_KIND}:`) && !requestId?.startsWith('writing-production')) || service === WRITING_PRODUCTION_SERVICE, 'WRITING_PRODUCTION_TRUSTED_SERVICE_REQUIRED', 409);
     check((kind !== 'production-budget' && !id?.startsWith('production-budget:')) || service === BUDGET_SERVICE, 'BUDGET_TRUSTED_SAVE_REQUIRED', 409);
     validateBudgetIdentity(id, kind, input.data);
@@ -573,7 +601,7 @@ export class WorkspaceStore {
     const snapshot = JSON.parse(dataText);
     const identityField = { 'node-workflow':'sceneId', 'scene-plan': 'sceneId', 'production-handoff':'sceneId', 'storyboard-cell': 'cellId', 'casting-draft': 'characterId', 'coverage-draft': 'paragraphId', 'review-observation': 'commentId', 'review-resolution': 'commentId' }[kind];
     if (identityField) check(id === `${kind}:${snapshot[identityField]}`, 'RECORD_IDENTITY_MISMATCH');
-    const requestHash = [MEDIA_SERVICE, PHONE_HANDOFF_SERVICE].includes(service) ? options.requestHash : sha256(canonical({ id, kind, requestId, expectedVersion, data: JSON.parse(dataText) }));
+    const requestHash = [MEDIA_SERVICE, PHONE_HANDOFF_SERVICE, MOVIE_SELECTION_SERVICE].includes(service) ? options.requestHash : sha256(canonical({ id, kind, requestId, expectedVersion, data: JSON.parse(dataText) }));
     const ownsTransaction = ![FRAME_EXTRACTION_SERVICE, WRITING_PRODUCTION_SERVICE, PRODUCTION_ATTACHMENT_SERVICE].includes(options?.transaction);
     if (ownsTransaction) this.db.exec('BEGIN IMMEDIATE');
     else check(this.db.isTransaction, 'FRAME_TRANSACTION_REQUIRED', 409);
@@ -585,6 +613,7 @@ export class WorkspaceStore {
         return { ...JSON.parse(prior.result), replayed: true };
       }
       if (service === PHONE_HANDOFF_SERVICE) options.verify();
+      if (service === MOVIE_SELECTION_SERVICE) options.verify();
       for (const blob of options?.blobs ?? []) {
         check(SHA.test(blob.sha256) && Number.isSafeInteger(blob.byteLength) && blob.byteLength > 0 && typeof blob.mimeType === 'string', 'INVALID_MEDIA_SERVICE_BLOB');
         const filename = path.join(this.directory, 'blobs', blob.sha256);
@@ -617,6 +646,9 @@ export class WorkspaceStore {
       validateAssetCurationReferences(this, kind, snapshot, { id });
       if(kind==='production-handoff')check(readAuthoringLineage(this,snapshot.authoringRef,project.sourceHash).status==='CURRENT','HANDOFF_AUTHORING_INPUTS_NOT_CURRENT',409);
       const current = this.db.prepare('SELECT * FROM records WHERE id=? ORDER BY version DESC LIMIT 1').get(id);
+      if (kind === 'movie-sequence' && (movieSequenceHasSelection(snapshot) || movieSequenceHasSelection(current ? this.row(current).data : null))) {
+        check(service === MOVIE_SELECTION_SERVICE, 'MOVIE_SELECTION_TRUSTED_SAVE_REQUIRED', 409);
+      }
       if (kind === 'production-budget') budgetTransition(current ? this.row(current).data : null, snapshot);
       if (kind === 'universe-rehearsal') check((current?.version ?? null) === expectedVersion, 'VERSION_CONFLICT', 409);
       validateUniverseRecordReferences(this, kind, snapshot, { id, version: (current?.version ?? 0) + 1, previous: current ? this.row(current) : null, newWrite: true });
@@ -681,6 +713,9 @@ export class WorkspaceStore {
         }
       }
       this.db.prepare('INSERT INTO requests VALUES(?,?,?)').run(requestId, requestHash, canonical(result));
+      // A separate exact-candidate receipt lets a lost-response retry restart at
+      // prepare, without treating a different proof as the same commit attempt.
+      if (service === MOVIE_SELECTION_SERVICE) this.db.prepare('INSERT INTO requests VALUES(?,?,?)').run(options.replayRequestId, options.replayRequestHash, canonical(result));
       if (ownsTransaction) this.db.exec('COMMIT');
       return result;
     } catch (error) { if (ownsTransaction && this.db.isTransaction) this.db.exec('ROLLBACK'); throw error; }

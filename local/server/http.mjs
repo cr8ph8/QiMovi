@@ -9,6 +9,7 @@ import { createPreservationIntegrityService } from './preservation-integrity.mjs
 import { createUsageAccountingService } from './usage-accounting.mjs';
 import { createProductionBudgetService } from './production-budget.mjs';
 import { createProductionAttachmentService } from './production-attachment.mjs';
+import { createMovieSelectionService } from './movie-selections.mjs';
 import { createLegacyProductionRevisionService } from './legacy-production-revision.mjs';
 import { createWritingProductionService } from './writing-production.mjs';
 import { createModelAssistanceService } from './model-assistance.mjs';
@@ -109,6 +110,7 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
     const brandFinancing = createBrandFinancingService(store, { budgetService: productionBudget, actorId: config.ownerActorId });
     const writingProduction = createWritingProductionService(store);
     const productionAttachment = createProductionAttachmentService(store);
+    const movieSelections = createMovieSelectionService(store);
     const legacyProductionRevision = createLegacyProductionRevisionService(store);
     const studioGeneration=createStudioGenerationService(store,higgsfieldMcp,{...studioGenerationOptions,sourceStatus:()=>kernel.runtime.readModel.getAggregate(store.project().id).state.facts['source.revision']?'ADMITTED':'PENDING_OWNER_ADMISSION'});
     const studioReferences = createStudioReferenceService(store, higgsfieldMcp, studioReferenceOptions);
@@ -481,6 +483,12 @@ export async function startServer({ directory, port = 4317, dist = 'dist-local',
           if (url.pathname === '/api/media-takes' && req.method === 'GET') {
             check([...url.searchParams].length === 1 && url.searchParams.getAll('sceneId').length === 1, 'MEDIA_SCENE_QUERY_REQUIRED');
             return json(res, 200, await listMediaTakes(store, url.searchParams.get('sceneId'), mediaIntake.maxUploadBytes));
+          }
+          if (url.pathname.startsWith('/api/movie-selections/')) {
+            check([...url.searchParams].length === 0, 'MOVIE_SELECTION_QUERY_REJECTED', 422);
+            if (url.pathname === '/api/movie-selections/prepare' && req.method === 'POST') return json(res, 200, movieSelections.prepare(await body(req)));
+            if (url.pathname === '/api/movie-selections/commit' && req.method === 'POST') return json(res, 200, movieSelections.commit(await body(req)));
+            throw new PilotError('MOVIE_SELECTION_ROUTE_NOT_FOUND', 404);
           }
           if (url.pathname === '/api/media-takes/import' && req.method === 'POST') {
             check([...url.searchParams].length === 0, 'MEDIA_QUERY_NOT_SUPPORTED');

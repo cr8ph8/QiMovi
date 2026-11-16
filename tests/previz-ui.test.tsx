@@ -160,7 +160,7 @@ describe('PreViz directing workflow', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Run validator self-test' }));
     expect(await screen.findByText('7 of 7 controls matched their expected outcomes.')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Download review evidence' }));
-    expect(downloadLocalBlob).toHaveBeenCalledWith(expect.any(Blob), `qimovi-dolly-evidence-${receipt.sha256.slice(0, 12)}.json`);
+    expect(downloadLocalBlob).toHaveBeenCalledWith(expect.any(window.Blob), `qimovi-dolly-evidence-${receipt.sha256.slice(0, 12)}.json`);
     fireEvent.change(screen.getByLabelText('Shot to direct'), { target: { value: 'shot-2' } });
     expect(screen.queryByText('7 of 7 controls matched their expected outcomes.')).toBeNull();
   });
